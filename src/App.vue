@@ -1,27 +1,26 @@
 <template>
-  <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="app">
+    <v-main>
+      <v-layout align-center justify-center fill-height>
+        <router-view />
+      </v-layout>
+    </v-main>
+    <!-- create snackbar here later -->
+  </v-app> 
 </template>
 
 <script>
-import HelloWorld from './views/Welcome.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.app {
+  width: 100vw;
+  height: 100vh;
 }
 </style>

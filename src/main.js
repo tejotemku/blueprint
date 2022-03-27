@@ -11,10 +11,10 @@ import router from "./router";
 // Vue ont awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import '@babel/polyfill'
 
-library.add(faUser, 
+library.add(faCircleInfo, 
   )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
