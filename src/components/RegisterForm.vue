@@ -2,7 +2,7 @@
   <v-form
     ref="form"
     v-model="valid"
-    @submit="(e) => {e.preventDefault(); checkLogin();}"
+    @submit="(e) => {e.preventDefault(); checkRegister();}"
   >
     <h1>Hi, register a new Blueprint account</h1>
     <v-text-field
