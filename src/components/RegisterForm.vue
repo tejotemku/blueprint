@@ -78,8 +78,11 @@ export default {
         email: this.email,
         username: this.username,
         password: this.password,
-
       };
+      if (!this.checkCredentialAvaliability(payload)) {
+        alert("Error: cannot register");
+        return;
+        }
       // TODO: registering in, currently this is a mock
       router.push("/home");
       // TODO: delete after payload has diffrent job
@@ -87,6 +90,11 @@ export default {
     },
     goToFrontpage () {
       router.push("/");
+    },
+    checkCredentialAvaliability(payload) {
+      // TODO: check if email or username is used
+      // MOCK
+      return payload.username != "mock_error";
     }
   }
 }

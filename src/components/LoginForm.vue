@@ -4,7 +4,7 @@
     v-model="valid"
     @submit="(e) => {e.preventDefault(); checkLogin();}"
   >
-    <h1>Witaj, zaloguj się</h1>
+    <h1>Hi, log in here</h1>
     <v-text-field
       v-model="email"
       :rules="emailRules"
@@ -65,13 +65,13 @@ export default {
         email: this.email,
         password: this.password,
       };
-      // TODO: logging in, currently this is a mock
-      // start of mock
-      if (payload.email == "test@example.com", payload.password == "Rumcajs$4") {
+
+      if (this.verifyCredentials(payload)) {
         this.acceptLogin();
       }
-      else { this.rejectLogin()}
-      // end of mock
+      else { 
+        this.rejectLogin()
+      }
     },
     acceptLogin() {
       console.log('Logged in correctly :D');
@@ -84,12 +84,16 @@ export default {
       console.log('Logged in incorrectly :X');
       alert("Email or password incorrect.");
     },
-    goToFrontpage () {
+    goToFrontpage() {
       router.push("/");
     },
-    forgotPassword () {
+    forgotPassword() {
       //TODO: resetting password
       alert("This function is not implemented yet.");
+    },
+    verifyCredentials(payload) {
+      // TODO: logging in, currently this is a mock
+      return payload.email == "test@example.com", payload.password == "Rumcajs$4"
     }
   }
 }

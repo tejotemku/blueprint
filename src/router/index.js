@@ -1,9 +1,11 @@
 import Router from 'vue-router'
-// main pages
+// common pages
 import WelcomePageView from '../views/common/WelcomePageView.vue'
 import LoginView from '../views/common/LoginView.vue'
 import RegisterView from '../views/common/RegisterView.vue'
-import HomepageView from '../views/common/HomepageView.vue'
+// loggedIn pages../views/user/HomepageView.vue
+import HomepageView from '../views/user/HomepageView.vue'
+import CreateProject from '../views/user/CreateProject.vue'
 // error pages
 import PageNotFound from '../views/error/err404page.vue'
 export default new Router({
@@ -28,6 +30,12 @@ export default new Router({
       path: '/home',
       name: 'HomepageView',
       component: HomepageView
+
+    },
+    {
+      path: '/create-project',
+      name: 'CreateProject',
+      component: CreateProject
 
     },
     {

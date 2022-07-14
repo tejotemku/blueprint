@@ -1,11 +1,8 @@
 <template>
   <div>
-
-    <v-row>
-      <ProjectPreview v-for="item in GetUserProjects()" :key="item['id']" :projectName="item['name']"/>
-      <v-card class="add-project-box">
-        <font-awesome-icon icon="plus-square"/>
-      </v-card>  
+    <LoggedInNavbar />
+    <v-row class="projects-row">
+      <ProjectPreview v-for="item in getUserProjects()" :key="item['id']" :projectName="item['name']"/>
     </v-row>
   </div>
 </template>
@@ -13,14 +10,16 @@
 <script>
 // import router from '../../router';
 import ProjectPreview from '../../components/ProjectPreview.vue'
+import LoggedInNavbar from '../../components/LoggedInNavbar.vue'
 
 export default {
   name: 'HomepageView',
   components: {
     ProjectPreview,
+    LoggedInNavbar,
   },
   methods: {
-    GetUserProjects() {
+    getUserProjects() {
       //TODO: this is a mock,
       return [
         {"id": 1, "name": "test1"},
@@ -46,8 +45,7 @@ export default {
 </script>
 
 <style>
-.add-project-box {
-  padding: 1rem;
-  margin: 0 auto;
+.projects-row {
+  padding-inline: 5vh;
 }
 </style>
