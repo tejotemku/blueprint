@@ -1,25 +1,24 @@
 <template>
-  <v-card class="project-preview-box">
+  <v-card class="project-preview-box" @click="goToProject">
     <div style="width: 40px; height: 40px; backgroundColor:red">
       <!-- TODO: create preview here -->
     </div>
     <v-card-title style="">
-      {{this.projectName}}
+      {{this.projectData.name}}
     </v-card-title>
   </v-card>
   
 </template>
 
 <script>
+import router from '../../router'
 export default {
   name: 'ProjectPreview',
-  props: ["projectName"],
-  data() {
-    return {
-
-    }
-  },
+  props: ["projectData"],
   methods: {
+    goToProject() {
+      router.push(`/project/${this.projectData.id}`)
+    }
   }
 }
 </script>

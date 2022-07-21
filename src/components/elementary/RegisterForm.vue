@@ -9,23 +9,35 @@
       v-model="email"
       :rules="emailRules"
       label="E-mail"
+      class="mb-2"
+      outlined
+      dense
     />
     <v-text-field
       v-model="username"
       :rules="usernameRules"
       label="Username"
+      class="mb-2"
+      outlined
+      dense
     />
     <v-text-field
       v-model="password"
       :rules="passwordRules"
       type="password"
       label="Password"
+      class="mb-2"
+      outlined
+      dense
     />
     <v-text-field
       v-model="passwordConfirm"
       :rules="passwordConfirmRules"
       type="password"
-      label="Confirm Password"
+      label="Confirm password"
+      class="mb-2"
+      outlined
+      dense
     />
     <v-btn
       :disabled="!valid"
@@ -45,7 +57,7 @@
 </template>
 
 <script>
-import router from '../router'
+import router from '../../router'
 
 export default {
   name: 'RegisterForm',
@@ -75,9 +87,9 @@ export default {
   methods: {
     async checkRegister() {
       let payload = {
-        email: this.email,
-        username: this.username,
-        password: this.password,
+        'email': this.email,
+        'username': this.username,
+        'password': this.password,
       };
       if (!this.checkCredentialAvaliability(payload)) {
         alert("Error: cannot register");

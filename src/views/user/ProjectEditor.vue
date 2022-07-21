@@ -1,23 +1,19 @@
 <template>
   <div>
     <LoggedInNavbarVue />
-    <CreateProjectForm />
+    Project Editor site - project id {{this.$route.params.id}}
   </div>
+
 </template>
 
 <script>
-import CreateProjectForm from '../../components/elementary/CreateProjectForm.vue'
 import LoggedInNavbarVue from '../../components/elementary/LoggedInNavbar.vue'
 
+
 export default {
-  name: 'CreateProject',
+  name: "ProjectEditor",
   components: {
-    CreateProjectForm,
     LoggedInNavbarVue
   }
 }
 </script>
-
-<style scoped>
-
-</style>

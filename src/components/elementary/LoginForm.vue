@@ -9,12 +9,18 @@
       v-model="email"
       :rules="emailRules"
       label="E-mail"
+      class="mb-2"
+      outlined
+      dense
     />
     <v-text-field
       v-model="password"
       :rules="passwordRules"
       type="password"
       label="Password"
+      class="mb-2"
+      outlined
+      dense
     />
     <v-btn
       :disabled="!valid"
@@ -41,7 +47,7 @@
 </template>
 
 <script>
-import router from '../router'
+import router from '../../router'
 
 export default {
   name: 'LoginForm',
@@ -62,8 +68,8 @@ export default {
   methods: {
     async checkLogin() {
       let payload = {
-        email: this.email,
-        password: this.password,
+        'email': this.email,
+        'password': this.password,
       };
 
       if (this.verifyCredentials(payload)) {
@@ -100,9 +106,4 @@ export default {
 </script>
 
 <style scoped>
-.login-box {
-  padding-block: 2vw;
-  padding-inline: 2.5vw;
-  font-size: 2vw;
-}
 </style>

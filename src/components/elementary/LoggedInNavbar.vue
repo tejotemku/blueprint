@@ -1,14 +1,7 @@
 <template>
   <div class="navbar">
-    <div class="navbar-username">{{getUserName()}}</div>
-    <div class="spacer"/>
-    <v-btn
-      color="success"
-      @click="createNewProject"
-      class="mx-2"
-    >
-      New Project
-    </v-btn>
+    <div class="navbar-username" @click="goToHomepage">{{getUserName()}}</div>
+    <div class="spacer" />
     <v-btn
       color="warning"
       @click="logout"
@@ -20,7 +13,7 @@
 </template>
 
 <script>
-import router from '../router'
+import router from '../../router'
 
 export default {
   name: "LoggedInNavbar",
@@ -29,13 +22,13 @@ export default {
       //TODO: delete user token
       router.push(`/`);
     },
-    createNewProject() {
-      router.push(`/create-project`);
-    },
     getUserName() {
       //TODO: this is a mock
       return "MockUsername"
     },
+    goToHomepage() {
+      router.push('/home')
+    }
   }
 }
 </script>

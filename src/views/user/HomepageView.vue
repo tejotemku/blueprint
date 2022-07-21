@@ -1,22 +1,47 @@
 <template>
   <div>
     <LoggedInNavbar />
-    <v-row class="projects-row">
-      <ProjectPreview v-for="item in getUserProjects()" :key="item['id']" :projectName="item['name']"/>
-    </v-row>
+    <div class="homepage-content">
+      <div class="my-2 homepage-tools-row">
+        <v-btn
+          color="success"
+          @click="createNewProject"
+          class="me-2"
+        >
+          New Project
+        </v-btn>
+        <!-- TODO: project search bar --> 
+        <v-text-field  
+          v-model="projectSearchBarValue"
+          label="Search..."
+          class="project-search-bar"
+          outlined
+          dense
+          hide-details
+        />
+      </div>
+      <v-row class="projects-row">
+        <ProjectPreview v-for="item in getUserProjects()" :key="item['id']" :projectData="item"/>
+      </v-row>
+    </div>
   </div>
 </template>
 
 <script>
-// import router from '../../router';
-import ProjectPreview from '../../components/ProjectPreview.vue'
-import LoggedInNavbar from '../../components/LoggedInNavbar.vue'
+import router from '../../router';
+import ProjectPreview from '../../components/elementary/ProjectPreview.vue'
+import LoggedInNavbar from '../../components/elementary/LoggedInNavbar.vue'
 
 export default {
   name: 'HomepageView',
   components: {
     ProjectPreview,
     LoggedInNavbar,
+  },
+  data() {
+    return {
+      projectSearchBarValue: null
+    }
   },
   methods: {
     getUserProjects() {
@@ -36,7 +61,10 @@ export default {
         {"id": 12, "name": "test12"},
         {"id": 13, "name": "test13"},
       ]
-    }
+    },
+    createNewProject() {
+      router.push(`/create-project`);
+    },
   },
   beforeMount() {
    // TODO: check if logged in and reddirect if necessary
@@ -48,4 +76,17 @@ export default {
 .projects-row {
   padding-inline: 5vh;
 }
+.homepage-content {
+  height: 90vh;
+  padding: 50px;
+}
+.project-search-bar {
+  max-width: 400px;
+}
+.homepage-tools-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 </style>

@@ -8,7 +8,7 @@ import store from './store';
 import VueRouter from 'vue-router';
 import router from "./router";
 
-// Vue ont awesome
+// Vue font awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCircleInfo, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
