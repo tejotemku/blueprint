@@ -3,6 +3,15 @@
     <LoggedInNavbar />
     <div class="homepage-content">
       <div class="my-2 homepage-tools-row">
+        <v-text-field  
+          v-model="projectSearchBarValue"
+          label="Search by project name..."
+          class="project-search-bar"
+          outlined
+          dense
+          hide-details
+        />        
+        
         <v-btn
           color="success"
           @click="createNewProject"
@@ -10,18 +19,9 @@
         >
           New Project
         </v-btn>
-        <!-- TODO: project search bar --> 
-        <v-text-field  
-          v-model="projectSearchBarValue"
-          label="Search..."
-          class="project-search-bar"
-          outlined
-          dense
-          hide-details
-        />
       </div>
       <v-row class="projects-row">
-        <ProjectPreview v-for="item in getUserProjects()" :key="item['id']" :projectData="item"/>
+        <ProjectPreview v-for="item in getUserProjects().filter(v => filterProjectsByName(v))" :key="item['id']" :projectData="item"/>
       </v-row>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      projectSearchBarValue: null
+      projectSearchBarValue: ''
     }
   },
   methods: {
@@ -65,6 +65,9 @@ export default {
     createNewProject() {
       router.push(`/create-project`);
     },
+    filterProjectsByName(value) {
+      return value['name'].indexOf(this.projectSearchBarValue) != -1
+    }
   },
   beforeMount() {
    // TODO: check if logged in and reddirect if necessary
@@ -78,6 +81,7 @@ export default {
 }
 .homepage-content {
   height: 90vh;
+  width: 100vw;
   padding: 50px;
 }
 .project-search-bar {
@@ -87,6 +91,8 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  
 }
 
 </style>
