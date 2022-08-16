@@ -11,10 +11,28 @@ import router from "./router";
 // Vue font awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCircleInfo, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faCircleInfo, 
+  faPlusSquare, 
+  faMinimize,
+  faMaximize,
+  faAngleUp,
+  faAngleDoubleUp,
+  faAngleDoubleDown,
+  faAngleDown,
+
+} from '@fortawesome/free-solid-svg-icons';
 import '@babel/polyfill'
 
-library.add(faCircleInfo, faPlusSquare
+library.add(
+  faCircleInfo, 
+  faPlusSquare,
+  faMinimize,
+  faMaximize,
+  faAngleUp,
+  faAngleDoubleUp,
+  faAngleDoubleDown,
+  faAngleDown
   )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

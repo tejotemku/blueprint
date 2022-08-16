@@ -1,7 +1,11 @@
 <template>
   <div>
     <LoggedInNavbarVue />
-    <ScreenElementsManager :screenElements="projectData.screens[currentScreenId].elements" />
+    <MinimiseComponentBtn>
+      <ScreenElementsManager :screenElements="projectData.screens[currentScreenId].elements" />
+    </MinimiseComponentBtn>
+
+    <PrototypeScreenEditorArea />
     <!-- Project Editor site - project id {{this.$route.params.id}} -->
 
     <!-- TODO: Project view -->
@@ -15,17 +19,21 @@
 <script>
 import LoggedInNavbarVue from '../../components/elementary/LoggedInNavbar.vue'
 import ScreenElementsManager from '../../components/complex/ScreenElementsManager.vue'
+import MinimiseComponentBtn from '../../components/complex/MinimiseComponentBtn.vue'
+import PrototypeScreenEditorArea from '../../components/complex/PrototypeScreenEditorArea.vue'
 
 
 export default {
   name: "ProjectEditor",
   components: {
     LoggedInNavbarVue,
-    ScreenElementsManager
+    ScreenElementsManager,
+    MinimiseComponentBtn,
+    PrototypeScreenEditorArea
   },
   data() {
     return {
-      projectData: null,
+      projectData: {},
       currentScreenId: 0
     }
   },
@@ -41,7 +49,6 @@ export default {
     fetchData() {
       // let projectId = this.$route.params.id;
       // TODO: this is a mock
-
       return {
         screens: [
           {

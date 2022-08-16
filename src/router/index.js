@@ -6,7 +6,7 @@ import RegisterView from '../views/common/RegisterView.vue'
 // loggedIn pages../views/user/HomepageView.vue
 import HomepageView from '../views/user/HomepageView.vue'
 import CreateProject from '../views/user/CreateProject.vue'
-import ProjectEditor from '../views/user/ProjectEditor.vue'
+import ProjectEditor from '../views/common/ProjectEditor.vue'
 // error pages
 import PageNotFound from '../views/error/err404page.vue'
 export default new Router({
