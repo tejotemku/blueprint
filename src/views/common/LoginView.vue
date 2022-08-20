@@ -3,8 +3,7 @@
 </template>
 
 <script>
-import LoginForm from '../../components/elementary/LoginForm.vue'
-// import router from '../../router';
+import LoginForm from '../../components/general/LoginForm.vue'
 
 
 export default {

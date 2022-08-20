@@ -29,8 +29,8 @@
 
 <script>
 import router from '../../router';
-import ProjectPreview from '../../components/elementary/ProjectPreview.vue'
-import LoggedInNavbar from '../../components/elementary/LoggedInNavbar.vue'
+import ProjectPreview from '../../components/general/ProjectPreview.vue'
+import LoggedInNavbar from '../../components/general/LoggedInNavbar.vue'
 
 export default {
   name: 'HomepageView',

@@ -24,7 +24,7 @@ export default {
     },
     getUserName() {
       //TODO: this is a mock
-      return "MockUsername"
+      return "Mock Username"
     },
     goToHomepage() {
       router.push('/home')
@@ -35,6 +35,7 @@ export default {
 
 <style scoped>
 .navbar {
+  z-index: 1000000;
   height: 75px;
   width: 100%;
   position: fixed;

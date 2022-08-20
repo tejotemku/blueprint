@@ -18,15 +18,26 @@
 
 export default {
   name: 'ScreenElementsManager',
-  props: ['screenElements'],
-  mounted() {
-    this.screenElements.sort((a,b) => a.depth - b.depth);
-  },
   data() {
     return {
+      screenElements: [],
       selectedItem: null,
     }
-  }
+  },
+  methods: {
+    sortElementsByDepth() {
+      this.screenElements.sort((a,b) => a.depth - b.depth);
+    },
+    getCurrentScreenElements() {
+      const screenElements = this.$store.getters['getCurrentScreenElementsData'];
+      this.screenElements = screenElements;
+
+    }
+  },
+  beforeMount() {
+    this.getCurrentScreenElements();
+    this.sortElementsByDepth();
+  },
 }
 </script>
 <style scoped>
