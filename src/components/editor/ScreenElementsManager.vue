@@ -5,18 +5,27 @@
         v-model="selectedItem"
         color="primary"
     >
-      <v-list-item v-for="element in screenElements" :key="element.id" draggable>
-        <v-list-item-content>
-          <v-list-item-title> {{ element.description }} </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <draggable
+        v-model="screenElements"
+        ghost-class="ghost"
+      >
+        <v-list-item v-for="element in screenElements" :key="element.id" draggable>
+          <v-list-item-content>
+            <v-list-item-title> {{ element.description }} </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </draggable>
     </v-list-item-group>
   </v-list>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 
 export default {
+  components: {
+    draggable
+  },
   name: 'ScreenElementsManager',
   data() {
     return {
@@ -47,5 +56,9 @@ export default {
 
 .element-list {
   overflow-y: overlay;
+}
+
+.ghost {
+  opacity: 0.5;
 }
 </style>

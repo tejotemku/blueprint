@@ -1,16 +1,23 @@
 <template>
   <div class="editor-area">
     <drag-it-dude v-for="el in screenElements" :key="el.id" :style="'zIndex: ' + el.depth + '; top: ' + el.top + 'px; left: ' + el.left + 'px'" v-html="el.html" />
+    <ProjectElement>
+      <div style="background-color: yellow; width: 100px; height: 30px;">
+        test
+      </div>
+    </ProjectElement>
   </div>
 </template>
 
 <script>
 import DragItDude from 'vue-drag-it-dude';
+import ProjectElement from "../../components/editor/ProjectElement.vue"
 
 export default {
   name: "PrototypeScreenEditorArea",
   components: {
-    DragItDude
+    DragItDude,
+    ProjectElement
   },
   data() {
     return {

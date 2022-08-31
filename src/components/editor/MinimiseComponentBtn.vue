@@ -39,7 +39,7 @@ export default {
 .tool-box {
   z-index: 99999;
   position: fixed;
-  width: 15%
+  width: 90%
 }
 
 .border {
