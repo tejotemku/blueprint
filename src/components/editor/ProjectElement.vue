@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       ghostItemStyle: {
+        position: 'absolute',
         top: this.top,
         left: this.left,
         zIndex: this.zIndex,

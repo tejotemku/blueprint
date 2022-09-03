@@ -59,33 +59,33 @@ export default {
                 id: 0,
                 depth: 0,
                 top: 10,
-                left: 10,
+                left: 1,
                 description: "Button - 1",
                 html: '<div style="background-color: red"> Click Me #1 </div>',
                 properties: {
-                  text: 'Click Me #1',
+                  text: 'Button - 1',
                 }
               },
               {
                 id: 1,
                 depth: 2,
-                top: 10,
-                left: 100,
+                top: 1,
+                left: 1,
                 description: 'Button - 2',
                 html: '<div style="background-color: cyan"> Click Me #2 </div>',
                 properties: {
-                  text: 'Click Me #2',
+                  text: 'Button - 2',
                 }
               },
               {
                 id: 2,
                 depth: 1,
-                top: 300,
-                left: 10,
-                description: 'Email Field - 2',
+                top: 10,
+                left: 1,
+                description: 'Email Field - 1',
                 html: '<div style="background-color: limegreen"> Email </div>',
                 properties: {
-                  text: 'Input e-mail adress',
+                  text: 'Email Field - 1',
                 }
               },
             ]

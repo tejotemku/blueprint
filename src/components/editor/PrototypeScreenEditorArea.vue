@@ -1,8 +1,12 @@
 <template>
   <div class="editor-area">
-    <drag-it-dude v-for="el in screenElements" :key="el.id" :style="'zIndex: ' + el.depth + '; top: ' + el.top + 'px; left: ' + el.left + 'px'" v-html="el.html" />
+    <div 
+      v-for="el, index in getCurrentScreenElementsData" 
+      :key="el.id" 
+      :style="'position: absolute; zIndex: ' + index + '; top: ' + el.top + 'px; left: ' + el.left + 'px'" v-html="el.html" 
+    />
     <ProjectElement>
-      <div style="background-color: yellow; width: 100px; height: 30px;">
+      <div :style="'background-color: yellow; width: 100px; height: 30px;'">
         test
       </div>
     </ProjectElement>
@@ -10,36 +14,24 @@
 </template>
 
 <script>
-import DragItDude from 'vue-drag-it-dude';
 import ProjectElement from "../../components/editor/ProjectElement.vue"
+import { mapGetters } from "vuex";
 
 export default {
   name: "PrototypeScreenEditorArea",
   components: {
-    DragItDude,
     ProjectElement
   },
-  data() {
-    return {
-      screenElements: [],
-    }
-  },
-  methods: {
-    getCurrentScreenElements() {
-      const screenElements = this.$store.getters['getCurrentScreenElementsData'];
-      this.screenElements = screenElements;
-    }
-  },
-  beforeMount() {
-    this.getCurrentScreenElements();
-  },
+  computed: {
+    ...mapGetters(['getCurrentScreenElementsData'])
+  }
 }
 </script>
 <style scoped>
 .editor-area {
   position: relative;
-  width: 1600px;
-  height: 800px;
+  width: 800px;
+  height: 600px;
   margin: 0 auto;
   background-color: rgb(194, 209, 237);
 }

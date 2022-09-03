@@ -8,6 +8,7 @@
       <draggable
         v-model="screenElements"
         ghost-class="ghost"
+        @change="heirarchyChanged"
       >
         <v-list-item v-for="element in screenElements" :key="element.id" draggable>
           <v-list-item-content>
@@ -34,18 +35,20 @@ export default {
     }
   },
   methods: {
-    sortElementsByDepth() {
-      this.screenElements.sort((a,b) => a.depth - b.depth);
-    },
+    // sortElementsByDepth() {
+    //   this.screenElements.sort((a,b) => a.depth - b.depth);
+    // },
     getCurrentScreenElements() {
       const screenElements = this.$store.getters['getCurrentScreenElementsData'];
       this.screenElements = screenElements;
-
+    },
+    heirarchyChanged() {
+      this.$store.dispatch("actionSetCurrentScreenElements", this.screenElements);
     }
   },
   beforeMount() {
     this.getCurrentScreenElements();
-    this.sortElementsByDepth();
+    // this.sortElementsByDepth();
   },
 }
 </script>

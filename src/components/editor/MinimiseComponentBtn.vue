@@ -4,7 +4,7 @@
   :style="getStyles()"
   >
     <v-btn @click="onClick" :style="'float:' + buttonFloat">
-      <font-awesome-icon :icon="isMinimised? 'maximize' : 'minimize'" style="fontSize: 1.5rem"/>
+      <font-awesome-icon :icon="isMinimised? 'maximize' : 'minimize'" style="fontSize: 1rem"/>
     </v-btn>
     <slot v-if="!isMinimised" />
   </div>
@@ -39,7 +39,7 @@ export default {
 .tool-box {
   z-index: 99999;
   position: fixed;
-  width: 90%
+  width: 15%
 }
 
 .border {
