@@ -32,6 +32,9 @@ export const mutations = {
 export const actions = {
   actionSetProjectData(state, data) {
     state.commit("setProjectData", data);
+  },
+  actionSetCurrentScreenElements(state, data) {
+    state.commit('setCurrentScreenElements', data);
   }
 }
 
