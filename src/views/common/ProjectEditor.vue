@@ -57,9 +57,8 @@ export default {
             elements: [
               {
                 id: 0,
-                depth: 0,
-                top: 10,
-                left: 1,
+                top: 60,
+                left: 50,
                 description: "Button - 1",
                 html: '<div style="background-color: red"> Click Me #1 </div>',
                 properties: {
@@ -68,9 +67,8 @@ export default {
               },
               {
                 id: 1,
-                depth: 2,
-                top: 1,
-                left: 1,
+                top: 100,
+                left: 40,
                 description: 'Button - 2',
                 html: '<div style="background-color: cyan"> Click Me #2 </div>',
                 properties: {
@@ -79,9 +77,8 @@ export default {
               },
               {
                 id: 2,
-                depth: 1,
-                top: 10,
-                left: 1,
+                top: 60,
+                left: 300,
                 description: 'Email Field - 1',
                 html: '<div style="background-color: limegreen"> Email </div>',
                 properties: {

@@ -35,9 +35,6 @@ export default {
     }
   },
   methods: {
-    // sortElementsByDepth() {
-    //   this.screenElements.sort((a,b) => a.depth - b.depth);
-    // },
     getCurrentScreenElements() {
       const screenElements = this.$store.getters['getCurrentScreenElementsData'];
       this.screenElements = screenElements;
@@ -48,7 +45,6 @@ export default {
   },
   beforeMount() {
     this.getCurrentScreenElements();
-    // this.sortElementsByDepth();
   },
 }
 </script>

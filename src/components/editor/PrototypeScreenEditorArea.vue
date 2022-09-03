@@ -1,26 +1,25 @@
 <template>
-  <div class="editor-area">
-    <div 
+  <div id="prototype-screen-editor-area">
+    <DragableElement
       v-for="el, index in getCurrentScreenElementsData" 
-      :key="el.id" 
-      :style="'position: absolute; zIndex: ' + index + '; top: ' + el.top + 'px; left: ' + el.left + 'px'" v-html="el.html" 
-    />
-    <ProjectElement>
-      <div :style="'background-color: yellow; width: 100px; height: 30px;'">
-        test
-      </div>
-    </ProjectElement>
+      :key="el.id"
+      :top="el.top"
+      :left="el.left"
+      :zIndex="index"
+      v-html="el.html"
+    >
+    </DragableElement>
   </div>
 </template>
 
 <script>
-import ProjectElement from "../../components/editor/ProjectElement.vue"
+import DragableElement from "./DragableElement.vue"
 import { mapGetters } from "vuex";
 
 export default {
   name: "PrototypeScreenEditorArea",
   components: {
-    ProjectElement
+    DragableElement
   },
   computed: {
     ...mapGetters(['getCurrentScreenElementsData'])
@@ -28,10 +27,10 @@ export default {
 }
 </script>
 <style scoped>
-.editor-area {
+#prototype-screen-editor-area {
   position: relative;
-  width: 800px;
-  height: 600px;
+  width: 1000px;
+  height: 570px;
   margin: 0 auto;
   background-color: rgb(194, 209, 237);
 }
