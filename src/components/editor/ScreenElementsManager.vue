@@ -36,8 +36,7 @@ export default {
   },
   methods: {
     getCurrentScreenElements() {
-      const screenElements = this.$store.getters['getCurrentScreenElementsData'];
-      this.screenElements = screenElements;
+      this.screenElements = this.$store.getters['getCurrentScreenElementsData'];
     },
     heirarchyChanged() {
       this.$store.dispatch("actionSetCurrentScreenElements", this.screenElements);

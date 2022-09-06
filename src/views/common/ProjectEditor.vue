@@ -57,6 +57,7 @@ export default {
             elements: [
               {
                 id: 0,
+                type: 'Button',
                 top: 60,
                 left: 50,
                 description: "Button - 1",
@@ -67,6 +68,7 @@ export default {
               },
               {
                 id: 1,
+                type: 'Button',
                 top: 100,
                 left: 40,
                 description: 'Button - 2',
@@ -77,6 +79,7 @@ export default {
               },
               {
                 id: 2,
+                type: 'InputField',
                 top: 60,
                 left: 300,
                 description: 'Email Field - 1',
@@ -97,7 +100,8 @@ export default {
           'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png',
           'https://i.pinimg.com/originals/ce/af/83/ceaf8384322af790486cff176a0a2f24.png',
           'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/1009px-Playstation_logo_colour.svg.png',
-          ],
+          'https://cdn.icon-icons.com/icons2/2592/PNG/512/instagram_logo_icon_154475.png'  
+        ],
         currentScreenId: '0'
       }
     },

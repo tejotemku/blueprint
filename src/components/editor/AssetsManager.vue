@@ -2,23 +2,35 @@
   <div class="assets-box-container">
     <v-subheader> ASSETS </v-subheader>
     <div class="assets-box">
-      <div 
-        v-for="asset in assets" :key="asset">
+      <DragAndDropElement 
+        v-for="asset in assets" :key="asset"
+        :elementInfo="{
+          type: 'Image',
+          description: 'Asset Image',
+          properties: {
+            src: asset,
+          }
+        }" 
+      >
         <v-img
           contain
           :max-height="50"
           :max-width="80"
           :src="asset"
         />
-      </div>
+      </DragAndDropElement>
     </div>
   </div>
 </template>
 
 <script>
+import DragAndDropElement from './DragAndDropElement.vue'
 
 export default {
   name: 'AssetsManager',
+  components: {
+    DragAndDropElement
+  },
   data() {
     return {
       assets: [],

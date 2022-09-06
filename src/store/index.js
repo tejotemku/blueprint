@@ -17,6 +17,7 @@ const state = {
     assets: [ ],
     currentScreenId: '0',
   },
+  draggedItem: null,
   userToken: null,
 }
 
@@ -26,6 +27,15 @@ export const mutations = {
   },
   setCurrentScreenElements(state, elements) {
     state.projectData.screens[state.projectData.currentScreenId].elements = elements;
+  },
+  setDraggedItem(state, item) {
+    state.draggedItem = item;
+  },
+  setCurrentScreen(state, screenId) {
+    state.projectData.currentScreenId = screenId;
+  },
+  addElementToCurrentScreenElements(state, element) {
+    state.projectData.screens[state.projectData.currentScreenId].elements.push(element);
   }
 }
 
@@ -35,6 +45,18 @@ export const actions = {
   },
   actionSetCurrentScreenElements(state, data) {
     state.commit('setCurrentScreenElements', data);
+  },
+  actionSetDraggedItem(state, data) {
+    state.commit('setDraggedItem', data)
+  },
+  actionResetDraggedItem(state) {
+    state.commit('setDraggedItem', null)
+  },
+  actionSetCurrentScreen(state, data) {
+    state.commit('setCurrentScreen', data)
+  },
+  actionAddElementToCurrentScreenElements(state, data) {
+    state.commit('addElementToCurrentScreenElements', data);
   }
 }
 
@@ -51,6 +73,9 @@ export const getters =  {
   getProjectAssets() {
     return state.projectData.assets;
   },
+  getDraggedItem() {
+    return state.draggedItem;
+  }
 
 }
 
