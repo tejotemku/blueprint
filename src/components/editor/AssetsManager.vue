@@ -47,6 +47,15 @@ export default {
   flex-wrap: wrap;
 }
 .assets-box-container {
+  position: fixed;
+  z-index: 3000;
+  bottom: 0px;
+  left: 15%;
+  width: 70%;
+  height: 20%;
+  border: solid #dee2e6 1px;
+  background-color: white;
+  overflow-y: auto;
   border: solid #dee2e6 1px;
   background-color: white;
 }

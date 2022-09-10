@@ -10,25 +10,18 @@
       </v-btn>
     </LoggedInNavbarVue>
     <div class="project-view">
-      <MinimiseComponentBtn buttonFloat="right" :right="true" :bottom="false">
         <ScreenElementsManager />
-      </MinimiseComponentBtn>
-      
-      <MinimiseComponentBtn  buttonFloat="right" :right="true" :bottom="true">
         <AssetsManager />
-      </MinimiseComponentBtn>
-      
-      <MinimiseComponentBtn  buttonFloat="left" :right="false" :bottom="true">
-        <ScreenManager />
-      </MinimiseComponentBtn>
-      
-      <MinimiseComponentBtn  buttonFloat="left" :right="false" :bottom="false">
+        <ScreenManager @newScreenCreation:show="isOn_NewScreenCreation=true"/>
         <ComponentsLibrary />
-      </MinimiseComponentBtn>
-
-
       <PrototypeScreenEditorArea  />
     </div>
+    <Modal 
+      :isOn="isOn_NewScreenCreation"
+      @modal:hide="isOn_NewScreenCreation=false"
+    >
+      <NewScreenCreation />
+    </Modal>
     <!-- Project Editor site - project id {{this.$route.params.id}} -->
     <!-- TODO: Library -->
   </div>
@@ -38,12 +31,14 @@
 import LoggedInNavbarVue from '../../components/general/LoggedInNavbar.vue'
 import ScreenElementsManager from '../../components/editor/ScreenElementsManager.vue'
 import AssetsManager from '../../components/editor/AssetsManager.vue'
-import MinimiseComponentBtn from '../../components/editor/MinimiseComponentBtn.vue'
 import PrototypeScreenEditorArea from '../../components/editor/PrototypeScreenEditorArea.vue'
 import ScreenManager from '../../components/editor/ScreenManager.vue'
 import ComponentsLibrary from '../../components/editor/ComponentsLibrary.vue'
+import Modal from '../../components/general/Modal.vue'
+import NewScreenCreation from '../../components/editor/NewScreenCreation.vue'
 import { projectData } from '../../mocks/projectDataMock.js'
 import { generatePrototype } from '../../common/generatePrototype.js'
+
 
 
 export default {
@@ -51,15 +46,17 @@ export default {
   components: {
     LoggedInNavbarVue,
     ScreenElementsManager,
-    MinimiseComponentBtn,
     PrototypeScreenEditorArea,
     AssetsManager,
     ScreenManager,
     ComponentsLibrary,
+    Modal,
+    NewScreenCreation
   },
   data() {
     return {
       projectData: {},
+      isOn_NewScreenCreation: false
     }
   },
   beforeMount() {

@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 .navbar {
-  z-index: 1000000;
+  z-index: 3001;
   height: 75px;
   width: 100%;
   position: fixed;

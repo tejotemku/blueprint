@@ -5,7 +5,7 @@
         position: 'absolute',
         top: this.top + 'px',
         left: this.left + 'px',
-        zIndex: 88888 - this.zIndex,
+        zIndex: 2999 - this.zIndex,
         opacity: this.itemOpacity
     }"
     class="prevent-select"

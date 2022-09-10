@@ -12,7 +12,12 @@
 <script>
 export default {
   name: 'DragAndDropElement',
-  props: ['elementInfo'],
+  props: {
+    elementInfo: {
+      type: Object,
+      default: () => {},
+    }
+  },
   methods: {
     dragStart() {
       this.$store.dispatch('actionSetDraggedItem', this.elementInfo);

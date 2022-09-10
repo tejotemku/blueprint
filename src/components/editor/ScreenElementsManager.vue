@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list class="screen-element-box-container">
     <v-subheader> LAYER VIEW </v-subheader>
     <v-list-item-group
         v-model="selectedItem"
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import draggable from 'vuedraggable'
 
 export default {
@@ -28,6 +29,16 @@ export default {
     draggable
   },
   name: 'ScreenElementsManager',
+  computed: {
+    ...mapGetters({
+      currentScreenElements: 'getCurrentScreenElementsData'
+    }),
+  },
+  watch: {
+    currentScreenElements: function(val) {
+      this.screenElements = val;
+    }
+  },
   data() {
     return {
       screenElements: [],
@@ -35,25 +46,26 @@ export default {
     }
   },
   methods: {
-    getCurrentScreenElements() {
-      this.screenElements = this.$store.getters.getCurrentScreenElementsData;
-    },
     heirarchyChanged() {
       this.$store.dispatch("actionSetCurrentScreenElements", this.screenElements);
     }
   },
   beforeMount() {
-    this.getCurrentScreenElements();
+    this.screenElements = this.currentScreenElements;
   },
 }
 </script>
 <style scoped>
-.element-box {
+.screen-element-box-container {
+  position: fixed;
+  z-index: 3000;
+  top: 75px;
+  right: 0px;
+  width: 15%;
+  height: calc(60vh - 45px);
   border: solid #dee2e6 1px;
-}
-
-.element-list {
-  overflow-y: overlay;
+  background-color: white;
+  overflow-y: auto;
 }
 
 .ghost {

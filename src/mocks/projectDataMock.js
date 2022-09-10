@@ -65,9 +65,12 @@ export const projectData = () => {
       }
     },
     assets: [
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png',
-      'https://i.pinimg.com/originals/ce/af/83/ceaf8384322af790486cff176a0a2f24.png',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/1009px-Playstation_logo_colour.svg.png'  
+      'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic1.png',
+      'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic3.png',
+      'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic4.png',
+      'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic5.png',
+      'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic6.png',
+      'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic7.png',
     ],
     currentScreenId: '1231sda3q2'
   }

@@ -49,6 +49,12 @@ export default {
   flex-wrap: wrap;
 }
 .library-box-container {
+  position: fixed;
+  z-index: 3000;
+  top: 75px;
+  left: 0px;
+  width: 15%;
+  height: calc(100vh - 75px);
   border: solid #dee2e6 1px;
   background-color: white;
 }
