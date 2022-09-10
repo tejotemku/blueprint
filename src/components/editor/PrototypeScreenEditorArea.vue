@@ -6,7 +6,7 @@
     @dragover.prevent
     >
     <DragableElement
-      v-for="el, index in getCurrentScreenElementsData" 
+      v-for="el, index in processedElements" 
       :key="el.id"
       :top="el.top"
       :left="el.left"
@@ -20,7 +20,7 @@
 <script>
 import DragableElement from "./DragableElement.vue"
 import { mapGetters } from "vuex";
-import { handleElement } from '../../common/prototypeElementsHandlers.js';
+import { generateElementHtml } from '../../common/prototypeElementsHandlers.js';
 
 export default {
   name: "PrototypeScreenEditorArea",
@@ -28,11 +28,26 @@ export default {
     DragableElement
   },
   computed: {
-    ...mapGetters(['getCurrentScreenElementsData'])
+    ...mapGetters({
+      currentScreenElements: 'getCurrentScreenElementsData'
+    }),
+    processedElements: function () {
+      const elements = this.currentScreenElements;
+      let processedElements = [];
+      elements.forEach( el => {
+        const processedElement = {
+          id: el.id,
+          top: el.top,
+          left: el.left,
+          html: generateElementHtml(el)
+        }
+        processedElements.push(processedElement);
+      })
+      return processedElements;
+    } 
   },
   methods: {
     droppedItem(e) {
-      console.log(e);
       const sourceItem = this.$store.getters['getDraggedItem'];
       if (sourceItem) {
         // new object is created to avoid deep copies
@@ -42,11 +57,10 @@ export default {
           top: e.y - e.target.offsetTop,
           left: e.x - e.target.offsetLeft,
         }
-        item = handleElement(item);
         this.$store.dispatch('actionAddElementToCurrentScreenElements', item)
         this.$store.dispatch('actionResetDraggedItem');
       }
-    },
+    }
   }
 }
 </script>

@@ -9,13 +9,14 @@
       <MinimiseComponentBtn  buttonFloat="right" :right="true" :bottom="true">
         <AssetsManager />
       </MinimiseComponentBtn>
+      
+      <MinimiseComponentBtn  buttonFloat="left" :right="false" :bottom="true">
+
+      </MinimiseComponentBtn>
       <PrototypeScreenEditorArea  />
     </div>
     <!-- Project Editor site - project id {{this.$route.params.id}} -->
-
-    <!-- TODO: Assets -->
     <!-- TODO: Library -->
-    <!-- TODO: Screens -->
   </div>
 </template>
 
@@ -25,6 +26,7 @@ import ScreenElementsManager from '../../components/editor/ScreenElementsManager
 import AssetsManager from '../../components/editor/AssetsManager.vue'
 import MinimiseComponentBtn from '../../components/editor/MinimiseComponentBtn.vue'
 import PrototypeScreenEditorArea from '../../components/editor/PrototypeScreenEditorArea.vue'
+import { projectData } from '../../mocks/projectDataMock.js'
 
 
 export default {
@@ -48,62 +50,7 @@ export default {
     fetchData() {
       // let projectId = this.$route.params.id;
       // TODO: this is a mock
-      return {
-        title: "Mock Project Name",
-        screens: {
-          '0': {
-            id: '0',
-            name: "Mock Screen 1",
-            elements: [
-              {
-                id: 0,
-                type: 'Button',
-                top: 60,
-                left: 50,
-                description: "Button - 1",
-                html: '<div style="background-color: red"> Click Me #1 </div>',
-                properties: {
-                  text: 'Button - 1',
-                }
-              },
-              {
-                id: 1,
-                type: 'Button',
-                top: 100,
-                left: 40,
-                description: 'Button - 2',
-                html: '<div style="background-color: cyan"> Click Me #2 </div>',
-                properties: {
-                  text: 'Button - 2',
-                }
-              },
-              {
-                id: 2,
-                type: 'InputField',
-                top: 60,
-                left: 300,
-                description: 'Email Field - 1',
-                html: '<div style="background-color: limegreen"> Email </div>',
-                properties: {
-                  text: 'Email Field - 1',
-                }
-              },
-            ]
-          },
-          '1': {
-            id: '1',
-            name: "Mock Screen 2",
-            elements: []
-          }
-        },
-        assets: [
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png',
-          'https://i.pinimg.com/originals/ce/af/83/ceaf8384322af790486cff176a0a2f24.png',
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/1009px-Playstation_logo_colour.svg.png',
-          'https://cdn.icon-icons.com/icons2/2592/PNG/512/instagram_logo_icon_154475.png'  
-        ],
-        currentScreenId: '0'
-      }
+      return projectData();
     },
     getProjectData() {
       try {
@@ -111,8 +58,8 @@ export default {
         this.$store.dispatch("actionSetProjectData", projectData);
         this.projectData = projectData;
       }
-      catch(e) {
-        console.log(e);
+      catch(err) {
+        console.log(err);
       }
     }
   }

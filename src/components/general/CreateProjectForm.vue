@@ -118,7 +118,7 @@ export default {
         payload['width'] = this.chosenStandardDimensions.slice(0, dividerIndex);
         payload['height'] = this.chosenStandardDimensions.slice(dividerIndex + 1, aspectRatioStartIndex);
       }
-      // console.log(payload);
+      console.log(payload);
       // TODO: this is a mock
       let projectId = 0;
       router.push(`/project/${projectId}`);

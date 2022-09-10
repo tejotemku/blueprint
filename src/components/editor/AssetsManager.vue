@@ -3,7 +3,7 @@
     <v-subheader> ASSETS </v-subheader>
     <div class="assets-box">
       <DragAndDropElement 
-        v-for="asset in assets" :key="asset"
+        v-for="asset in projectAssets" :key="asset"
         :elementInfo="{
           type: 'Image',
           description: 'Asset Image',
@@ -25,27 +25,18 @@
 
 <script>
 import DragAndDropElement from './DragAndDropElement.vue'
+import { mapGetters } from "vuex";
 
 export default {
   name: 'AssetsManager',
   components: {
     DragAndDropElement
   },
-  data() {
-    return {
-      assets: [],
-      selectedItem: null,
-    }
+  computed: {
+    ...mapGetters({
+      projectAssets: 'getProjectAssets'
+    }),
   },
-  methods:  {
-    getAssets() {
-      this.assets = this.$store.getters["getProjectAssets"];
-    },
-  },
-  beforeMount() {
-    this.getAssets();
-  },
-
 }
 </script>
 
