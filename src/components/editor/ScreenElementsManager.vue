@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     getCurrentScreenElements() {
-      this.screenElements = this.$store.getters['getCurrentScreenElementsData'];
+      this.screenElements = this.$store.getters.getCurrentScreenElementsData;
     },
     heirarchyChanged() {
       this.$store.dispatch("actionSetCurrentScreenElements", this.screenElements);
@@ -49,7 +49,7 @@ export default {
 </script>
 <style scoped>
 .element-box {
-  border: solid black 1px;
+  border: solid #dee2e6 1px;
 }
 
 .element-list {

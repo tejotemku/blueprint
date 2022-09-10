@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     droppedItem(e) {
-      const sourceItem = this.$store.getters['getDraggedItem'];
+      const sourceItem = this.$store.getters.getDraggedItem;
       if (sourceItem) {
         // new object is created to avoid deep copies
         let item = {

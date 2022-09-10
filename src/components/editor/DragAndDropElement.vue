@@ -3,6 +3,7 @@
     draggable
     @dragstart="dragStart"
     @dragend="dragEnd"
+    class="drag-n-drop"
   >
     <slot />
   </div>
@@ -26,5 +27,7 @@ export default {
 </script>
 
 <style scoped>
-
+.drag-n-drop {
+  margin: 5px;
+}
 </style>

@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+// import store from '../store'
+
+export const generatePrototype = function() {
+  // const projectData = store.getters.getProjectData;
+  // let screens = [];
+
+  let generalHtml = `
+  <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,9 +19,30 @@
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but prototype doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <div id=container>
+     kiedyś tu coś będzie
+    </div>
   </body>
 </html>
+`  
+  // Start file download.
+  download("prototype.html", generalHtml);
+
+  function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+  }
+
+
+}
+

@@ -2,6 +2,7 @@
   <div class="navbar">
     <div class="navbar-username" @click="goToHomepage">{{getUserName()}}</div>
     <div class="spacer" />
+     <slot />
     <v-btn
       color="warning"
       @click="logout"
@@ -23,7 +24,7 @@ export default {
       router.push(`/`);
     },
     getUserName() {
-      //TODO: this is a mock
+      //TODO: change this mock into fetching user name or getting it from vuex store
       return "Mock Username"
     },
     goToHomepage() {

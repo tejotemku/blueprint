@@ -1,6 +1,14 @@
 <template>
   <div>
-    <LoggedInNavbarVue />
+    <LoggedInNavbarVue>
+      <v-btn
+        color="secondary"
+        @click="generatePrototypeActions"
+        class="mx-2"
+      >
+      Generate Prototype
+      </v-btn>
+    </LoggedInNavbarVue>
     <div class="project-view">
       <MinimiseComponentBtn buttonFloat="right" :right="true" :bottom="false">
         <ScreenElementsManager />
@@ -11,8 +19,14 @@
       </MinimiseComponentBtn>
       
       <MinimiseComponentBtn  buttonFloat="left" :right="false" :bottom="true">
-
+        <ScreenManager />
       </MinimiseComponentBtn>
+      
+      <MinimiseComponentBtn  buttonFloat="left" :right="false" :bottom="false">
+        <ComponentsLibrary />
+      </MinimiseComponentBtn>
+
+
       <PrototypeScreenEditorArea  />
     </div>
     <!-- Project Editor site - project id {{this.$route.params.id}} -->
@@ -26,7 +40,10 @@ import ScreenElementsManager from '../../components/editor/ScreenElementsManager
 import AssetsManager from '../../components/editor/AssetsManager.vue'
 import MinimiseComponentBtn from '../../components/editor/MinimiseComponentBtn.vue'
 import PrototypeScreenEditorArea from '../../components/editor/PrototypeScreenEditorArea.vue'
+import ScreenManager from '../../components/editor/ScreenManager.vue'
+import ComponentsLibrary from '../../components/editor/ComponentsLibrary.vue'
 import { projectData } from '../../mocks/projectDataMock.js'
+import { generatePrototype } from '../../common/generatePrototype.js'
 
 
 export default {
@@ -37,6 +54,8 @@ export default {
     MinimiseComponentBtn,
     PrototypeScreenEditorArea,
     AssetsManager,
+    ScreenManager,
+    ComponentsLibrary,
   },
   data() {
     return {
@@ -61,6 +80,9 @@ export default {
       catch(err) {
         console.log(err);
       }
+    },
+    generatePrototypeActions() {
+      generatePrototype();
     }
   }
 }

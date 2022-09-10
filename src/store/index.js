@@ -75,6 +75,13 @@ export const getters =  {
   },
   getDraggedItem() {
     return state.draggedItem;
+  },
+  getMinimalScreensInfo() {
+    let screens = {};
+    Object.keys(state.projectData.screens).forEach(screenId => {
+      screens[screenId] = state.projectData.screens[screenId].name;
+    })
+    return screens;
   }
 
 }

@@ -3,10 +3,11 @@
     <v-subheader> ASSETS </v-subheader>
     <div class="assets-box">
       <DragAndDropElement 
-        v-for="asset in projectAssets" :key="asset"
+        v-for="asset in projectAssets" 
+        :key="asset"
         :elementInfo="{
           type: 'Image',
-          description: 'Asset Image',
+          description: 'Image',
           properties: {
             src: asset,
           }
@@ -46,7 +47,7 @@ export default {
   flex-wrap: wrap;
 }
 .assets-box-container {
-  border: solid black 1px;
+  border: solid #dee2e6 1px;
   background-color: white;
 }
 </style>

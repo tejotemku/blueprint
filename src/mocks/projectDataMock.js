@@ -4,8 +4,7 @@ export const projectData = () => {
     width: 1920,
     height: 1080,
     screens: {
-      '0': {
-        id: '0',
+      '1231sda3q2': {
         name: "Mock Screen 1",
         elements: [
           {
@@ -16,7 +15,8 @@ export const projectData = () => {
             description: "Button - 1",
             properties: {
               text: 'Button - 1',
-              backgroundColor: 'red'
+              backgroundColor: 'red',
+              class: 'btn btn-primary'
             }
           },
           {
@@ -46,8 +46,7 @@ export const projectData = () => {
           },
         ]
       },
-      '1': {
-        id: '1',
+      'fg43r23r': {
         name: "Mock Screen 2",
         elements: [
           {
@@ -70,6 +69,6 @@ export const projectData = () => {
       'https://i.pinimg.com/originals/ce/af/83/ceaf8384322af790486cff176a0a2f24.png',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/1009px-Playstation_logo_colour.svg.png'  
     ],
-    currentScreenId: '0'
+    currentScreenId: '1231sda3q2'
   }
 }

@@ -1,11 +1,8 @@
 <template>
   <div 
-  :class="isMinimised? 'tool-box' : 'tool-box border'"
+  class="tool-box border"
   :style="getStyles()"
   >
-    <v-btn @click="onClick" :style="'float:' + buttonFloat">
-      <font-awesome-icon :icon="isMinimised? 'maximize' : 'minimize'" style="fontSize: 1rem"/>
-    </v-btn>
     <slot v-if="!isMinimised" />
   </div>
 </template>
@@ -15,15 +12,7 @@
 export default {
   name: 'MinimiseComponentBtn',
   props: ['buttonFloat', 'right', 'bottom'],
-  data() {
-    return {
-      isMinimised: false,
-    }
-  },
   methods: {
-    onClick() {
-      this.isMinimised = !this.isMinimised;
-    },
     getStyles() {
       let styles = {};
       styles[this.right ? 'right': 'left'] = '0px';
@@ -43,6 +32,6 @@ export default {
 }
 
 .border {
-  border: 1px solid black;
+  border: 1px solid #dee2e6;
 }
 </style>
