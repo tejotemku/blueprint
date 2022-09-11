@@ -54,7 +54,7 @@ export default {
     elementDrag(e) {
       e = e || window.event;
       e.preventDefault();
-      const element = this.$refs['dragableElement'];
+      const element = this.$refs.dragableElement;
       this.pos1 = this.pos3 - e.clientX;
       this.pos2 = this.pos4 - e.clientY;
       this.pos3 = e.clientX;
@@ -62,8 +62,8 @@ export default {
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
-      this.$refs['dragableElement'].style.top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight) + "px";
-      this.$refs['dragableElement'].style.left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth) + "px";
+      this.$refs.dragableElement.style.top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight) + "px";
+      this.$refs.dragableElement.style.left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth) + "px";
     },
     between(x, min_v, max_v) {
       x = Math.min(x, max_v);

@@ -1,19 +1,22 @@
 <template>
   <div class="screens-box-container">
-    <v-subheader class="subheader"> 
+    <v-subheader class="row-space-between"> 
       SCREENS 
-      <v-btn icon color="#00f" @click="openNewScreenCreationModal">
+      <v-btn icon color="#00f" @click="openNewScreenCreationTool">
         <font-awesome-icon icon="plus-square" style="fontSize: 1rem"/>
       </v-btn>
     </v-subheader>
     <div class="screens-box">
       <div 
-        v-for="screenName, screenId of screens" 
+        v-for="screen, screenId of screens" 
         :key="screenId"
         @click="changeCurrentScreen(screenId)"
-        class="screen-item"
+        class="screen-item row-space-between"
       >
-        {{ screenName }}
+        {{ screen.name }}
+      <v-btn icon @click="openScreenEditingTool(screenId, screen.name)">
+        <font-awesome-icon icon="pen-to-square" style="fontSize: 1rem"/>
+      </v-btn>
       </div>
     </div>
   </div>
@@ -26,16 +29,19 @@ export default {
   name: 'ScreenManager',
   computed: {
     ...mapGetters({
-      screens: 'getMinimalScreensInfo'
+      screens: 'getScreensInfo'
     }),
   },
   methods: {
     changeCurrentScreen(id) {
       this.$store.dispatch('actionSetCurrentScreen', id)
     },
-    openNewScreenCreationModal() {
+    openNewScreenCreationTool() {
       this.$emit('newScreenCreation:show');
     },
+    openScreenEditingTool(id, screenName) {
+      this.$emit('screenEditingTool:show', id, screenName);
+    }
   }
 }
 </script>
@@ -46,12 +52,6 @@ export default {
   display: flex;
   flex-direction: column;
   padding-inline: 10px;
-}
-
-.subheader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .screens-box-container {

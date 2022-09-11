@@ -94,11 +94,12 @@ export default {
         v => /^\+?\d+$/.test(v) || 'Value must be an integer.'
       ],
       projectNameRules: [
-        v => !!v || 'Project Name is required',
+        v => !!v || 'Project name is required',
       ],
       valid: false,
       dimensions: [
         '1920x1080(16:9)',
+        '800x600(4x3)',
       ],
       chosenStandardDimensions: '1920x1080(16:9)',
     }
@@ -110,13 +111,13 @@ export default {
         'description': this.projectDescription || ''
       }
       if (this.customDimensions) {
-        payload['width'] = this.customWidth;
-        payload['height'] = this.customHeight;
+        payload.width = this.customWidth;
+        payload.height = this.customHeight;
       } else {
         let dividerIndex = this.chosenStandardDimensions.indexOf('x');
         let aspectRatioStartIndex = this.chosenStandardDimensions.indexOf('(');
-        payload['width'] = this.chosenStandardDimensions.slice(0, dividerIndex);
-        payload['height'] = this.chosenStandardDimensions.slice(dividerIndex + 1, aspectRatioStartIndex);
+        payload.width = this.chosenStandardDimensions.slice(0, dividerIndex);
+        payload.height = this.chosenStandardDimensions.slice(dividerIndex + 1, aspectRatioStartIndex);
       }
       console.log(payload);
       // TODO: this is a mock

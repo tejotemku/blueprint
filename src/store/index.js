@@ -9,7 +9,6 @@ const state = {
     title: "unknown_project_name",
     screens: {
       '0': {
-        id: '0',
         name: "",
         elements: [ ]
       },
@@ -36,6 +35,19 @@ export const mutations = {
   },
   addElementToCurrentScreenElements(state, element) {
     state.projectData.screens[state.projectData.currentScreenId].elements.push(element);
+  },
+  addScreenToProject(state, name) {
+    const id = Date.now();
+    state.projectData.screens[id] = {
+      name: name,
+      elements: []
+    };
+  },
+  removeScreenFromProject(state, id) {
+    delete state.projectData.screens[id];
+  },
+  changeScreenName(state, data) {
+    state.projectData.screens[data.id].name = data.name;
   }
 }
 
@@ -57,6 +69,15 @@ export const actions = {
   },
   actionAddElementToCurrentScreenElements(state, data) {
     state.commit('addElementToCurrentScreenElements', data);
+  },
+  actionsAddScreenToProject(state, data) {
+    state.commit('addScreenToProject', data)
+  },
+  actionsRemoveScreenFromProject(state, data) {
+    state.commit('removeScreenFromProject', data)
+  },
+  actionChangeScreenName(state, data) {
+    state.commit('changeScreenName', data)
   }
 }
 
@@ -76,14 +97,9 @@ export const getters =  {
   getDraggedItem() {
     return state.draggedItem;
   },
-  getMinimalScreensInfo() {
-    let screens = {};
-    Object.keys(state.projectData.screens).forEach(screenId => {
-      screens[screenId] = state.projectData.screens[screenId].name;
-    })
-    return screens;
+  getScreensInfo() {
+    return state.projectData.screens;
   }
-
 }
 
 export default new Vuex.Store({

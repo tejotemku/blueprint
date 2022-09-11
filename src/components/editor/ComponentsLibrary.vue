@@ -37,8 +37,7 @@ export default {
     }
   },
   beforeMount() {
-    this.buttons = buttonComponents()
-    console.log(this.buttons);
+    this.buttons = buttonComponents();
   } 
 }
 </script>

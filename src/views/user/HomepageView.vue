@@ -2,7 +2,7 @@
   <div>
     <LoggedInNavbar />
     <div class="homepage-content">
-      <div class="my-2 homepage-tools-row">
+      <div class="my-2 homepage-tools-row row-space-between">
         <v-text-field  
           v-model="projectSearchBarValue"
           label="Search by project name..."
@@ -21,7 +21,7 @@
         </v-btn>
       </div>
       <v-row class="projects-row">
-        <ProjectPreview v-for="item in getUserProjects().filter(v => filterProjectsByName(v))" :key="item['id']" :projectData="item"/>
+        <ProjectPreview v-for="item in getUserProjects().filter(v => filterProjectsByName(v))" :key="item.id" :projectData="item"/>
       </v-row>
     </div>
   </div>
@@ -66,7 +66,7 @@ export default {
       router.push(`/create-project`);
     },
     filterProjectsByName(value) {
-      return value['name'].indexOf(this.projectSearchBarValue) != -1
+      return value.name.indexOf(this.projectSearchBarValue) != -1
     }
   },
   beforeMount() {
@@ -88,11 +88,7 @@ export default {
   max-width: 400px;
 }
 .homepage-tools-row {
-  display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  
 }
 
 </style>

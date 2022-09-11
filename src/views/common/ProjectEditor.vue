@@ -12,18 +12,24 @@
     <div class="project-view">
         <ScreenElementsManager />
         <AssetsManager />
-        <ScreenManager @newScreenCreation:show="isOn_NewScreenCreation=true"/>
+        <ScreenManager 
+          @newScreenCreation:show="showNewScreenCreator" 
+          @screenEditingTool:show="showScreenEditingTool"
+        />
         <ComponentsLibrary />
       <PrototypeScreenEditorArea  />
     </div>
     <Modal 
       :isOn="isOn_NewScreenCreation"
-      @modal:hide="isOn_NewScreenCreation=false"
+      @modal:hide="hideModal"
     >
-      <NewScreenCreation />
+      <ManageScreenTool 
+        @closeTool="hideModal" 
+        :editingMode="screnManagerToolEditingMode"
+        :screenInfo="screenToEditData"
+      />
     </Modal>
     <!-- Project Editor site - project id {{this.$route.params.id}} -->
-    <!-- TODO: Library -->
   </div>
 </template>
 
@@ -35,7 +41,7 @@ import PrototypeScreenEditorArea from '../../components/editor/PrototypeScreenEd
 import ScreenManager from '../../components/editor/ScreenManager.vue'
 import ComponentsLibrary from '../../components/editor/ComponentsLibrary.vue'
 import Modal from '../../components/general/Modal.vue'
-import NewScreenCreation from '../../components/editor/NewScreenCreation.vue'
+import ManageScreenTool from '../../components/editor/ManageScreenTool.vue'
 import { projectData } from '../../mocks/projectDataMock.js'
 import { generatePrototype } from '../../common/generatePrototype.js'
 
@@ -51,12 +57,14 @@ export default {
     ScreenManager,
     ComponentsLibrary,
     Modal,
-    NewScreenCreation
+    ManageScreenTool
   },
   data() {
     return {
       projectData: {},
-      isOn_NewScreenCreation: false
+      isOn_NewScreenCreation: false,
+      screnManagerToolEditingMode: false,
+      screenToEditData: {}
     }
   },
   beforeMount() {
@@ -80,6 +88,22 @@ export default {
     },
     generatePrototypeActions() {
       generatePrototype();
+    },
+    hideModal() {
+      this.isOn_NewScreenCreation = false;
+    },
+    showNewScreenCreator() {
+      this.screnManagerToolEditingMode = false;
+      this.screenToEditData = {};
+      this.isOn_NewScreenCreation = true;
+    },
+    showScreenEditingTool(id, screenName) {
+      this.screnManagerToolEditingMode = true;
+      this.screenToEditData = {
+        id: id,
+        name: screenName
+      }
+      this.isOn_NewScreenCreation = true;
     }
   }
 }

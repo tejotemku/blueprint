@@ -23,4 +23,9 @@ export default {
   width: 100vw;
   height: 100vh;
 }
+.row-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 </style>

@@ -72,6 +72,7 @@ export const projectData = () => {
       'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic6.png',
       'https://raw.githubusercontent.com/Stowarzyszenie-Umarlych-Kotletow/nerdchat/master/my-app/public/assets/NerdchatDefPic7.png',
     ],
-    currentScreenId: '1231sda3q2'
+    currentScreenId: '1231sda3q2',
+    defaultScreenId: '1231sda3q2',
   }
 }
