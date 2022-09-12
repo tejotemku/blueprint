@@ -14,12 +14,10 @@
       :zIndex="index"
       v-html="el.html"
       :elementId="el.id"
-      :class="el.id===selectedItem? 'selected-item':'' "
-    >
-    </DragableElement>
+      :class="isSelectedItem(el.id)"
+    />
   </div>
 </template>
-
 <script>
 import DragableElement from "./DragableElement.vue"
 import { mapGetters } from "vuex";
@@ -55,18 +53,29 @@ export default {
       const sourceItem = this.$store.getters.getDraggedItem;
       if (sourceItem) {
         // new object is created to avoid deep copies
+        const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
+        const widthConstraint = prototypeScreenEditorArea.offsetWidth;
+        const heightConstraint = prototypeScreenEditorArea.offsetHeight;
         let item = {
           ...sourceItem,
           id: Date.now() + '',
-          top: e.y - e.target.offsetTop,
-          left: e.x - e.target.offsetLeft,
+          top: this.between(e.y - e.target.offsetTop, 0, heightConstraint),
+          left: this.between(e.x - e.target.offsetLeft, 0, widthConstraint)
         }
         this.$store.dispatch('actionAddElementToCurrentScreen', item);
         this.$store.dispatch('actionResetDraggedItem');
       }
     },
+    between(x, min_v, max_v) {
+      x = Math.min(x, max_v);
+      x = Math.max(x, min_v);
+      return x;
+    },
     resetSelectedItem() {
         this.$store.dispatch('actionResetSelectedElementId');
+    },
+    isSelectedItem(id) {
+      return id == this.selectedItem ? 'selected-item ' : ''; 
     }
   }
 }
@@ -77,10 +86,10 @@ export default {
   width: 65vw;
   height: 65vh;
   margin-inline: 0 auto;
-  background-color: rgb(194, 237, 205);
+  background-color: rgb(238, 240, 225);
 }
 .selected-item {
-  outline: 3px dotted rgb(48, 137, 201);
+  outline:  3px dashed rgb(48, 137, 201);
   
 }
 </style>
