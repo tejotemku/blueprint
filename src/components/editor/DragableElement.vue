@@ -8,6 +8,7 @@
         zIndex: 2999 - this.zIndex,
         opacity: this.itemOpacity
     }"
+    @click.stop="setAsSelected"
     class="prevent-select"
     ref="dragableElement"
   >
@@ -31,6 +32,10 @@ export default {
       type: Number,
       default: 0,
     },
+    elementId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -74,6 +79,9 @@ export default {
       this.itemOpacity = 1;
       document.onmouseup = null;
       document.onmousemove = null;
+    },
+    setAsSelected() {
+      this.$store.dispatch("actionSetSelectedElementId", this.elementId);
     }
   },
 }

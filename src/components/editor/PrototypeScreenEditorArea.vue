@@ -4,6 +4,7 @@
     @drop.prevent="droppedItem" 
     @dragenter.prevent
     @dragover.prevent
+    @click="resetSelectedItem"
     >
     <DragableElement
       v-for="el, index in processedElements" 
@@ -12,6 +13,8 @@
       :left="el.left"
       :zIndex="index"
       v-html="el.html"
+      :elementId="el.id"
+      :class="el.id===selectedItem? 'selected-item':'' "
     >
     </DragableElement>
   </div>
@@ -29,7 +32,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentScreenElements: 'getCurrentScreenElementsData'
+      currentScreenElements: 'getCurrentScreenElementsData',
+      selectedItem: 'getSelectedItemId'
     }),
     processedElements: function () {
       const elements = this.currentScreenElements;
@@ -57,9 +61,12 @@ export default {
           top: e.y - e.target.offsetTop,
           left: e.x - e.target.offsetLeft,
         }
-        this.$store.dispatch('actionAddElementToCurrentScreen', item)
+        this.$store.dispatch('actionAddElementToCurrentScreen', item);
         this.$store.dispatch('actionResetDraggedItem');
       }
+    },
+    resetSelectedItem() {
+        this.$store.dispatch('actionResetSelectedElementId');
     }
   }
 }
@@ -71,5 +78,9 @@ export default {
   height: 570px;
   margin: 0 auto;
   background-color: rgb(194, 209, 237);
+}
+.selected-item {
+  border: 6px solid rgb(48, 137, 201);
+  border-radius: 4px;
 }
 </style>

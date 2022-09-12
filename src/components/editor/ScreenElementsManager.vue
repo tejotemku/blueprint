@@ -10,11 +10,16 @@
         ghost-class="ghost"
         @change="heirarchyChanged"
       >
-        <v-list-item v-for="element in screenElements" :key="element.id" draggable>
+        <v-list-item 
+          v-for="element in screenElements" 
+          :key="element.id" 
+          draggable 
+          @click="setElementAsSelected(element.id)"
+        >
           <v-list-item-content>
             <v-list-item-title class="screen-item row-space-between list-item-laylout"> 
               {{ element.description }}
-              <v-btn icon @click="openElementEditingTool(element.id, element.properties, element.description)">
+              <v-btn icon @click.stop="openElementEditingTool(element.id, element.properties, element.description)">
                 <font-awesome-icon icon="pen-to-square" style="fontSize: 1rem"/>
               </v-btn>
             </v-list-item-title>
@@ -60,6 +65,9 @@ export default {
     openElementEditingTool(id, properties, description) {
       this.$emit('elementEditingTool:show', id, properties, description)
     },
+    setElementAsSelected(id) {
+      this.$store.dispatch("actionSetSelectedElementId", id);
+    }
   },
   beforeMount() {
     this.screenElements = this.getCurrentScreenElementsData;

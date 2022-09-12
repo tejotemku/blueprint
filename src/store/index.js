@@ -15,8 +15,9 @@ const state = {
     },
     assets: [ ],
     currentScreenId: '0',
-    defaultScreenId: '0'
+    defaultScreenId: '0',
   },
+  selectedElementId: null,
   draggedItem: null,
   userToken: null,
 }
@@ -76,6 +77,9 @@ export const mutations = {
   },
   setDefaultScreenId(state, screenId) {
     state.projectData.defaultScreenId = screenId;
+  },
+  setSelectedElementId(state, elementId) {
+    state.selectedElementId = elementId;
   }
 }
 
@@ -115,7 +119,13 @@ export const actions = {
   },
   actionSetDefaultScreenId(state, data) {
     state.commit('setDefaultScreenId', data);
-  }
+  },
+  actionSetSelectedElementId(state, data) {
+    state.commit('setSelectedElementId', data);
+  },
+  actionResetSelectedElementId(state) {
+    state.commit('setSelectedElementId', null);
+  },
 }
 
 export const getters =  {
@@ -139,6 +149,9 @@ export const getters =  {
   },
   getDefaultScreenId() {
     return state.projectData.defaultScreenId;
+  },
+  getSelectedItemId() {
+    return state.selectedElementId;
   }
 }
 
