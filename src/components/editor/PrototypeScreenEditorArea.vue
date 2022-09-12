@@ -74,13 +74,13 @@ export default {
 <style scoped>
 #prototype-screen-editor-area {
   position: relative;
-  width: 1000px;
-  height: 570px;
-  margin: 0 auto;
-  background-color: rgb(194, 209, 237);
+  width: 65vw;
+  height: 65vh;
+  margin-inline: 0 auto;
+  background-color: rgb(194, 237, 205);
 }
 .selected-item {
-  border: 6px solid rgb(48, 137, 201);
-  border-radius: 4px;
+  outline: 3px dotted rgb(48, 137, 201);
+  
 }
 </style>

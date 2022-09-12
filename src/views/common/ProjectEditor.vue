@@ -19,7 +19,7 @@
           @screenEditingTool:show="showScreenEditingTool"
         />
         <ComponentsLibrary />
-      <PrototypeScreenEditorArea  />
+      <PrototypeScreenEditorArea style="bottom: 10vh !important" />
     </div>
     <Modal 
       v-if="isModalOn()"

@@ -14,15 +14,16 @@
           v-for="element in screenElements" 
           :key="element.id" 
           draggable 
+          class="padding-block-zero"
           @click="setElementAsSelected(element.id)"
         >
-          <v-list-item-content>
-            <v-list-item-title class="screen-item row-space-between list-item-laylout"> 
+          <v-list-item-content class="padding-block-zero">
+            <v-list-item-text class="screen-item row-space-between list-item-laylout"> 
               {{ element.description }}
               <v-btn icon @click.stop="openElementEditingTool(element.id, element.properties, element.description)">
                 <font-awesome-icon icon="pen-to-square" style="fontSize: 1rem"/>
               </v-btn>
-            </v-list-item-title>
+            </v-list-item-text>
           </v-list-item-content>
         </v-list-item>
       </draggable>
@@ -88,11 +89,20 @@ export default {
   overflow-y: auto;
 }
 
+.screen-item {
+  font-size: small;
+  padding-block: 0px;
+}
+
 .ghost {
   opacity: 0.5;
 }
 
 .list-item-laylout {
   align-items: center;
+}
+
+.padding-block-zero {
+  padding-block: 0 !important;
 }
 </style>
