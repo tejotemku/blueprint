@@ -40,9 +40,11 @@
         Cancel
       </v-btn>
 
+      <!-- Removing screen dialog -->
       <v-dialog 
         v-model="showRemoveDialog"
-        v-if="editingMode" width="500"
+        v-if="editingMode" 
+        width="500"
       >
         <template v-slot:activator="{ on }">
           <v-btn
@@ -73,7 +75,6 @@
               class="mr-4"
               @click="showRemoveDialog=false"
             >
-            <!--TODO: proper hiding of dialog window-->
               No, don't delete.
             </v-btn>
           </v-card-actions>

@@ -57,7 +57,7 @@ export default {
           top: e.y - e.target.offsetTop,
           left: e.x - e.target.offsetLeft,
         }
-        this.$store.dispatch('actionAddElementToCurrentScreenElements', item)
+        this.$store.dispatch('actionAddElementToCurrentScreen', item)
         this.$store.dispatch('actionResetDraggedItem');
       }
     }

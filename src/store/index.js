@@ -34,8 +34,12 @@ export const mutations = {
   setCurrentScreen(state, screenId) {
     state.projectData.currentScreenId = screenId;
   },
-  addElementToCurrentScreenElements(state, element) {
+  addElementToCurrentScreen(state, element) {
     state.projectData.screens[state.projectData.currentScreenId].elements.unshift(element);
+  },
+  removeElementFromCurrentScreen(state, elementId) {
+    const newElements = state.projectData.screens[state.projectData.currentScreenId].elements.filter( el => el.id != elementId);
+    state.projectData.screens[state.projectData.currentScreenId].elements = newElements;
   },
   addScreenToProject(state, data) {
     const oldScreens = state.projectData.screens;
@@ -91,8 +95,11 @@ export const actions = {
   actionSetCurrentScreen(state, data) {
     state.commit('setCurrentScreen', data)
   },
-  actionAddElementToCurrentScreenElements(state, data) {
-    state.commit('addElementToCurrentScreenElements', data);
+  actionAddElementToCurrentScreen(state, data) {
+    state.commit('addElementToCurrentScreen', data);
+  },
+  actionRemoveElementFromCurrentScreen(state, data) {
+    state.commit('removeElementFromCurrentScreen', data);
   },
   actionsAddScreenToProject(state, data) {
     state.commit('addScreenToProject', data)

@@ -71,6 +71,48 @@
       >
         Cancel
       </v-btn>
+
+
+      <!-- Removing element dialog -->
+      <v-dialog 
+        v-model="showRemoveDialog"
+        width="500"
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            class="mr-4"
+            v-on="on"
+          >
+            Remove
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            Are you sure?
+          </v-card-title>
+          <v-card-text>
+            Are you sure you want to delete element {{elementDescription}}?
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              :disabled="!valid"
+              color="success"
+              class="mr-4"    
+              @click="deleteElement"        
+            >
+              Yes, delete.
+            </v-btn>
+            <v-btn
+              color="error"
+              class="mr-4"
+              @click="showRemoveDialog=false"
+            >
+              No, don't delete.
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-form>  
   </div>
   
@@ -95,6 +137,7 @@ export default {
   },
   data() {
     return {
+      showRemoveDialog: false,
       description: '',
       descriptionRules: [
         v => !!v || 'Description is required',
@@ -129,6 +172,10 @@ export default {
       };
       this.$emit('closeTool');
     },
+    deleteElement() {
+      this.$store.dispatch('actionRemoveElementFromCurrentScreen', this.elementId);
+      this.close();
+    }
   },
   beforeMount() {
     this.description = this.elementDescription;
