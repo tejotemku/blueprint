@@ -1,5 +1,5 @@
 <template>
-  <div class="new-screen-creation-tool-box">
+  <div class="manage-screen-tool-box">
     <v-form
       ref="form"
       v-model="valid"
@@ -18,6 +18,12 @@
         outlined
         dense
       />
+      <v-switch
+        v-model="setThisAsDefaultScreen"
+        v-if="!isDefaultScreen()"
+        label="Set as default screen?"
+      >
+      </v-switch>
       <v-btn
         :disabled="!valid"
         color="success"
@@ -33,12 +39,55 @@
       >
         Cancel
       </v-btn>
+
+      <v-dialog 
+        v-model="showRemoveDialog"
+        v-if="editingMode" width="500"
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            class="mr-4"
+            v-on="on"
+          >
+            Remove
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            Are you sure?
+          </v-card-title>
+          <v-card-text>
+            Are you sure you want to delete screen {{screenName}}?
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              :disabled="!valid"
+              color="success"
+              class="mr-4"    
+              @click="deleteScreen"        
+            >
+              Yes, delete.
+            </v-btn>
+            <v-btn
+              color="error"
+              class="mr-4"
+              @click="showRemoveDialog=false"
+            >
+            <!--TODO: proper hiding of dialog window-->
+              No, don't delete.
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-form>  
   </div>
   
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: 'ManageScreenTool',
   props: {
@@ -53,6 +102,8 @@ export default {
   },
   data() {
     return {
+      showRemoveDialog: false,
+      setThisAsDefaultScreen: false,
       screenName: '',
       screenNameRules: [
         v => !!v || 'Screen name is required',
@@ -60,37 +111,58 @@ export default {
       valid: false,
     }
   },
+  computed: {
+    ...mapGetters({
+      defaultScreenId: 'getDefaultScreenId'
+    }),
+  },
   methods: {
     cancel() {
-      this.screenName = '';
       this.close();
     },
     confirm() {
+      let id = this.screenInfo.id || Date.now() + '';
       if (this.editingMode) {
         this.$store.dispatch('actionChangeScreenName', {
-            id: this.screenInfo.id, 
+            id: id, 
             name: this.screenName
         });
       } else {
-        this.$store.dispatch('actionsAddScreenToProject', this.screenName);
+        this.$store.dispatch('actionsAddScreenToProject',  {
+            id: id, 
+            name: this.screenName
+        });
+      }
+      if (this.setThisAsDefaultScreen) {
+        this.$store.dispatch('actionSetDefaultScreenId', id);
       }
       this.close();
     },
     close() {
+      this.screenName = '';
       this.$emit('closeTool');
-
+    },
+    deleteScreen() {
+      this.$store.dispatch('actionsRemoveScreenFromProject', this.screenInfo.id);
+      this.showRemoveDialog = false;
+      this.close()
+    },
+    isDefaultScreen() {
+      return this.defaultScreenId == this.screenInfo.id;
     }
   },
   beforeMount() {
     if (this.editingMode) {
       this.screenName = this.screenInfo.name ? this.screenInfo.name : ''
+    } else {
+      this.screenName = '';
     }
   }
 }
 </script>
 
 <style scoped>
-.new-screen-creation-tool-box {
+.manage-screen-tool-box {
   background-color: rgba(245, 245, 220, 1);
   padding-inline: 30px;
   padding-block: 15px;

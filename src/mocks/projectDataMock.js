@@ -8,7 +8,7 @@ export const projectData = () => {
         name: "Mock Screen 1",
         elements: [
           {
-            id: 0,
+            id: '0',
             type: 'Button',
             top: 60,
             left: 50,
@@ -20,7 +20,7 @@ export const projectData = () => {
             }
           },
           {
-            id: 2,
+            id: '2',
             type: 'InputField',
             top: 60,
             left: 300,
@@ -33,7 +33,7 @@ export const projectData = () => {
             }
           },
           {
-            id: 3,
+            id: '3',
             type: 'Image',
             top: 160,
             left: 300,
@@ -42,6 +42,7 @@ export const projectData = () => {
               src: 'https://i.stack.imgur.com/sjpNp.png',
               width: '256',
               height: '128',
+              imageLimitMode: 'crop',
             }
           },
         ]
@@ -50,7 +51,7 @@ export const projectData = () => {
         name: "Mock Screen 2",
         elements: [
           {
-            id: 1,
+            id: '1',
             type: 'Button',
             top: 100,
             left: 40,

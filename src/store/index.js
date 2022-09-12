@@ -15,6 +15,7 @@ const state = {
     },
     assets: [ ],
     currentScreenId: '0',
+    defaultScreenId: '0'
   },
   draggedItem: null,
   userToken: null,
@@ -34,20 +35,43 @@ export const mutations = {
     state.projectData.currentScreenId = screenId;
   },
   addElementToCurrentScreenElements(state, element) {
-    state.projectData.screens[state.projectData.currentScreenId].elements.push(element);
+    state.projectData.screens[state.projectData.currentScreenId].elements.unshift(element);
   },
-  addScreenToProject(state, name) {
-    const id = Date.now();
-    state.projectData.screens[id] = {
-      name: name,
-      elements: []
+  addScreenToProject(state, data) {
+    const oldScreens = state.projectData.screens;
+    // cheesy hack to force update after object mutation
+    state.projectData.screens = {
+      ...oldScreens,
+      [data.id]:{
+        name: data.name,
+        elements: []
+      }
     };
   },
   removeScreenFromProject(state, id) {
-    delete state.projectData.screens[id];
+    let oldScreens = { ...state.projectData.screens};
+    delete oldScreens[id];
+    state.projectData.screens = oldScreens;
+    if(id == state.projectData.currentScreenId) {
+      state.projectData.currentScreenId = Object.keys(state.projectData.screens)[0];
+    }
+    if(id == state.projectData.defaultScreenId) {
+      state.projectData.defaultScreenId = Object.keys(state.projectData.screens)[0];
+    }
   },
   changeScreenName(state, data) {
     state.projectData.screens[data.id].name = data.name;
+  },
+  editElementProperties(state, data) {
+    let elements = state.projectData.screens[state.projectData.currentScreenId].elements;
+    let result = elements.find(element => {
+      return element.id == data.id;
+    })
+    result.properties = { ...data.properties};
+    result.description = data.description;
+  },
+  setDefaultScreenId(state, screenId) {
+    state.projectData.defaultScreenId = screenId;
   }
 }
 
@@ -78,6 +102,12 @@ export const actions = {
   },
   actionChangeScreenName(state, data) {
     state.commit('changeScreenName', data)
+  },
+  actionEditElementProperties(state, data) {
+    state.commit('editElementProperties', data);
+  },
+  actionSetDefaultScreenId(state, data) {
+    state.commit('setDefaultScreenId', data);
   }
 }
 
@@ -99,6 +129,9 @@ export const getters =  {
   },
   getScreensInfo() {
     return state.projectData.screens;
+  },
+  getDefaultScreenId() {
+    return state.projectData.defaultScreenId;
   }
 }
 

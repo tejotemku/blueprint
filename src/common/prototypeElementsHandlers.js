@@ -21,8 +21,13 @@ export const generateElementHtml = (element) => {
   function handleImage() {
     // General Properties
     // src - url to image
+    // imageLimitMode - should image be cropped od scaled down or what
+    const imageLimitModes = {
+      'scale': 'contain',
+      'crop': 'cover'
+    }
     const style = `
-      ${element.properties.height || element.properties.width? 'object-fit: contain;': ''} 
+      ${element.properties.height || element.properties.width? 'object-fit:' + imageLimitModes[element.properties.imageLimitMode] + ';': ''} 
     `;
     generatedHtml  = `<img src="${element.properties.src}" style="${positionStyle + style}" />`;
   }
@@ -58,11 +63,11 @@ export const generateElementHtml = (element) => {
   function handleShape() {
     // General Properties
     // shape - shape html
-    // shapeColor - background color of shape
+    // backgroundColor - background color of shape
 
     
     const style = `
-    ${element.properties.shapeColor? 'background-color: ' + element.properties.shapeColor + ';' : ''} 
+    ${element.properties.backgroundColor? 'background-color: ' + element.properties.backgroundColor + ';' : ''} 
     `;
     generatedHtml  = `<div style="${positionStyle + style}"> ${element.properties.shape} </div>`;
   }

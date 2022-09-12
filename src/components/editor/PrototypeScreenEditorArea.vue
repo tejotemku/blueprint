@@ -53,7 +53,7 @@ export default {
         // new object is created to avoid deep copies
         let item = {
           ...sourceItem,
-          id: Date.now(),
+          id: Date.now() + '',
           top: e.y - e.target.offsetTop,
           left: e.x - e.target.offsetLeft,
         }

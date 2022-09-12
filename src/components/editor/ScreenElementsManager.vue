@@ -12,7 +12,12 @@
       >
         <v-list-item v-for="element in screenElements" :key="element.id" draggable>
           <v-list-item-content>
-            <v-list-item-title> {{ element.description }} </v-list-item-title>
+            <v-list-item-title class="screen-item row-space-between list-item-laylout"> 
+              {{ element.description }}
+              <v-btn icon @click="openElementEditingTool(element.id, element.properties, element.description)">
+                <font-awesome-icon icon="pen-to-square" style="fontSize: 1rem"/>
+              </v-btn>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </draggable>
@@ -30,13 +35,16 @@ export default {
   },
   name: 'ScreenElementsManager',
   computed: {
-    ...mapGetters({
-      currentScreenElements: 'getCurrentScreenElementsData'
-    }),
+    ...mapGetters([
+      'getCurrentScreenElementsData',
+    ]),
   },
   watch: {
-    currentScreenElements: function(val) {
+    getCurrentScreenElementsData: function(val) {
       this.screenElements = val;
+    },
+    getDefaultScreenId: function(val) {
+      this.deaultScreenId = val;
     }
   },
   data() {
@@ -48,10 +56,14 @@ export default {
   methods: {
     heirarchyChanged() {
       this.$store.dispatch("actionSetCurrentScreenElements", this.screenElements);
-    }
+    },
+    openElementEditingTool(id, properties, description) {
+      this.$emit('elementEditingTool:show', id, properties, description)
+    },
   },
   beforeMount() {
-    this.screenElements = this.currentScreenElements;
+    this.screenElements = this.getCurrentScreenElementsData;
+    this.deaultScreenId = this.getDefaultScreenId;
   },
 }
 </script>
@@ -70,5 +82,9 @@ export default {
 
 .ghost {
   opacity: 0.5;
+}
+
+.list-item-laylout {
+  align-items: center;
 }
 </style>

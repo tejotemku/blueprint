@@ -21,7 +21,8 @@ import {
   faAngleDoubleDown,
   faAngleDown,
   faPenToSquare,
-  faXmark
+  faXmark,
+  faHouse
 } from '@fortawesome/free-solid-svg-icons';
 import '@babel/polyfill'
 
@@ -35,7 +36,8 @@ library.add(
   faAngleDoubleDown,
   faAngleDown,
   faPenToSquare,
-  faXmark
+  faXmark,
+  faHouse
   )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

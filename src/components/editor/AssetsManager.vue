@@ -10,6 +10,9 @@
           description: 'Image',
           properties: {
             src: asset,
+            width: 0,
+            height: 0,
+            imageLimitMode: 'scale'
           }
         }" 
       >

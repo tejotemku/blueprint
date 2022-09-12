@@ -13,7 +13,7 @@
         @click="changeCurrentScreen(screenId)"
         class="screen-item row-space-between"
       >
-        {{ screen.name }}
+      <span> {{ screen.name }} <font-awesome-icon v-if="isDefaultScreen(screenId)" icon="house" style="fontSize: 0.7rem"/> </span>
       <v-btn icon @click="openScreenEditingTool(screenId, screen.name)">
         <font-awesome-icon icon="pen-to-square" style="fontSize: 1rem"/>
       </v-btn>
@@ -29,7 +29,8 @@ export default {
   name: 'ScreenManager',
   computed: {
     ...mapGetters({
-      screens: 'getScreensInfo'
+      screens: 'getScreensInfo',
+      defaultScreenId: 'getDefaultScreenId'
     }),
   },
   methods: {
@@ -41,7 +42,10 @@ export default {
     },
     openScreenEditingTool(id, screenName) {
       this.$emit('screenEditingTool:show', id, screenName);
-    }
+    },
+    isDefaultScreen(id) {
+      return this.defaultScreenId == id;
+    },
   }
 }
 </script>

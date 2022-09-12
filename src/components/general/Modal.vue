@@ -1,6 +1,5 @@
 <template>
   <div 
-    v-if="isOn" 
     class="background"
     @keydown.esc="hideScreen"
     @click="hideScreen"
@@ -16,12 +15,6 @@
 
 export default {
   name: 'Modal',
-  props: {
-    isOn: {
-      type: Boolean,
-      default: false
-    }
-  },
   methods: {
     hideScreen() {
       this.$emit('modal:hide');
@@ -44,6 +37,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding-block: 30px;
 }
 
 </style>

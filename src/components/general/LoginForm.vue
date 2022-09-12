@@ -80,14 +80,14 @@ export default {
       }
     },
     acceptLogin() {
-      console.log('Logged in correctly :D');
+      console.log('Logged in correctly');
       router.push(`/home`);
       // TODO: set user token
     },
     rejectLogin() {
       this.email=null;
       this.password=null;
-      console.log('Logged in incorrectly :X');
+      console.log('Logged in incorrectly');
       alert("Email or password incorrect.");
     },
     goToFrontpage() {
