@@ -60,7 +60,8 @@ export default {
           ...sourceItem,
           id: Date.now() + '',
           top: this.between(e.y - e.target.offsetTop, 0, heightConstraint),
-          left: this.between(e.x - e.target.offsetLeft, 0, widthConstraint)
+          left: this.between(e.x - e.target.offsetLeft, 0, widthConstraint),
+          redirect: null,
         }
         this.$store.dispatch('actionAddElementToCurrentScreen', item);
         this.$store.dispatch('actionResetDraggedItem');

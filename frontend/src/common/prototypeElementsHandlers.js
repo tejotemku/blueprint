@@ -1,20 +1,17 @@
 export const generateElementHtml = (element) => {
   const handlers = {
-    'Image': handleImage,
-    'Button': handleButton,
-    'InputField': handleInputField,
-    'Shape': handleShape
+    "Image": handleImage,
+    "Button": handleButton,
+    "InputField": handleInputField,
+    "Shape": handleShape
   }
-  let generatedHtml = '';
-  const positionStyle = `
-    ${element.properties.height? 'height: ' + element.properties.height + 'px;': ''} 
-    ${element.properties.width? 'width: ' + element.properties.width + 'px;': ''} 
-  `;
+  let generatedHtml = "";
+  const positionStyle = `${element.properties.height? "height: " + element.properties.height + "px;": ""} ${element.properties.width? "width: " + element.properties.width + "px;": ""}`;
   try {
      handlers[element.type]();
   }
   catch {
-    console.log('Unknown Element');
+    console.log("Unknown Element");
   }
   return generatedHtml;
 
@@ -23,12 +20,10 @@ export const generateElementHtml = (element) => {
     // src - url to image
     // imageLimitMode - should image be cropped od scaled down or what
     const imageLimitModes = {
-      'scale': 'contain',
-      'crop': 'cover'
+      "scale": "contain",
+      "crop": "cover"
     }
-    const style = `
-      ${element.properties.height || element.properties.width? 'object-fit:' + imageLimitModes[element.properties.imageLimitMode] + ';': ''} 
-    `;
+    const style = `${element.properties.height || element.properties.width? "object-fit:" + imageLimitModes[element.properties.imageLimitMode] + ";": ""}`;
     generatedHtml  = `<img src="${element.properties.src}" style="${positionStyle + style}" />`;
   }
 
@@ -39,11 +34,8 @@ export const generateElementHtml = (element) => {
       // backgroundColor - background color of button
       // class - preset class of a button
 
-    const style = `
-      ${element.properties.backgroundColor? 'background-color: ' + element.properties.backgroundColor + ';': ''} 
-      ${element.properties.textColor? 'color: ' + element.properties.textColor + ';' : ''} 
-    `;
-    generatedHtml  = `<button style="${positionStyle + style}" ${element.properties.class? 'class="' + element.properties.class + '"' :''} >${element.properties.text}</button>`;
+    const style = `${element.properties.backgroundColor? "background-color: " + element.properties.backgroundColor + ";": ""} ${element.properties.textColor? "color: " + element.properties.textColor + ";" : ""}`;
+    generatedHtml  = `<button style="${positionStyle + style}" ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} >${element.properties.text}</button>`;
   }
 
   function handleInputField() {
@@ -53,11 +45,8 @@ export const generateElementHtml = (element) => {
       // backgroundColor - background color of input field
       // class - preset class of a input field
       // inputType - type of html input field
-    const style = `
-      ${element.properties.backgroundColor? 'background-color: ' + element.properties.backgroundColor + ';' : ''} 
-      ${element.properties.textColor? 'color: ' + element.properties.textColor + ';' : ''} 
-    `;
-    generatedHtml  = `<input type="${element.properties.inputType}" ${element.properties.class? 'class="' + element.properties.class + '"' :''} style="${positionStyle + style}" placeholder="${element.properties.placeholder}" />`;
+    const style = `${element.properties.backgroundColor? "background-color: " + element.properties.backgroundColor + ";" : ""} ${element.properties.textColor? "color: " + element.properties.textColor + ";" : ""}`;
+    generatedHtml  = `<input type="${element.properties.inputType}" ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} style="${positionStyle + style}" placeholder="${element.properties.placeholder}" />`;
   }
 
   function handleShape() {
@@ -66,9 +55,7 @@ export const generateElementHtml = (element) => {
     // backgroundColor - background color of shape
 
     
-    const style = `
-    ${element.properties.backgroundColor? 'background-color: ' + element.properties.backgroundColor + ';' : ''} 
-    `;
+    const style = `${element.properties.backgroundColor? "background-color: " + element.properties.backgroundColor + ";" : ""}`;
     generatedHtml  = `<div style="${positionStyle + style}"> ${element.properties.shape} </div>`;
   }
 }
