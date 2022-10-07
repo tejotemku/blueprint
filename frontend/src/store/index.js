@@ -74,6 +74,8 @@ export const mutations = {
     })
     result.properties = { ...data.properties};
     result.description = data.description;
+    result.top = data.top;
+    result.left = data.left;
   },
   setDefaultScreenId(state, screenId) {
     state.projectData.defaultScreenId = screenId;
@@ -126,6 +128,14 @@ export const actions = {
   actionResetSelectedElementId(state) {
     state.commit('setSelectedElementId', null);
   },
+  actionChangeElementPositionOnScreen(state, data) {
+    let elementData = state.state.projectData.screens[state.state.projectData.currentScreenId].elements.find(element => {
+      return element.id == data.elementId;
+    })
+    elementData.top = data.top;
+    elementData.left = data.left;
+    state.commit('editElementProperties', elementData);
+  }
 }
 
 export const getters =  {

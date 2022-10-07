@@ -67,8 +67,16 @@ export default {
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
-      this.$refs.dragableElement.style.top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight) + "px";
-      this.$refs.dragableElement.style.left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth) + "px";
+      let top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight);
+      let left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth);
+      let newElementData = {
+        top: top,
+        left: left,
+        elementId: this.elementId
+      }
+      this.$store.dispatch('actionChangeElementPositionOnScreen', newElementData);
+      this.$refs.dragableElement.style.top = top + "px";
+      this.$refs.dragableElement.style.left = left + "px";
     },
     between(x, min_v, max_v) {
       x = Math.min(x, max_v);
@@ -82,8 +90,31 @@ export default {
     },
     setAsSelected() {
       this.$store.dispatch("actionSetSelectedElementId", this.elementId);
-    }
+    },
+    maintainBoundries(offsetHalfOfTheSize=false) {
+      const element = this.$refs.dragableElement;
+      const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
+      const widthConstraint = prototypeScreenEditorArea.offsetWidth;
+      const heightConstraint = prototypeScreenEditorArea.offsetHeight;
+      let top = this.between(element.offsetTop - (element.offsetHeight/2) * offsetHalfOfTheSize, 0, heightConstraint - element.offsetHeight + (element.offsetHeight/2) * offsetHalfOfTheSize);
+      let left = this.between(element.offsetLeft - (element.offsetWidth/2) * offsetHalfOfTheSize, 0, widthConstraint - element.offsetWidth + (element.offsetWidth/2) * offsetHalfOfTheSize);
+      let newElementData = {
+        top: top,
+        left: left,
+        elementId: this.elementId
+      }
+      this.$store.dispatch('actionChangeElementPositionOnScreen', newElementData);
+      this.$refs.dragableElement.style.top = top + "px";
+      this.$refs.dragableElement.style.left = left + "px";
+    },
   },
+  mounted() {
+    this.maintainBoundries(true);
+    document.addEventListener('resize', () => {
+      console.log("resized window");
+      this.maintainBoundries();
+    });
+  }
 }
 
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div class="library-box-container">
     <v-subheader> COMPONENTS </v-subheader>
+    <!-- button -->
     <v-subheader> Buttons </v-subheader>
     <div class="library-box">
       <DragAndDropElement 
@@ -17,12 +18,54 @@
         v-html="btn.previewHtml"
       />
     </div>
+    <!-- input fields -->
+    <v-subheader> Input Fields </v-subheader>
+    <div class="library-box">
+      <DragAndDropElement 
+        v-for="inputField, index in inputFields"
+        :key="index"
+        :elementInfo="{
+          type: 'InputField',
+          description: 'InputField',
+          properties: {
+            class: inputField.class,
+            placeholder: 'input field',
+            inputType: inputField.inputType,
+            textColor: inputField.textColor,
+          }
+        }"
+        v-html="inputField.previewHtml"
+      />
+    </div>
+    <!-- shapes -->
+    <v-subheader> Shapes </v-subheader>
+    <div class="library-box">
+      <DragAndDropElement 
+        v-for="shape, index in shapes"
+        :key="index"
+        :elementInfo="{
+          type: 'Shape',
+          description: 'Shape',
+          properties: {
+            class: shape.class,
+            width: shape.width,
+            height: shape.height
+          }
+        }"
+        v-html="shape.previewHtml"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import DragAndDropElement from './DragAndDropElement.vue'
 import { buttonComponents } from '../../prototypeComponentsLibrary/buttons'
+import { shapesComponents } from '../../prototypeComponentsLibrary/shapes'
+import { inputFieldsComponents } from '../../prototypeComponentsLibrary/inputFields'
+
+
+
 
 export default {
   name: 'ComponentsLibrary',
@@ -32,13 +75,10 @@ export default {
   data() {
     return {
       buttons: buttonComponents(),
-      inputFields: [],
-      shapes: [],
+      inputFields: inputFieldsComponents(),
+      shapes: shapesComponents(),
     }
-  },
-  beforeMount() {
-    this.buttons = buttonComponents();
-  } 
+  }
 }
 </script>
 

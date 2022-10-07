@@ -168,6 +168,7 @@ export default {
   padding-inline: 30px;
   padding-block: 15px;
   border-radius: 10px;
+  z-index: 4000;
 }
 
 .modal-header {

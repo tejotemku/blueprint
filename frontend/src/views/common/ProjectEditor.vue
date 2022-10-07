@@ -1,5 +1,23 @@
 <template>
-  <div>
+  <div>    
+    <Modal 
+      v-if="isModalOn()"
+      @modal:hide="hideModal"
+    >
+      <ManageScreenTool
+        v-if="isOn_ScreenManagementTool"
+        @closeTool="hideModal" 
+        :editingMode="screnManagerToolEditingMode"
+        :screenInfo="screenToEditData"
+      />
+      <ManageElementsPropertiesTool
+        v-if="isOn_ManageElementsPropertiesTool"
+        @closeTool="hideModal" 
+        :elementProperties="elementProperties"
+        :elementId="elementId"
+        :elementDescription="elementDescription"
+      />
+    </Modal>
     <LoggedInNavbarVue>
       <v-btn
         color="secondary"
@@ -21,24 +39,7 @@
         <ComponentsLibrary />
       <PrototypeScreenEditorArea style="bottom: 10vh !important" />
     </div>
-    <Modal 
-      v-if="isModalOn()"
-      @modal:hide="hideModal"
-    >
-      <ManageScreenTool
-        v-if="isOn_ScreenManagementTool"
-        @closeTool="hideModal" 
-        :editingMode="screnManagerToolEditingMode"
-        :screenInfo="screenToEditData"
-      />
-      <ManageElementsPropertiesTool
-        v-if="isOn_ManageElementsPropertiesTool"
-        @closeTool="hideModal" 
-        :elementProperties="elementProperties"
-        :elementId="elementId"
-        :elementDescription="elementDescription"
-      />
-    </Modal>
+
     <!-- Project Editor site - project id {{this.$route.params.id}} -->
   </div>
 </template>

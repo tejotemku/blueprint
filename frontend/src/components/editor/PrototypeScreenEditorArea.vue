@@ -41,7 +41,7 @@ export default {
           id: el.id,
           top: el.top,
           left: el.left,
-          html: generateElementHtml(el)
+          html: generateElementHtml(el, true)
         }
         processedElements.push(processedElement);
       })
@@ -88,6 +88,7 @@ export default {
   height: 65vh;
   margin-inline: 0 auto;
   background-color: rgb(238, 240, 225);
+  z-index: 2500;
 }
 .selected-item {
   outline:  3px dashed rgb(48, 137, 201);

@@ -196,6 +196,7 @@ export default {
   border-radius: 10px;
   max-height: 90vh;
   display: block;
+  z-index: 4000;
 }
 
 .v-form-wrap {

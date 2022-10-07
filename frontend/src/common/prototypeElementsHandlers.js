@@ -1,4 +1,4 @@
-export const generateElementHtml = (element) => {
+export const generateElementHtml = (element, disableComponent=false) => {
   const handlers = {
     "Image": handleImage,
     "Button": handleButton,
@@ -46,7 +46,7 @@ export const generateElementHtml = (element) => {
       // class - preset class of a input field
       // inputType - type of html input field
     const style = `${element.properties.backgroundColor? "background-color: " + element.properties.backgroundColor + ";" : ""} ${element.properties.textColor? "color: " + element.properties.textColor + ";" : ""}`;
-    generatedHtml  = `<input type="${element.properties.inputType}" ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} style="${positionStyle + style}" placeholder="${element.properties.placeholder}" />`;
+    generatedHtml  = `<input ${disableComponent ? "diabled" : ""} type="${element.properties.inputType}" ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} style="${positionStyle + style}" placeholder="${element.properties.placeholder}" />`;
   }
 
   function handleShape() {
@@ -56,6 +56,6 @@ export const generateElementHtml = (element) => {
 
     
     const style = `${element.properties.backgroundColor? "background-color: " + element.properties.backgroundColor + ";" : ""}`;
-    generatedHtml  = `<div style="${positionStyle + style}"> ${element.properties.shape} </div>`;
+    generatedHtml  = `<div style="${positionStyle + style}" ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} />`;
   }
 }

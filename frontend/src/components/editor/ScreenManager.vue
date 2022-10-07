@@ -35,7 +35,9 @@ export default {
   },
   methods: {
     changeCurrentScreen(id) {
-      this.$store.dispatch('actionSetCurrentScreen', id)
+      this.$store.dispatch('actionSetCurrentScreen', id);
+      this.$emit('changed-screen');
+
     },
     openNewScreenCreationTool() {
       this.$emit('newScreenCreation:show');
