@@ -109,7 +109,7 @@ export default {
     },
   },
   mounted() {
-    this.maintainBoundries(true);
+    this.maintainBoundries(false);
     document.addEventListener('resize', () => {
       console.log("resized window");
       this.maintainBoundries();

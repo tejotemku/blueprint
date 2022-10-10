@@ -72,10 +72,10 @@ export const mutations = {
     let result = elements.find(element => {
       return element.id == data.id;
     })
-    result.properties = { ...data.properties};
-    result.description = data.description;
-    result.top = data.top;
-    result.left = data.left;
+    result.properties = { ...data.properties} || result.properties;
+    result.description = data.description || result.description;
+    result.top = data.top || result.top;
+    result.left = data.left || result.left;
   },
   setDefaultScreenId(state, screenId) {
     state.projectData.defaultScreenId = screenId;

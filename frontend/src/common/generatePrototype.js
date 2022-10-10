@@ -84,7 +84,6 @@ export const generatePrototype = function() {
         changeDisplayedScreen();
       }
       function changeDisplayedScreen() {
-        console.log("pepe");
         let container = document.getElementById("container");
         container.innerHTML  = screens[currScreenId];
       }
@@ -116,7 +115,7 @@ export const generatePrototype = function() {
       console.log(screenData);
       screenData.elements.forEach(function(element, index) {
         let elementHtml = generateElementHtml(element);
-        parsedScreens += `<div ${element.redirect? `onclick="changeDisplayedScreenId('${element.redirect}')"` : null} style="position:relative; top: ${element.top}px; left: ${element.left}px; z-index: ${9999 - index};">${elementHtml}</div>`
+        parsedScreens += `<div ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : null} style="position:relative; top: ${element.top}px; left: ${element.left}px; z-index: ${9999 - index};">${elementHtml}</div>`
       })
       parsedScreens += `\`,`;
     }

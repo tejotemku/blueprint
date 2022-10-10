@@ -13,8 +13,8 @@ export const projectData = () => {
             top: 60,
             left: 50,
             description: "Button - 1",
-            redirect: "fg43r23r",
             properties: {
+            redirect: "fg43r23r",
               text: 'Button - 1',
               backgroundColor: 'red',
               class: 'btn btn-primary'
@@ -26,8 +26,8 @@ export const projectData = () => {
             top: 60,
             left: 300,
             description: 'Email Field - 1',
-            redirect: null,
             properties: {
+            redirect: null,
               inputType: 'email',
               placeholder: 'e.g. gerwant@gmail.com',
               backgroundColor: 'cyan',
@@ -40,8 +40,8 @@ export const projectData = () => {
             top: 160,
             left: 300,
             description: 'Image - 1',
-            redirect: null,
             properties: {
+            redirect: null,
               src: 'https://i.stack.imgur.com/sjpNp.png',
               width: '256',
               height: '128',
@@ -59,8 +59,8 @@ export const projectData = () => {
             top: 100,
             left: 40,
             description: 'Button - 2',
-            redirect: "1231sda3q2",
             properties: {
+            redirect: "1231sda3q2",
               text: 'Button - 2',
               backgroundColor: '#f9c',
               textColor: 'white'

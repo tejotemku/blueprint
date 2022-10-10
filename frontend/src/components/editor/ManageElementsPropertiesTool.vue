@@ -42,7 +42,20 @@
             dense
           />
         </template> 
+        <template v-if="'redirect' in properties">
+          <v-select
+            v-model="properties.redirect"
+            :items="screensInfo"
+            label="Change to screen by clicking"
+            persistent-hint
+            class="mb-2"
+            outlined
+            dense
+          />
+        </template> 
 
+
+        
         <!-- Images properties-->
         <template v-if="'imageLimitMode' in properties">
           <v-select
@@ -123,6 +136,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
+
 export default {
   name: 'ManageElementsPropertiesTool',
   props: {
@@ -137,7 +153,7 @@ export default {
     elementDescription: {
       type: String,
       default: ''
-    },
+    }
   },
   data() {
     return {
@@ -157,6 +173,26 @@ export default {
       properties: {},
       valid: false,
     }
+  },
+  computed: {
+    ...mapGetters({
+      screens: 'getScreensInfo',
+    }),
+    screensInfo: function () {
+      const screens = this.screens;
+      let processedScreens = [{
+          text: "No redirect",
+          value: null,
+        }];
+      for (const [screenId, screenData] of Object.entries(screens)) {
+        const processedScreen = {
+          text: screenData.name,
+          value: screenId,
+        }
+        processedScreens.push(processedScreen);
+      }
+      return processedScreens;
+    } 
   },
   methods: {
     cancel() {

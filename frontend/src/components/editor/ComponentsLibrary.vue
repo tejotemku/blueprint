@@ -12,7 +12,10 @@
           description: 'Button',
           properties: {
             class: btn.class,
-            text: 'button'
+            text: 'button',
+            width: null,
+            height: null,
+            redirect: null,
           }
         }"
         v-html="btn.previewHtml"
@@ -32,6 +35,9 @@
             placeholder: 'input field',
             inputType: inputField.inputType,
             textColor: inputField.textColor,
+            width: null,
+            height: null,
+            redirect: null,
           }
         }"
         v-html="inputField.previewHtml"
@@ -49,7 +55,8 @@
           properties: {
             class: shape.class,
             width: shape.width,
-            height: shape.height
+            height: shape.height,
+            redirect: null,
           }
         }"
         v-html="shape.previewHtml"

@@ -56,12 +56,14 @@ export default {
         const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
         const widthConstraint = prototypeScreenEditorArea.offsetWidth;
         const heightConstraint = prototypeScreenEditorArea.offsetHeight;
+        const offsetTop = prototypeScreenEditorArea.offsetTop;
+        const offsetLeft = prototypeScreenEditorArea.offsetLeft;
+        console.log(e);
         let item = {
           ...sourceItem,
           id: Date.now() + '',
-          top: this.between(e.y - e.target.offsetTop, 0, heightConstraint),
-          left: this.between(e.x - e.target.offsetLeft, 0, widthConstraint),
-          redirect: null,
+          top: this.between(e.y - offsetTop, 0, heightConstraint),
+          left: this.between(e.x - offsetLeft, 0, widthConstraint),
         }
         this.$store.dispatch('actionAddElementToCurrentScreen', item);
         this.$store.dispatch('actionResetDraggedItem');
