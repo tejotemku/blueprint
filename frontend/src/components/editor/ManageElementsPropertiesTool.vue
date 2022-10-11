@@ -55,9 +55,25 @@
             dense
           />
         </template> 
+        <template v-if="'text' in properties">
+          <v-text-field
+            v-model="properties.text"
+            label="Label or placeholder"
+            class="mb-2"
+            outlined
+            dense
+            type="text"
+          />
+        </template> 
 
 
         
+        <!-- ========================= -->
+        <!-- ========================= -->
+        <!-- Unique properties editing -->
+        <!-- ========================= -->
+        <!-- ========================= -->
+
         <!-- Images properties-->
         <template v-if="'imageLimitMode' in properties">
           <v-select
@@ -71,7 +87,6 @@
             dense
           />
         </template>
-        <!-- Unique properties editing -->
 
       </div>
       <div class="button-row">

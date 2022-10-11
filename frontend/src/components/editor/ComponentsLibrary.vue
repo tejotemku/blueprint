@@ -35,7 +35,7 @@
           description: 'InputField',
           properties: {
             class: inputField.class,
-            text: 'input field',
+            text: null,
             inputType: inputField.inputType,
             textColor: inputField.textColor,
             width: null,
@@ -44,6 +44,26 @@
           }
         }"
         v-html="inputField.previewHtml"
+      />
+    </div>
+    <!-- text fields -->
+    <v-subheader> Text Fields </v-subheader>
+    <div class="library-box">
+      <DragAndDropElement 
+        v-for="textField, index in textFields"
+        :key="index"
+        :elementInfo="{
+          type: 'TextField',
+          description: 'Text Field',
+          properties: {
+            textColor: textField.textColor,
+            width: 200,
+            height: 150,
+            redirect: null,
+            text: 'Text Field Example Text'
+          }
+        }"
+        v-html="textField.previewHtml"
       />
     </div>
     <!-- shapes -->
@@ -73,6 +93,7 @@ import DragAndDropElement from './DragAndDropElement.vue'
 import { buttonComponents } from '../../prototypeComponentsLibrary/buttons'
 import { shapesComponents } from '../../prototypeComponentsLibrary/shapes'
 import { inputFieldsComponents } from '../../prototypeComponentsLibrary/inputFields'
+import { textFieldsComponents } from '../../prototypeComponentsLibrary/textFields'
 
 
 
@@ -87,6 +108,7 @@ export default {
       buttons: buttonComponents(),
       inputFields: inputFieldsComponents(),
       shapes: shapesComponents(),
+      textFields: textFieldsComponents(),
     }
   }
 }

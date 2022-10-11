@@ -3,12 +3,14 @@ export const generateElementHtml = (element, disableComponent=false) => {
     "Image": handleImage,
     "Button": handleButton,
     "InputField": handleInputField,
-    "Shape": handleShape
+    "Shape": handleShape,
+    "TextField": handleTextField
   }
   let generatedHtml = "";
-  const positionStyle = `
+  const generalStyle = `
     ${element.properties.height? "height: " + element.properties.height + "px;": ""} 
     ${element.properties.width? "width: " + element.properties.width + "px;": ""}
+    word-break: break-all;
   `;
   try {
      handlers[element.type]();
@@ -32,7 +34,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
     generatedHtml  = `
       <img 
         src="${element.properties.src}" 
-        style="${positionStyle + style}" 
+        style="${generalStyle + style}" 
       />`;
   }
 
@@ -49,7 +51,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
     `;
     generatedHtml  = `
       <button 
-        style="${positionStyle + style}" 
+        style="${generalStyle + style}" 
         ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} 
       >
           ${element.properties.text}
@@ -72,7 +74,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
         ${disableComponent ? "diabled" : ""} 
         type="${element.properties.inputType}" 
         ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} 
-        style="${positionStyle + style}" 
+        style="${generalStyle + style}" 
         placeholder="${element.properties.text}" 
       />`;
   }
@@ -88,9 +90,25 @@ export const generateElementHtml = (element, disableComponent=false) => {
     `;
     generatedHtml  = `
       <div 
-        style="${positionStyle + style}" 
+        style="${generalStyle + style}" 
         ${element.properties.class? 
         "class=\"" + element.properties.class + "\"" :""} 
       />`;
+  }
+
+  function handleTextField() {
+    // General Properties
+    // textColor - text color of text field
+
+    
+    const style = `
+      ${element.properties.textColor? "color: " + element.properties.textColor + ";" : ""}
+    `;
+    generatedHtml  = `
+      <div 
+        style="${generalStyle + style}" 
+      >
+      ${element.properties.text}
+      </div>`;
   }
 }
