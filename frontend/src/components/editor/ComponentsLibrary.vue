@@ -16,6 +16,9 @@
             width: null,
             height: null,
             redirect: null,
+            backgroundColor: null,
+            borderColor: null,
+            textColor: null,
           }
         }"
         v-html="btn.previewHtml"
@@ -32,7 +35,7 @@
           description: 'InputField',
           properties: {
             class: inputField.class,
-            placeholder: 'input field',
+            text: 'input field',
             inputType: inputField.inputType,
             textColor: inputField.textColor,
             width: null,

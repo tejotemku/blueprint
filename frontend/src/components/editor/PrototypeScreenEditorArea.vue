@@ -58,7 +58,6 @@ export default {
         const heightConstraint = prototypeScreenEditorArea.offsetHeight;
         const offsetTop = prototypeScreenEditorArea.offsetTop;
         const offsetLeft = prototypeScreenEditorArea.offsetLeft;
-        console.log(e);
         let item = {
           ...sourceItem,
           id: Date.now() + '',

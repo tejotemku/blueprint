@@ -30,6 +30,7 @@
             class="mb-2"
             outlined
             dense
+            type="number"
           />
         </template> 
         <template v-if="'height' in properties">
@@ -40,6 +41,7 @@
             class="mb-2"
             outlined
             dense
+            type="number"
           />
         </template> 
         <template v-if="'redirect' in properties">
@@ -163,12 +165,10 @@ export default {
         v => !!v || 'Description is required',
       ],
       widthRules: [
-        v => !!v || 'Width is required',
-        v => /^\+?\d+$/.test(v) || 'Value must be an integer.'
+        v => /^\+?\d+$/.test(v) || v == null || 'Value must be an integer.'
       ],
       heightRules: [
-        v => !!v || 'Height is required',
-        v => /^\+?\d+$/.test(v) || 'Value must be an integer.'
+        v => /^\+?\d+$/.test(v) || v == null || 'Value must be an integer.'
       ],
       properties: {},
       valid: false,
@@ -177,6 +177,7 @@ export default {
   computed: {
     ...mapGetters({
       screens: 'getScreensInfo',
+      currentScreenId: 'getCurrentScreenId'
     }),
     screensInfo: function () {
       const screens = this.screens;
@@ -185,6 +186,7 @@ export default {
           value: null,
         }];
       for (const [screenId, screenData] of Object.entries(screens)) {
+        if (screenId == this.currentScreenId) continue;
         const processedScreen = {
           text: screenData.name,
           value: screenId,
@@ -199,6 +201,8 @@ export default {
       this.close();
     },
     confirm() {
+      this.properties.width = this.properties.width == '0' ? null :  this.properties.width;
+      this.properties.height = this.properties.height == '0' ? null :  this.properties.height;
       this.$store.dispatch('actionEditElementProperties', {
         id: this.elementId, 
         properties: this.properties,

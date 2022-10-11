@@ -96,8 +96,8 @@ export default {
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
-      let top = this.between(element.offsetTop - (element.offsetHeight/2) * offsetHalfOfTheSize, 0, heightConstraint - element.offsetHeight + (element.offsetHeight/2) * offsetHalfOfTheSize);
-      let left = this.between(element.offsetLeft - (element.offsetWidth/2) * offsetHalfOfTheSize, 0, widthConstraint - element.offsetWidth + (element.offsetWidth/2) * offsetHalfOfTheSize);
+      let top = this.between(element.offsetTop - (element.offsetHeight/2) * offsetHalfOfTheSize, 0, heightConstraint - element.offsetHeight / (1 + offsetHalfOfTheSize));
+      let left = this.between(element.offsetLeft - (element.offsetWidth/2) * offsetHalfOfTheSize, 0, widthConstraint - element.offsetWidth  / (1 + offsetHalfOfTheSize));
       let newElementData = {
         top: top,
         left: left,
@@ -109,9 +109,8 @@ export default {
     },
   },
   mounted() {
-    this.maintainBoundries(false);
+    this.maintainBoundries();
     document.addEventListener('resize', () => {
-      console.log("resized window");
       this.maintainBoundries();
     });
   }

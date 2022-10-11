@@ -12,8 +12,7 @@ export const generatePrototype = function() {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>${projectData.title}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -27,6 +26,7 @@ export const generatePrototype = function() {
         width: ${projectData.width}px;
         background-color: #fff;
         margin: 0 auto;
+        overflow: hidden;
       }
 
       .rectangle {
@@ -111,11 +111,10 @@ export const generatePrototype = function() {
     let parsedScreens = "{";
     for (const [screenId, screenData] of Object.entries(screens)) {
       parsedScreens += `'${screenId}': \``;
-      console.log(screenId);
-      console.log(screenData);
       screenData.elements.forEach(function(element, index) {
         let elementHtml = generateElementHtml(element);
-        parsedScreens += `<div ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : null} style="position:relative; top: ${element.top}px; left: ${element.left}px; z-index: ${9999 - index};">${elementHtml}</div>`
+        elementHtml = elementHtml.replace('\n', '');
+        parsedScreens += `<div ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} style="position:relative; top: ${element.top}px; left: ${element.left}px; z-index: ${9999 - index};">${elementHtml}</div>`
       })
       parsedScreens += `\`,`;
     }

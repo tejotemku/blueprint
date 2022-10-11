@@ -162,6 +162,9 @@ export const getters =  {
   },
   getSelectedItemId() {
     return state.selectedElementId;
+  },
+  getCurrentScreenId() {
+    return state.projectData.currentScreenId
   }
 }
 

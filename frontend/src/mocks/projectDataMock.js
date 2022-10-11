@@ -14,10 +14,12 @@ export const projectData = () => {
             left: 50,
             description: "Button - 1",
             properties: {
-            redirect: "fg43r23r",
+              redirect: "fg43r23r",
               text: 'Button - 1',
               backgroundColor: 'red',
-              class: 'btn btn-primary'
+              class: 'btn btn-primary',
+              width: null,
+              height: null,
             }
           },
           {
@@ -27,11 +29,14 @@ export const projectData = () => {
             left: 300,
             description: 'Email Field - 1',
             properties: {
-            redirect: null,
+              class:"form-control",
+              redirect: null,
               inputType: 'email',
-              placeholder: 'e.g. gerwant@gmail.com',
+              text: 'e.g. gerwant@gmail.com',
               backgroundColor: 'cyan',
-              textColor: '#fff'
+              textColor: '#fff',
+              width: null,
+              height: null,
             }
           },
           {
@@ -41,11 +46,12 @@ export const projectData = () => {
             left: 300,
             description: 'Image - 1',
             properties: {
-            redirect: null,
+              redirect: null,
               src: 'https://i.stack.imgur.com/sjpNp.png',
               width: '256',
               height: '128',
               imageLimitMode: 'crop',
+              backgroundColor: null,
             }
           },
         ]
@@ -60,10 +66,12 @@ export const projectData = () => {
             left: 40,
             description: 'Button - 2',
             properties: {
-            redirect: "1231sda3q2",
+              redirect: "1231sda3q2",
               text: 'Button - 2',
               backgroundColor: '#f9c',
-              textColor: 'white'
+              textColor: 'white',
+              width: null,
+              height: null,
             }
           },
         ]
