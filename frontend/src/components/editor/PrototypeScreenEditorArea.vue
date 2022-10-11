@@ -41,7 +41,7 @@ export default {
           id: el.id,
           top: el.top,
           left: el.left,
-          html: generateElementHtml(el, true)
+          html: generateElementHtml(el)
         }
         processedElements.push(processedElement);
       })
@@ -88,7 +88,8 @@ export default {
   width: 65vw;
   height: 65vh;
   margin-inline: 0 auto;
-  background-color: rgb(238, 240, 225);
+  background-color: rgb(255, 255, 255);
+  border: solid #c0c5ca 3px;
   z-index: 2500;
 }
 .selected-item {

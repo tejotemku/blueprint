@@ -76,6 +76,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
         ${element.properties.class? "class=\"" + element.properties.class + "\"" :""} 
         style="${generalStyle + style}" 
         placeholder="${element.properties.text}" 
+        ${element.properties.checked? "checked": ""}
       />`;
   }
 

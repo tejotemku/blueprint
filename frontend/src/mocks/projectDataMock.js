@@ -35,7 +35,7 @@ export const projectData = () => {
               text: 'e.g. gerwant@gmail.com',
               backgroundColor: 'cyan',
               textColor: '#fff',
-              width: null,
+              width: '250',
               height: null,
             }
           },

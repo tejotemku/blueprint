@@ -2,8 +2,11 @@
   <div class="library-box-container">
     <v-subheader> COMPONENTS </v-subheader>
     <!-- button -->
-    <v-subheader> Buttons </v-subheader>
-    <div class="library-box">
+    <v-subheader @click="showButtons=!showButtons" class="row-space-between"> 
+      <div> Buttons </div> 
+      <font-awesome-icon :icon="showButtons? 'angle-double-up' : 'angle-double-down'" style="fontSize: 1rem;"/> 
+    </v-subheader>
+    <div class="library-box-segment" v-if="showButtons">
       <DragAndDropElement 
         v-for="btn, index in buttons"
         :key="index"
@@ -24,31 +27,44 @@
         v-html="btn.previewHtml"
       />
     </div>
+    <div class="stepper" v-else />
+
+
     <!-- input fields -->
-    <v-subheader> Input Fields </v-subheader>
-    <div class="library-box">
+    <v-subheader @click="showInputFields=!showInputFields" class="row-space-between"> 
+      <div> Input Fields </div> 
+      <font-awesome-icon :icon="showInputFields? 'angle-double-up' : 'angle-double-down'" style="fontSize: 1rem;"/> 
+    </v-subheader>
+    <div class="library-box-segment" v-if="showInputFields">
       <DragAndDropElement 
         v-for="inputField, index in inputFields"
         :key="index"
         :elementInfo="{
           type: 'InputField',
-          description: 'InputField',
+          description: inputField.description,
           properties: {
             class: inputField.class,
-            text: null,
+            text: inputField.text,
             inputType: inputField.inputType,
             textColor: inputField.textColor,
-            width: null,
-            height: null,
+            width: inputField.defaultWidth,
+            height: inputField.defaultHeight,
             redirect: null,
+            ...('isChecked' in inputField) && {checked: inputField.isChecked},
           }
         }"
         v-html="inputField.previewHtml"
       />
     </div>
+    <div class="stepper" v-else />
+
+
     <!-- text fields -->
-    <v-subheader> Text Fields </v-subheader>
-    <div class="library-box">
+    <v-subheader @click="showTextFields=!showTextFields" class="row-space-between"> 
+      <div> Text Fields </div> 
+      <font-awesome-icon :icon="showTextFields? 'angle-double-up' : 'angle-double-down'" style="fontSize: 1rem;"/> 
+    </v-subheader>
+    <div class="library-box-segment" v-if="showTextFields">
       <DragAndDropElement 
         v-for="textField, index in textFields"
         :key="index"
@@ -66,9 +82,15 @@
         v-html="textField.previewHtml"
       />
     </div>
+    <div class="stepper" v-else />
+
+
     <!-- shapes -->
-    <v-subheader> Shapes </v-subheader>
-    <div class="library-box">
+    <v-subheader @click="showShapes=!showShapes" class="row-space-between"> 
+      <div> Shapes </div> 
+      <font-awesome-icon :icon="showShapes? 'angle-double-up' : 'angle-double-down'" style="fontSize: 1rem;"/> 
+    </v-subheader>
+    <div class="library-box-segment" v-if="showShapes">
       <DragAndDropElement 
         v-for="shape, index in shapes"
         :key="index"
@@ -85,6 +107,9 @@
         v-html="shape.previewHtml"
       />
     </div>
+    <div class="stepper" v-else />
+
+
   </div>
 </template>
 
@@ -109,13 +134,17 @@ export default {
       inputFields: inputFieldsComponents(),
       shapes: shapesComponents(),
       textFields: textFieldsComponents(),
+      showButtons: false,
+      showInputFields: true,
+      showTextFields: false,
+      showShapes: false,
     }
   }
 }
 </script>
 
 <style scoped>
-.library-box {
+.library-box-segment {
   display: flex;
   flex-wrap: wrap;
 }
@@ -128,5 +157,13 @@ export default {
   height: calc(100vh - 75px);
   border: solid #dee2e6 1px;
   background-color: white;
+  overflow: auto;
+}
+
+.stepper {
+  height: 1px;
+  width: 96%;
+  margin-left: 2%;
+  border-bottom: 1px solid #dee2e6;
 }
 </style>

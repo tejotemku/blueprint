@@ -41,16 +41,25 @@ export default {
   },
   name: 'ScreenElementsManager',
   computed: {
-    ...mapGetters([
-      'getCurrentScreenElementsData',
-    ]),
+    ...mapGetters({
+      currentScreenElements: 'getCurrentScreenElementsData',
+      selectedElement: 'getSelectedItemId'
+    }),
   },
   watch: {
-    getCurrentScreenElementsData: function(val) {
+    currentScreenElements: function(val) {
       this.screenElements = val;
     },
-    getDefaultScreenId: function(val) {
-      this.deaultScreenId = val;
+    selectedElement: function(/*val*/) {
+      // TODO: this is bugged, fix it
+      /*
+      if (!val) {
+        this.selectedItem = null;
+        return;
+      }
+      this.screenElements.forEach((el, index) => {
+        this.selectedItem = el.id == val ? index : this.selectedItem; 
+      });*/
     }
   },
   data() {
@@ -67,12 +76,12 @@ export default {
       this.$emit('elementEditingTool:show', id, properties, description)
     },
     setElementAsSelected(id) {
+      console.log(this.selectedItem);
       this.$store.dispatch("actionSetSelectedElementId", id);
     }
   },
   beforeMount() {
-    this.screenElements = this.getCurrentScreenElementsData;
-    this.deaultScreenId = this.getDefaultScreenId;
+    this.screenElements = this.currentScreenElements;
   },
 }
 </script>

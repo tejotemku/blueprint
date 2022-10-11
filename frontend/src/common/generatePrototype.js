@@ -29,6 +29,14 @@ export const generatePrototype = function() {
         overflow: hidden;
       }
 
+      .elementWrapper {
+        position: absolute;
+        margin: 0 auto;
+        height: ${projectData.height}px;
+        width: ${projectData.width}px;
+        overflow: hidden;
+      }
+
       .rectangle {
         width: 80px;
         height: 50px;
@@ -113,8 +121,17 @@ export const generatePrototype = function() {
       parsedScreens += `'${screenId}': \``;
       screenData.elements.forEach(function(element, index) {
         let elementHtml = generateElementHtml(element);
-        elementHtml = elementHtml.replace('\n', '');
-        parsedScreens += `<div ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} style="position:relative; top: ${element.top}px; left: ${element.left}px; z-index: ${9999 - index};">${elementHtml}</div>`
+        elementHtml = elementHtml.replace(/[\n\r]/g, ' ');
+        let parsedScreenElement = `
+          <div
+            ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} 
+            style="position: absolute; top: ${element.top}px; left: ${element.left}px;z-index: ${99999 - index};"
+          >
+            ${elementHtml}
+          </div>
+        `;
+        parsedScreenElement = parsedScreenElement.replace(/[\n\r]/g, ' ');
+        parsedScreens += parsedScreenElement;
       })
       parsedScreens += `\`,`;
     }

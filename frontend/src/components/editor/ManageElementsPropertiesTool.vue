@@ -88,6 +88,19 @@
           />
         </template>
 
+        <template v-if="'checked' in properties">
+          <v-switch
+            v-model="properties.checked"
+            label="Is Checkbox checked"
+            class="mb-2"
+            outlined
+            dense
+          />
+        </template>
+
+        
+        <!-- Save / Delete buttons -->
+
       </div>
       <div class="button-row">
         <v-btn

@@ -1,6 +1,6 @@
 <template>
   <div
-    @mousedown.prevent="startDragging"
+    @mousedown.stop.prevent="startDragging"
     :style="{
         position: 'absolute',
         top: this.top + 'px',
@@ -8,7 +8,7 @@
         zIndex: 9999 - this.zIndex,
         opacity: this.itemOpacity
     }"
-    @click.stop="setAsSelected"
+    @click.prevent.stop="setAsSelected"
     class="prevent-select"
     ref="dragableElement"
   >
