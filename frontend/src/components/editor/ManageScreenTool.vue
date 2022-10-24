@@ -164,7 +164,7 @@ export default {
 
 <style scoped>
 .manage-screen-tool-box {
-  background-color: rgba(245, 245, 220, 1);
+  background-color: rgb(254, 254, 254);
   padding-inline: 30px;
   padding-block: 15px;
   border-radius: 10px;

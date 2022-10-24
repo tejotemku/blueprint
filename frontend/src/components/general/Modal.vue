@@ -17,7 +17,7 @@ export default {
   name: 'Modal',
   methods: {
     hideScreen() {
-      this.$emit('modal:hide');
+      // this.$emit('modal:hide');
     }
   }
 }
