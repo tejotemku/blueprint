@@ -104,6 +104,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
     
     const style = `
       ${element.properties.textColor? "color: " + element.properties.textColor + ";" : ""}
+      word-break: normal;
     `;
     generatedHtml  = `
       <div 
