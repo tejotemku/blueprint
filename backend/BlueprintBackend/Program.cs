@@ -2,11 +2,24 @@
 using BlueprintBackend;
 using BlueprintBackend.Exceptions;
 using BlueprintBackend.Interfaces;
+using BlueprintBackend.Controllers;
+using Microsoft.AspNetCore.Authentication;
+using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 
+var config = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", true)
+        .AddEnvironmentVariables()
+        .Build();
+
+
+var db = new PostgresDBmanager(config);
 
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddExceptionHandler(options =>
 {
     options.AllowStatusCode404Response = true;
@@ -22,26 +35,19 @@ builder.Services.AddExceptionHandler(options =>
         };
     };
 });
-
-
-var db = new PostgresDBmanager();
-
 builder.Services.AddControllers();
 builder.Services.AddSingleton(new BlueprintService());
 builder.Services.AddScoped<IBlueprintService, BlueprintService>();
+builder.Services.AddScoped<IDataBase, PostgresDBmanager>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
+var app = builder.Build();
 app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

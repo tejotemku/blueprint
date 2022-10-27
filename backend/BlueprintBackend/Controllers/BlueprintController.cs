@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BlueprintBackend.Interfaces;
 
-namespace BlueprintBackend
+namespace BlueprintBackend.Controllers
 {
 
-    [Route("api/pharmacist")]
+    [Route("api/blueprint")]
     [ApiController]
-    public class ApiController : ControllerBase
+    public class BlueprintController : ControllerBase
     {
         private readonly IBlueprintService _blueprintService;
 
-        public ApiController(IBlueprintService blueprintService)
+        public BlueprintController(IBlueprintService blueprintService)
         {
             this._blueprintService = blueprintService;
         }

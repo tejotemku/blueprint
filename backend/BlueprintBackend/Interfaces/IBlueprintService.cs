@@ -11,7 +11,7 @@ namespace BlueprintBackend.Interfaces
         /*User*/
         public Task<string> GetUsername(string userId);
 
-        public Task<string> CreateUser(string username, string email, string passwordHash);
+        public Task<string> CreateUser(string username, string email, string password);
         
         public Task<string> GetUserProjects(string userId);
 

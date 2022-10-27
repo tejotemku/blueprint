@@ -5,21 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Npgsql;
+using BlueprintBackend.Interfaces;
 
 namespace BlueprintBackend
 {
-    public class PostgresDBmanager
+    public class PostgresDBmanager: IDataBase
     {
-        NpgsqlConnection con;
+        private readonly IConfiguration _config;
+        private NpgsqlConnection con;
+        NpgsqlCommand cmd;
 
-        public PostgresDBmanager()
+    public PostgresDBmanager(IConfiguration config)
         {
-            var cs = "Server=127.0.0.1;Port=5432;Username=postgres;Password=password;Database=postgres";
+            _config = config;
+            var cs = _config.GetValue<string>("DATABASE_URL");
             con = new NpgsqlConnection(cs);            
             con.Open();
-            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS usersData");
-            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS projects");
-            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS usersData(id SERIAL PRIMARY KEY, username VARCHAR(255), email VARCHAR(255), passwordHash VARCHAR(255))");
+            cmd = new NpgsqlCommand();
+            cmd.Connection = con;
+/*            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS usersData");
+            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS projects");*/
+            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS usersData(id SERIAL PRIMARY KEY, username VARCHAR(255) UNIQUE, email VARCHAR(255) UNIQUE, passwordHash TEXT, passwordSalt TEXT)");
             ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, projectName VARCHAR(255), projectFile JSONB, lastModified DATE, userID SERIAL references userData(id))");
 
 
@@ -37,30 +43,34 @@ namespace BlueprintBackend
         }
 
 
-        void ExecutePostgresNonQueryCommand(string command)
+        private void ExecutePostgresNonQueryCommand(string command)
         {
-            using var cmd = new NpgsqlCommand();
-            cmd.Connection = con;
             cmd.CommandText = command;
-            //Console.WriteLine(cmd.ExecuteNonQuery().ToString());
+            Console.WriteLine(cmd.ExecuteNonQuery().ToString());
         }
 
-        void InsertUser(string username, string email, string passwordHash)
+        public void InsertUser(string username, string email, string passwordHash, string passwordSalt)
         {
-            ExecutePostgresNonQueryCommand($"INSERT INTO usersData(username, email, passwordHash) VALUES('${username}','${email}', '${passwordHash}')");
+            ExecutePostgresNonQueryCommand($"INSERT INTO usersData(username, email, passwordHash, passwordSalt) VALUES('{username}','{email}', '{passwordHash}', '{passwordSalt}')");
         }
 
-        void InsertProject(string projectName, string projectFile, string userID)
+        public void InsertProject(string projectName, string projectFile, string userID)
         {
-            ExecutePostgresNonQueryCommand($"INSERT INTO projects(projectName, projectFile, lastModified, userID) VALUES('${projectName}','${projectFile}', '${DateTime.Now.ToString()}'), '${userID}')");
+            ExecutePostgresNonQueryCommand($"INSERT INTO projects(projectName, projectFile, lastModified, userID) VALUES('{projectName}','{projectFile}', '{DateTime.Now.ToString()}'), '{userID}')");
         }
 
-        List<(string, DateTime)> GetUsersProjectsData(string userId)
+        public (string, string) GetUserPaswordHashAndSalt(string username) 
+        {
+            string command = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='${username}'";
+            cmd.CommandText = command;
+            using var rdr = cmd.ExecuteReader();
+            return (rdr.GetString(0), rdr.GetString(1));
+        }
+
+        public List<(string, DateTime)> GetUsersProjectsData(string userId)
         {
             List<(string, DateTime)> data = new(); 
             string command = $"SELECT projectName, lastModified FROM projects WHERE id='${userId}'";
-            using var cmd = new NpgsqlCommand();
-            cmd.Connection = con;
             cmd.CommandText = command;
             using var rdr = cmd.ExecuteReader();
 
@@ -74,27 +84,13 @@ namespace BlueprintBackend
 
 
 /*
-        string GetProjectFile(string projectID)
+        public string GetProjectFile(string projectID)
         {
             string command = $"SELECT projectFile FROM projects WHERE id='${projectID}'";
-            using var cmd = new NpgsqlCommand();
-            cmd.Connection = con;
             cmd.CommandText = command;
             using var rdr = cmd.ExecuteReader();
 
         }
 */
-        void ExecutePostgresReaderCommand(string command)
-        {
-            using var cmd = new NpgsqlCommand();
-            cmd.Connection = con;
-            cmd.CommandText = command;
-            using var rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
-            {
-                Console.WriteLine("{0},{1}, {2}", rdr.GetInt32(0), rdr.GetString(1), rdr.GetInt32(2));
-            }
-        }
     }
 }

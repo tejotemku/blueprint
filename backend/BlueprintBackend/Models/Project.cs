@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace BlueprintBackend.Models
+﻿namespace BlueprintBackend.Models
 {
-    public class Project
-    {
-        string id;
-        string projectName;
-        DateTime lastModified;
-        string projectFile;
-    }
+    public record Project
+    (
+        string Id,
+        string ProjectName,
+        DateTime LastModified,
+        string ProjectFile
+    );
 }

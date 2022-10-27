@@ -15,7 +15,7 @@ namespace BlueprintBackend
             throw new NotImplementedException();
         }
 
-        public Task<string> CreateUser(string username, string email, string passwordHash)
+        public Task<string> CreateUser(string username, string email, string password)
         {
             throw new NotImplementedException();
         }

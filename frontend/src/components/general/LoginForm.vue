@@ -6,9 +6,9 @@
   >
     <h1>Hi, log in here</h1>
     <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
+      v-model="username"
+      :rules="usernameRules"
+      label="Username"
       class="mb-2"
       outlined
       dense
@@ -30,13 +30,13 @@
     >
       Log In
     </v-btn>
-    <v-btn
+    <!-- <v-btn
       color="error"
       class="mr-4"
       @click="forgotPassword"
     >
       Forgot Password
-    </v-btn>
+    </v-btn> -->
     <v-btn
       color="warning"
       @click="goToFrontpage"
@@ -53,11 +53,10 @@ export default {
   name: 'LoginForm',
   data() {
     return {
-      email: null,
+      username: null,
       password: null,
-      emailRules: [
-        v => !!v || 'Email is required',
-        v => /.+@.+\..+/.test(v) || 'Incorrect email adress',
+      usernameRules: [
+        v => !!v || 'Username is required',
       ],
       passwordRules: [
         v => !!v || 'Password is required',
@@ -68,7 +67,7 @@ export default {
   methods: {
     async checkLogin() {
       let payload = {
-        'email': this.email,
+        'username': this.username,
         'password': this.password,
       };
 
@@ -85,10 +84,10 @@ export default {
       // TODO: set user token
     },
     rejectLogin() {
-      this.email=null;
+      this.username=null;
       this.password=null;
       console.log('Logged in incorrectly');
-      alert("Email or password incorrect.");
+      alert("Username or password incorrect.");
     },
     goToFrontpage() {
       router.push("/");
@@ -99,7 +98,7 @@ export default {
     },
     verifyCredentials(payload) {
       // TODO: logging in, currently this is a mock
-      return payload.email == "test@example.com", payload.password == "Rumcajs$4"
+      return payload.username == "SuperKowal", payload.password == "Rumcajs$4"
     }
   }
 }
