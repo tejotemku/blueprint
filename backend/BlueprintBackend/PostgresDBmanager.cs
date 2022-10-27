@@ -26,22 +26,8 @@ namespace BlueprintBackend
 /*            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS usersData");
             ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS projects");*/
             ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS usersData(id SERIAL PRIMARY KEY, username VARCHAR(255) UNIQUE, email VARCHAR(255) UNIQUE, passwordHash TEXT, passwordSalt TEXT)");
-            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, projectName VARCHAR(255), projectFile JSONB, lastModified DATE, userID SERIAL references userData(id))");
-
-
-
-
-/* 
-            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS cars");
-
-            ExecutePostgresNonQueryCommand("CREATE TABLE cars(id SERIAL PRIMARY KEY, name VARCHAR(255), price INT)");
-
-            ExecutePostgresNonQueryCommand("INSERT INTO cars(name, price) VALUES('Audi',52642)");
-
-            ExecutePostgresReaderCommand("Select * from cars");
-*/
+            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, projectName VARCHAR(255), projectFile JSONB, lastModified DATE, userID SERIAL references usersData(id))");
         }
-
 
         private void ExecutePostgresNonQueryCommand(string command)
         {
@@ -61,16 +47,26 @@ namespace BlueprintBackend
 
         public (string, string) GetUserPaswordHashAndSalt(string username) 
         {
-            string command = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='${username}'";
+            string command = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='{username}'";
             cmd.CommandText = command;
             using var rdr = cmd.ExecuteReader();
+            rdr.Read();
             return (rdr.GetString(0), rdr.GetString(1));
+        }
+
+        public string GetUserEmail(string username)
+        {
+            string command = $"SELECT email FROM usersData WHERE username='{username}'";
+            cmd.CommandText = command;
+            using var rdr = cmd.ExecuteReader();
+            rdr.Read();
+            return (rdr.GetString(0));
         }
 
         public List<(string, DateTime)> GetUsersProjectsData(string userId)
         {
             List<(string, DateTime)> data = new(); 
-            string command = $"SELECT projectName, lastModified FROM projects WHERE id='${userId}'";
+            string command = $"SELECT projectName, lastModified FROM projects WHERE id='{userId}'";
             cmd.CommandText = command;
             using var rdr = cmd.ExecuteReader();
 
@@ -86,7 +82,7 @@ namespace BlueprintBackend
 /*
         public string GetProjectFile(string projectID)
         {
-            string command = $"SELECT projectFile FROM projects WHERE id='${projectID}'";
+            string command = $"SELECT projectFile FROM projects WHERE id='{projectID}'";
             cmd.CommandText = command;
             using var rdr = cmd.ExecuteReader();
 

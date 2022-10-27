@@ -34,9 +34,28 @@ namespace BlueprintBackend.Controllers
         }
 
 
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login(UserLoginDto request)
+        {
+            if(!CheckAuthentity(request.Username, request.Password))
+            {
+                return BadRequest("Wrong username or password");
+            }
+            string token = "super tokenciak"; 
+            return Ok(token);
+        }
+
+
 
         private bool CheckAuthentity(string username, string password)
         {
+            (string passwordHash, string passwordSalt) = _database.GetUserPaswordHashAndSalt(username);
+            
+            using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(passwordSalt)))
+            {
+                var computedPassword = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
+                return computedPassword == passwordHash;
+            }
 
         }
 
@@ -46,10 +65,9 @@ namespace BlueprintBackend.Controllers
             {
                 passwordSalt = Convert.ToBase64String(hmac.Key);
                 passwordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
+                hmac.Key = Encoding.UTF8.GetBytes(passwordSalt);
+                passwordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
             }
-
-            Console.WriteLine(passwordSalt);
-            Console.WriteLine(passwordHash);
         }
     }
 }
