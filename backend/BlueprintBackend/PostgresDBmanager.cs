@@ -47,8 +47,7 @@ namespace BlueprintBackend
 
         public (string, string) GetUserPaswordHashAndSalt(string username) 
         {
-            string command = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='{username}'";
-            cmd.CommandText = command;
+            cmd.CommandText = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='{username}'";
             using var rdr = cmd.ExecuteReader();
             rdr.Read();
             return (rdr.GetString(0), rdr.GetString(1));
@@ -56,8 +55,7 @@ namespace BlueprintBackend
 
         public string GetUserEmail(string username)
         {
-            string command = $"SELECT email FROM usersData WHERE username='{username}'";
-            cmd.CommandText = command;
+            cmd.CommandText = $"SELECT email FROM usersData WHERE username='{username}'";
             using var rdr = cmd.ExecuteReader();
             rdr.Read();
             return (rdr.GetString(0));
@@ -66,8 +64,7 @@ namespace BlueprintBackend
         public List<(string, DateTime)> GetUsersProjectsData(string userId)
         {
             List<(string, DateTime)> data = new(); 
-            string command = $"SELECT projectName, lastModified FROM projects WHERE id='{userId}'";
-            cmd.CommandText = command;
+            cmd.CommandText = $"SELECT projectName, lastModified FROM projects WHERE id='{userId}'";
             using var rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
@@ -82,8 +79,7 @@ namespace BlueprintBackend
 /*
         public string GetProjectFile(string projectID)
         {
-            string command = $"SELECT projectFile FROM projects WHERE id='{projectID}'";
-            cmd.CommandText = command;
+            cmd.CommandText = $"SELECT projectFile FROM projects WHERE id='{projectID}'";
             using var rdr = cmd.ExecuteReader();
 
         }

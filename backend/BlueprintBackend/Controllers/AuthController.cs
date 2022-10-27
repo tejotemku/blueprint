@@ -4,6 +4,9 @@ using BlueprintBackend.Models;
 using System.Security.Cryptography;
 using BlueprintBackend.Interfaces;
 using System.Text;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BlueprintBackend.Controllers
 {
@@ -11,10 +14,12 @@ namespace BlueprintBackend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IConfiguration _config;
         private readonly IDataBase _database;
 
-        public AuthController(IDataBase database)
+        public AuthController(IDataBase database, IConfiguration config)
         {
+            _config = config;
             _database = database;
         }
 
@@ -41,11 +46,31 @@ namespace BlueprintBackend.Controllers
             {
                 return BadRequest("Wrong username or password");
             }
-            string token = "super tokenciak"; 
-            return Ok(token);
+            return Ok(CreateToken(request.Username, _database.GetUserEmail(request.Username)));
         }
 
+        private string CreateToken(string username, string email)
+        {
+            var claims = new List<Claim>
+             {
+                 new Claim(ClaimTypes.Name, username),
+                 new Claim(ClaimTypes.Email, email)
+             };
 
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_config.GetValue<string>("JWT_SECRET")));
+
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddHours(12),
+                signingCredentials: cred
+            );
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+        }
 
         private bool CheckAuthentity(string username, string password)
         {
@@ -71,5 +96,4 @@ namespace BlueprintBackend.Controllers
         }
     }
 }
-//config.GetValue<string>("JWT_SECRET")
 
