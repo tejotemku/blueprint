@@ -1,13 +1,47 @@
-﻿using Npgsql;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using BlueprintBackend;
+using BlueprintBackend.Exceptions;
+using BlueprintBackend.Interfaces;
 
-var cs = "Server=127.0.0.1;Port=5432;Username=postgres;Password=password;Database=postgres";
 
-using var con = new NpgsqlConnection(cs);
-con.Open();
 
-var sql = "SELECT version()";
+var builder = WebApplication.CreateBuilder(args);
 
-using var cmd = new NpgsqlCommand(sql, con);
+builder.Services.AddExceptionHandler(options =>
+{
+    options.AllowStatusCode404Response = true;
+    options.ExceptionHandler = async context =>
+    {
+        var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+        context.Response.StatusCode = contextFeature?.Error switch
+        {
+            EntityNotFoundException => 404,
+            EntityDuplicateException => 422,
+            BadRequestException => 400,
+            _ => 500
+        };
+    };
+});
 
-var version = cmd.ExecuteScalar().ToString();
-Console.WriteLine($"PostgreSQL version: {version}");
+
+var db = new PostgresDBmanager();
+
+builder.Services.AddControllers();
+builder.Services.AddSingleton(new BlueprintService());
+builder.Services.AddScoped<IBlueprintService, BlueprintService>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+app.UseExceptionHandler();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
