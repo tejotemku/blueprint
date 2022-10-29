@@ -19,6 +19,8 @@ var config = new ConfigurationBuilder()
 var db = new PostgresDBmanager(config);
 
 
+var MyAllowSpecificOrigins = "localhostPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddExceptionHandler(options =>
 {
@@ -35,6 +37,17 @@ builder.Services.AddExceptionHandler(options =>
         };
     };
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+/*            policy.WithOrigins("http://localhost:8080",
+                                "https://localhost:8080");*/
+        });
+});
 builder.Services.AddControllers();
 builder.Services.AddSingleton(new BlueprintService());
 builder.Services.AddScoped<IBlueprintService, BlueprintService>();
@@ -44,6 +57,7 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();

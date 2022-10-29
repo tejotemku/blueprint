@@ -9,7 +9,7 @@ using BlueprintBackend.Interfaces;
 namespace BlueprintBackend.Controllers
 {
 
-    [Route("api/blueprint")]
+    [Route("api")]
     [ApiController]
     public class BlueprintController : ControllerBase
     {
@@ -23,9 +23,9 @@ namespace BlueprintBackend.Controllers
 
 
         [HttpGet("test")]
-        public string GetMedicalWorkers(string name)
+        public string GetTest()
         {
-            return "Hello " + name;
+            return "Ok :)";
         }
 
 /*        [HttpPost("prescriptions/{prescriptionId}/fulfill")]

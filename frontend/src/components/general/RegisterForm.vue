@@ -58,6 +58,7 @@
 
 <script>
 import router from '../../router'
+import { api } from '../../common/api'
 
 export default {
   name: 'RegisterForm',
@@ -86,27 +87,16 @@ export default {
   },
   methods: {
     async checkRegister() {
-      let payload = {
-        'email': this.email,
-        'username': this.username,
-        'password': this.password,
-      };
-      if (!this.checkCredentialAvaliability(payload)) {
-        alert("Error: cannot register");
-        return;
-        }
-      // TODO: registering in, currently this is a mock
-      router.push("/home");
-      // TODO: delete after payload has diffrent job
-      console.log(payload);
+      try {
+        await api.register(this.username, this.email, this.password);
+        router.push("/home");
+      }
+      catch(e) {
+        console.log(e);
+      }
     },
     goToFrontpage () {
       router.push("/");
-    },
-    checkCredentialAvaliability(payload) {
-      // TODO: check if email or username is used
-      // MOCK
-      return payload.username != "mock_error";
     }
   }
 }
