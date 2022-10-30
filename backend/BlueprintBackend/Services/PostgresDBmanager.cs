@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Npgsql;
 using BlueprintBackend.Interfaces;
 
-namespace BlueprintBackend
+namespace BlueprintBackend.Services
 {
     public class PostgresDBmanager: IDataBase
     {
@@ -23,10 +23,8 @@ namespace BlueprintBackend
             con.Open();
             cmd = new NpgsqlCommand();
             cmd.Connection = con;
-/*            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS usersData");
-            ExecutePostgresNonQueryCommand("DROP TABLE IF EXISTS projects");*/
-            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS usersData(id SERIAL PRIMARY KEY, username VARCHAR(255) UNIQUE, email VARCHAR(255) UNIQUE, passwordHash TEXT, passwordSalt TEXT)");
-            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, projectName VARCHAR(255), projectFile JSONB, lastModified DATE, userID SERIAL references usersData(id))");
+            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS usersData(username VARCHAR(255) PRIMARY KEY, email VARCHAR(255) UNIQUE, passwordHash TEXT, passwordSalt TEXT)");
+            ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, projectName VARCHAR(255), projectFile JSONB, username VARCHAR(255) references usersData(username))");
         }
 
         private void ExecutePostgresNonQueryCommand(string command)
@@ -40,9 +38,12 @@ namespace BlueprintBackend
             ExecutePostgresNonQueryCommand($"INSERT INTO usersData(username, email, passwordHash, passwordSalt) VALUES('{username}','{email}', '{passwordHash}', '{passwordSalt}')");
         }
 
-        public void InsertProject(string projectName, string projectFile, string userID)
+        public int CreateProject(string projectName, string projectFile, string username)
         {
-            ExecutePostgresNonQueryCommand($"INSERT INTO projects(projectName, projectFile, lastModified, userID) VALUES('{projectName}','{projectFile}', '{DateTime.Now.ToString()}'), '{userID}')");
+            cmd.CommandText = $"INSERT INTO projects(projectName, projectFile, username) VALUES('{projectName}','{projectFile}', '{username}') RETURNING id";
+            using var rdr = cmd.ExecuteReader();
+            rdr.Read();
+            return rdr.GetInt32(0);
         }
 
         public (string, string) GetUserPaswordHashAndSalt(string username) 
@@ -61,28 +62,26 @@ namespace BlueprintBackend
             return (rdr.GetString(0));
         }
 
-        public List<(string, DateTime)> GetUsersProjectsData(string userId)
+        public List<(int, string)> GetUsersProjectsData(string username)
         {
-            List<(string, DateTime)> data = new(); 
-            cmd.CommandText = $"SELECT projectName, lastModified FROM projects WHERE id='{userId}'";
+            List<(int, string)> data = new(); 
+            cmd.CommandText = $"SELECT id, projectName FROM projects WHERE username='{username}'";
             using var rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                data.Add((rdr.GetString(0), rdr.GetDateTime(1)));
+                data.Add((rdr.GetInt32(0), rdr.GetString(1)));
             }
             return data;
         }
 
-
-
-/*
-        public string GetProjectFile(string projectID)
+        public string GetProjectFile(int projectID)
         {
             cmd.CommandText = $"SELECT projectFile FROM projects WHERE id='{projectID}'";
             using var rdr = cmd.ExecuteReader();
-
+            rdr.Read();
+            return (rdr.GetString(0));
         }
-*/
+
     }
 }

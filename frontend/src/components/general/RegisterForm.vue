@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import router from '../../router'
-import { api } from '../../common/api'
+import router from '@/router'
+import { api } from '@/api'
 
 export default {
   name: 'RegisterForm',

@@ -2,21 +2,14 @@
 using BlueprintBackend;
 using BlueprintBackend.Exceptions;
 using BlueprintBackend.Interfaces;
+using BlueprintBackend.Services;
 using BlueprintBackend.Controllers;
-using Microsoft.AspNetCore.Authentication;
-using System.IdentityModel.Tokens.Jwt;
-using System.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
 
 var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", true)
         .AddEnvironmentVariables()
         .Build();
-
-
-var db = new PostgresDBmanager(config);
 
 
 var MyAllowSpecificOrigins = "localhostPolicy";
@@ -49,8 +42,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddControllers();
-builder.Services.AddSingleton(new BlueprintService());
-builder.Services.AddScoped<IBlueprintService, BlueprintService>();
+builder.Services.AddSingleton(new PostgresDBmanager(config));
 builder.Services.AddScoped<IDataBase, PostgresDBmanager>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

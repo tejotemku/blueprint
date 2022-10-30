@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BlueprintBackend.Models;
-using System.Security.Cryptography;
 using BlueprintBackend.Interfaces;
+using BlueprintBackend.Exceptions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
@@ -30,23 +31,27 @@ namespace BlueprintBackend.Controllers
             try
             {
                 _database.InsertUser(request.Username, request.Email, passwordHash, passwordSalt);
+                return Ok(new UserRegisterDto(request.Username, request.Email, passwordHash, passwordSalt));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return Ok(new UserRegisterDto(request.Username, request.Email, passwordHash, passwordSalt));
         }
 
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserLoginDto request)
         {
-            if(!CheckAuthentity(request.Username, request.Password))
+            try
             {
-                return BadRequest("Wrong username or password");
+                CheckAuthentity(request.Username, request.Password);
+                return Ok(CreateToken(request.Username, _database.GetUserEmail(request.Username)));
             }
-            return Ok(CreateToken(request.Username, _database.GetUserEmail(request.Username)));
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private string CreateToken(string username, string email)
@@ -79,7 +84,8 @@ namespace BlueprintBackend.Controllers
             using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(passwordSalt)))
             {
                 var computedPassword = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
-                return computedPassword == passwordHash;
+                if (computedPassword != passwordHash) throw new BadRequestException("Wrong username or password");
+                return true;
             }
 
         }

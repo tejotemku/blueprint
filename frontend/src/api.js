@@ -1,5 +1,5 @@
 import { default as Axios } from 'axios';
-import { API_URL } from "../config";
+import { API_URL } from "./config";
 
 const axios = Axios.create({
   validateStatus: function (status) {
@@ -9,13 +9,14 @@ const axios = Axios.create({
 });
 
 
-// function authHeaders(token) {
-//   return {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
-// }
+function authHeaders(token) {
+  return {
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Access-Control-Allow-Origin": "*"
+    },
+  };
+}
 
 const basicHeader = {
   headers: {
@@ -27,31 +28,22 @@ const APISUFFIX = ""
 
 
 export const api = {
-  async register(username, email, password) {
-    // const params = new URLSearchParams();
-    // params.append('username', username);
-    // params.append('email', email);
-    // params.append('password', password);
-    let data = {
-      "username": username,
-      "email": email,
-      "password": password
-    };
+  async register(data) {
     return axios.post(`${APISUFFIX}/api/auth/register/`, data, basicHeader);
   },
 
-  async logIn(username, password) {
-    const params = new URLSearchParams();
-    params.append('username', username);
-    params.append('password', password);
-
-    return axios.post(`${APISUFFIX}/api/auth/login/`, params, basicHeader);
+  async logIn(data) {
+    return axios.post(`${APISUFFIX}/api/auth/login/`, data, basicHeader);
   },
 
   async test() {
     const params = new URLSearchParams();
     params.append('name', 'test');
     return axios.get(`${APISUFFIX}/api/test/`, params, basicHeader)
+  },
+
+  async testToken(token) {
+    return axios.get(`${APISUFFIX}/api/test-token/`, authHeaders(token))
   }
 }
 

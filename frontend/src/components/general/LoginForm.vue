@@ -30,13 +30,6 @@
     >
       Log In
     </v-btn>
-    <!-- <v-btn
-      color="error"
-      class="mr-4"
-      @click="forgotPassword"
-    >
-      Forgot Password
-    </v-btn> -->
     <v-btn
       color="warning"
       @click="goToFrontpage"
@@ -47,7 +40,8 @@
 </template>
 
 <script>
-import router from '../../router'
+import router from '@/router';
+import { mapGetters } from "vuex";
 
 export default {
   name: 'LoginForm',
@@ -64,41 +58,37 @@ export default {
       valid: false,
     }
   },
+  computed: {
+    ...mapGetters({
+      token: 'getToken'
+    }),
+  },
   methods: {
-    async checkLogin() {
-      let payload = {
-        'username': this.username,
-        'password': this.password,
-      };
-
-      if (this.verifyCredentials(payload)) {
-        this.acceptLogin();
-      }
-      else { 
-        this.rejectLogin()
-      }
-    },
     acceptLogin() {
-      console.log('Logged in correctly');
       router.push(`/home`);
-      // TODO: set user token
     },
     rejectLogin() {
       this.username=null;
       this.password=null;
-      console.log('Logged in incorrectly');
-      alert("Username or password incorrect.");
+      //TODO: change to snackbar
+      // alert("Username or password incorrect.");
     },
     goToFrontpage() {
       router.push("/");
     },
-    forgotPassword() {
-      //TODO: resetting password
-      alert("This function is not implemented yet.");
-    },
-    verifyCredentials(payload) {
-      // TODO: logging in, currently this is a mock
-      return payload.username == "SuperKowal", payload.password == "Rumcajs$4"
+    async checkLogin() {
+      try {
+        let payload = {
+          username: this.username,
+          password: this.password,
+        }
+        await this.$store.dispatch('actionLogin', payload);
+        this.acceptLogin();
+      }
+      catch(e) {
+        console.log(e);
+        this.rejectLogin();
+      }
     }
   }
 }
