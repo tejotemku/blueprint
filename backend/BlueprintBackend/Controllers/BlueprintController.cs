@@ -58,7 +58,7 @@ public class BlueprintController : ControllerBase
         }
     }
 
-    [HttpGet("projects/{projectId}"), Authorize]
+    [HttpGet("projects/{projectId}/file"), Authorize]
     public async Task<ActionResult<string>> GetProjectFile(int projectId)
     {
         try
@@ -78,7 +78,7 @@ public class BlueprintController : ControllerBase
         }
     }
 
-    [HttpPut("projects/{projectId}"), Authorize]
+    [HttpPut("projects/{projectId}/file"), Authorize]
     public async Task<ActionResult> UpdateProjectFile(int projectId, string projectFile)
     {
         try

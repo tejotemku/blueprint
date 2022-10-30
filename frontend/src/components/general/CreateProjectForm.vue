@@ -116,7 +116,18 @@ export default {
     createNewProject() {
       let projectFile = {
         'title': this.projectName,
-        'screens': {}
+        'screens': {
+          "0": {
+            name: 'My First Screen',
+            elements: [
+            ]
+          }
+        },
+        'assets': [
+
+        ],
+        'currentScreenId': "0",
+        'defaultScreenId': "0",
       }
       if (this.customDimensions) {
         projectFile.width = this.customWidth;

@@ -17,7 +17,7 @@ export default {
   props: ["projectData"],
   methods: {
     goToProject() {
-      router.push(`/project/${this.projectData.id}`)
+      router.push(`/project/${this.projectData.projectId}`)
     }
   }
 }

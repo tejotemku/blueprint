@@ -41,8 +41,19 @@ export const api = {
   },
 
   async getUsersProjectsInfo(token, username) {
-
     return await axios.get(`${APISUFFIX}/api/projects-info/${username}`, authHeaders(token));
+  },
+
+  async getProjectFile(token, projectId) {
+    return await axios.get(`${APISUFFIX}/api/projects/${projectId}/file`, authHeaders(token));
+  },
+
+  async updateProjectFile(token, projectId, data) {
+    return await axios.put(`${APISUFFIX}/api/projects/${projectId}/file`, data, authHeaders(token));
+  },
+
+  async deleteProject(token, projectId) {
+    return await axios.delete(`${APISUFFIX}/api/projects/${projectId}`, authHeaders(token));
   },
 
   // async test() {
