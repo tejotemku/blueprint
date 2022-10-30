@@ -1,18 +1,23 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using BlueprintBackend;
 using BlueprintBackend.Exceptions;
 using BlueprintBackend.Interfaces;
 using BlueprintBackend.Services;
-using BlueprintBackend.Controllers;
+using BlueprintBackend.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", true)
         .AddEnvironmentVariables()
         .Build();
-
-
 var MyAllowSpecificOrigins = "localhostPolicy";
+string secret = config.GetValue<string>("JWT_SECRET");
+var key = Encoding.UTF8.GetBytes(secret);
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddExceptionHandler(options =>
@@ -41,11 +46,32 @@ builder.Services.AddCors(options =>
                                 "https://localhost:8080");*/
         });
 });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 builder.Services.AddControllers();
-builder.Services.AddSingleton(new PostgresDBmanager(config));
 builder.Services.AddScoped<IDataBase, PostgresDBmanager>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+builder.Services.AddSingleton(new BlueprintUtils(config, new PostgresDBmanager(config)));
 
 
 var app = builder.Build();
@@ -54,6 +80,7 @@ app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();

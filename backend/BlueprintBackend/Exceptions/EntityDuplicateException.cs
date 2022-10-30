@@ -1,9 +1,8 @@
-﻿namespace BlueprintBackend.Exceptions
+﻿namespace BlueprintBackend.Exceptions;
+
+public class EntityDuplicateException : Exception
 {
-    public class EntityDuplicateException : Exception
+    public EntityDuplicateException(string message) : base(message)
     {
-        public EntityDuplicateException(string message) : base(message)
-        {
-        }
     }
 }

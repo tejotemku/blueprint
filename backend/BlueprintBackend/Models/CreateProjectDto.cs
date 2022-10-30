@@ -1,9 +1,8 @@
-﻿namespace BlueprintBackend.Models
-{
-    public record CreateProjectDto
-    (
-        string projectName, 
-        string projectFile, 
-        string username
-    );
-}
+﻿namespace BlueprintBackend.Models;
+
+public record CreateProjectDto
+(
+    string projectName, 
+    string projectFile, 
+    string username
+);

@@ -21,16 +21,19 @@
         </v-btn>
       </div>
       <v-row class="projects-row">
-        <ProjectPreview v-for="item in getUserProjects().filter(v => filterProjectsByName(v))" :key="item.id" :projectData="item"/>
+        <ProjectPreview v-for="item in usersProjects" :key="item.projectId" :projectData="item"/>
       </v-row>
     </div>
   </div>
 </template>
 
 <script>
-import router from '../../router';
-import ProjectPreview from '../../components/general/ProjectPreview.vue'
-import LoggedInNavbar from '../../components/general/LoggedInNavbar.vue'
+import router from '@/router';
+import ProjectPreview from '@/components/general/ProjectPreview.vue';
+import LoggedInNavbar from '@/components/general/LoggedInNavbar.vue';
+import { api } from "@/api"
+import { mapGetters } from "vuex";
+
 
 export default {
   name: 'HomepageView',
@@ -40,37 +43,29 @@ export default {
   },
   data() {
     return {
-      projectSearchBarValue: ''
+      projectSearchBarValue: '',
+      usersProjects: []
     }
   },
+  computed: {
+    ...mapGetters({
+      token: 'getToken',
+      username: 'getUsername'
+    }),
+  },
   methods: {
-    getUserProjects() {
-      //TODO: this is a mock,
-      return [
-        {"id": 1, "name": "test1"},
-        {"id": 2, "name": "test2"},
-        {"id": 3, "name": "test3"},
-        {"id": 4, "name": "test4"},
-        {"id": 5, "name": "test5"},
-        {"id": 6, "name": "test6"},
-        {"id": 7, "name": "test7"},
-        {"id": 8, "name": "test8"},
-        {"id": 9, "name": "test9"},
-        {"id": 10, "name": "test10"},
-        {"id": 11, "name": "test11"},
-        {"id": 12, "name": "test12"},
-        {"id": 13, "name": "test13"},
-      ]
+    async getUserProjects() {
+      await api.getUsersProjectsInfo(this.token, this.username).then(
+        response => this.usersProjects = response.data
+      );
     },
     createNewProject() {
       router.push(`/create-project`);
     },
-    filterProjectsByName(value) {
-      return value.name.indexOf(this.projectSearchBarValue) != -1
-    }
   },
   beforeMount() {
-   // TODO: check if logged in and reddirect if necessary
+    // TODO: check if logged in and reddirect if necessary
+    this.getUserProjects();
   },
 }
 </script>

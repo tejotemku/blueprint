@@ -12,6 +12,7 @@ export const actions = {
     const response = await api.logIn(payload);
     const token = response.data;
     context.commit("setToken", token);
+    context.commit("setUsername", payload.username);
     saveLocalToken(token);
   },
 
@@ -45,6 +46,7 @@ export const actions = {
 
 export const getters = {
   getToken: (state) => state.token,
+  getUsername: (state) => state.username,
   loginError: (state) => state.logInError,
 }
 

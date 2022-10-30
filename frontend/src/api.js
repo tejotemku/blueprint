@@ -12,7 +12,7 @@ const axios = Axios.create({
 function authHeaders(token) {
   return {
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `bearer ${token}`,
       "Access-Control-Allow-Origin": "*"
     },
   };
@@ -29,22 +29,31 @@ const APISUFFIX = ""
 
 export const api = {
   async register(data) {
-    return axios.post(`${APISUFFIX}/api/auth/register/`, data, basicHeader);
+    return await axios.post(`${APISUFFIX}/api/auth/register/`, data, basicHeader);
   },
 
   async logIn(data) {
-    return axios.post(`${APISUFFIX}/api/auth/login/`, data, basicHeader);
+    return await axios.post(`${APISUFFIX}/api/auth/login/`, data, basicHeader);
   },
 
-  async test() {
-    const params = new URLSearchParams();
-    params.append('name', 'test');
-    return axios.get(`${APISUFFIX}/api/test/`, params, basicHeader)
+  async createProject(token, data) {
+    return await axios.post(`${APISUFFIX}/api/projects/`, data, authHeaders(token));
   },
 
-  async testToken(token) {
-    return axios.get(`${APISUFFIX}/api/test-token/`, authHeaders(token))
-  }
+  async getUsersProjectsInfo(token, username) {
+
+    return await axios.get(`${APISUFFIX}/api/projects-info/${username}`, authHeaders(token));
+  },
+
+  // async test() {
+  //   const params = new URLSearchParams();
+  //   params.append('name', 'test');
+  //   return axios.get(`${APISUFFIX}/api/test/`, params, basicHeader)
+  // },
+
+  // async testToken(token) {
+  //   return axios.get(`${APISUFFIX}/api/test-token/`, authHeaders(token))
+  // }
 }
 
 

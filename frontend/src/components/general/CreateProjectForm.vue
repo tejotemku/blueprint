@@ -72,7 +72,9 @@
 </template>
 
 <script>
-import router from '../../router'
+import router from '@/router'
+import { api } from "@/api"
+import { mapGetters } from "vuex";
 
 export default {
   name: 'CreateProjectForm',
@@ -104,24 +106,35 @@ export default {
       chosenStandardDimensions: '1920x1080(16:9)',
     }
   },
+  computed: {
+    ...mapGetters({
+      token: 'getToken',
+      username: 'getUsername'
+    }),
+  },
   methods: {
     createNewProject() {
-      let payload = {
-        'name': this.projectName,
-        'description': this.projectDescription || ''
+      let projectFile = {
+        'title': this.projectName,
+        'screens': {}
       }
       if (this.customDimensions) {
-        payload.width = this.customWidth;
-        payload.height = this.customHeight;
+        projectFile.width = this.customWidth;
+        projectFile.height = this.customHeight;
       } else {
         let dividerIndex = this.chosenStandardDimensions.indexOf('x');
         let aspectRatioStartIndex = this.chosenStandardDimensions.indexOf('(');
-        payload.width = this.chosenStandardDimensions.slice(0, dividerIndex);
-        payload.height = this.chosenStandardDimensions.slice(dividerIndex + 1, aspectRatioStartIndex);
+        projectFile.width = this.chosenStandardDimensions.slice(0, dividerIndex);
+        projectFile.height = this.chosenStandardDimensions.slice(dividerIndex + 1, aspectRatioStartIndex);
       }
-      console.log(payload);
-      // TODO: this is a mock
-      let projectId = 0;
+
+      let payload = {
+        "projectName": this.projectName,
+        'description': this.projectDescription || '',
+        "projectFile": JSON.stringify(projectFile),
+        "username": this.username
+      }
+      let projectId = api.createProject(this.token, payload);
       router.push(`/project/${projectId}`);
     },
     returnToHomepage() {

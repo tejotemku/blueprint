@@ -4,7 +4,7 @@
       <!-- TODO: create preview here -->
     </div>
     <v-card-title style="">
-      {{this.projectData.name}}
+      {{this.projectData.projectName}}
     </v-card-title>
   </v-card>
   
