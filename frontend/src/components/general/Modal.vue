@@ -2,7 +2,6 @@
   <div 
     class="background"
     @keydown.esc="hideScreen"
-    @click="hideScreen"
     tabindex="0"
   >
     <div @click.stop>
@@ -15,11 +14,6 @@
 
 export default {
   name: 'Modal',
-  methods: {
-    hideScreen() {
-      // this.$emit('modal:hide');
-    }
-  }
 }
 </script>
 

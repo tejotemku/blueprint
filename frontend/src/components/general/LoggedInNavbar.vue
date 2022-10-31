@@ -14,18 +14,23 @@
 </template>
 
 <script>
-import router from '@/router'
+import router from '@/router';
+import { mapGetters } from "vuex";
 
 export default {
   name: "LoggedInNavbar",
+  computed: {
+    ...mapGetters({
+      username: 'getUsername'
+    }),
+  },
   methods: {
     logout() {
       this.$store.dispatch("actionLogOut");
       router.push(`/`);
     },
     getUserName() {
-      //TODO: change this mock into fetching user name or getting it from vuex store
-      return "Mock Username"
+      return this.username
     },
     goToHomepage() {
       router.push('/home')

@@ -1,5 +1,4 @@
 import { api } from '@/api';
-// import router from '@/router';
 
 const defaultState = {
   username: null,
@@ -75,7 +74,6 @@ export const actions = {
   async actionLogOut(context) {
     context.commit("setToken", null);
     removeLocalToken();
-    // router.push('/login')
   }
 }
 

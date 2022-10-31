@@ -61,7 +61,6 @@ import ComponentsLibrary from '@/components/editor/ComponentsLibrary.vue'
 import Modal from '@/components/general/Modal.vue'
 import ManageScreenTool from '@/components/editor/ManageScreenTool.vue'
 import ManageElementsPropertiesTool from '@/components/editor/ManageElementsPropertiesTool.vue'
-// import { projectData } from '@/mocks/projectDataMock.js'
 import { api } from '@/api'
 import { mapGetters } from "vuex";
 import { generatePrototype } from '@/common/generatePrototype.js'
