@@ -113,7 +113,7 @@ export default {
     }),
   },
   methods: {
-    createNewProject() {
+    async createNewProject() {
       let projectFile = {
         'title': this.projectName,
         'screens': {
@@ -145,11 +145,12 @@ export default {
         "file": JSON.stringify(projectFile),
         "owner": this.username
       }
-      let projectId = api.createProject(this.token, payload);
-      router.push(`/project/${projectId}`);
+      await api.createProject(this.token, payload).then(response => {
+        router.push(`/project/${response.data}`);
+      });
     },
     returnToHomepage() {
-      router.push('/home')
+      router.push('/user')
     }
   }
 }

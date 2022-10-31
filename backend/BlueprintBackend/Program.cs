@@ -42,8 +42,6 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-/*            policy.WithOrigins("http://localhost:8080",
-                                "https://localhost:8080");*/
         });
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

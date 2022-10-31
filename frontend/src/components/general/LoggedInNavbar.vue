@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import router from '../../router'
+import router from '@/router'
 
 export default {
   name: "LoggedInNavbar",
   methods: {
     logout() {
-      //TODO: delete user token
+      this.$store.dispatch("actionLogOut");
       router.push(`/`);
     },
     getUserName() {
@@ -28,7 +28,7 @@ export default {
       return "Mock Username"
     },
     goToHomepage() {
-      router.push('/home')
+      router.push('/user')
     }
   }
 }

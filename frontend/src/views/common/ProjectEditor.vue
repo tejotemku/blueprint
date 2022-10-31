@@ -109,7 +109,7 @@ export default {
           this.token, 
           this.$route.params.id, 
           {
-            "projectFile": JSON.stringify(this.projectData)
+            "file": JSON.stringify(this.projectData)
           }
         );
       }

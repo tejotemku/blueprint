@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import RegisterForm from '../../components/general/RegisterForm.vue'
-// import router from '../../router';
+import RegisterForm from '@/components/general/RegisterForm.vue'
+// import router from '@/router';
 
 
 export default {

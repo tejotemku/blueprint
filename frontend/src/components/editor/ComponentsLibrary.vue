@@ -115,10 +115,10 @@
 
 <script>
 import DragAndDropElement from './DragAndDropElement.vue'
-import { buttonComponents } from '../../prototypeComponentsLibrary/buttons'
-import { shapesComponents } from '../../prototypeComponentsLibrary/shapes'
-import { inputFieldsComponents } from '../../prototypeComponentsLibrary/inputFields'
-import { textFieldsComponents } from '../../prototypeComponentsLibrary/textFields'
+import { buttonComponents } from '@/prototypeComponentsLibrary/buttons'
+import { shapesComponents } from '@/prototypeComponentsLibrary/shapes'
+import { inputFieldsComponents } from '@/prototypeComponentsLibrary/inputFields'
+import { textFieldsComponents } from '@/prototypeComponentsLibrary/textFields'
 
 
 

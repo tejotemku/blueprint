@@ -29,11 +29,19 @@ const APISUFFIX = ""
 
 export const api = {
   async register(data) {
-    return await axios.post(`${APISUFFIX}/api/auth/register/`, data, basicHeader);
+    return await axios.post(`${APISUFFIX}/api/auth/register`, data, basicHeader);
   },
 
   async logIn(data) {
-    return await axios.post(`${APISUFFIX}/api/auth/login/`, data, basicHeader);
+    return await axios.post(`${APISUFFIX}/api/auth/login`, data, basicHeader);
+  },
+
+  async getMe(token) {
+    return await axios.get(`${APISUFFIX}/api/auth/me`, authHeaders(token));
+  },
+
+  async checkAndRefreshToken(token) {
+    return await axios.get(`${APISUFFIX}/api/auth/check-and-refresh-token`, authHeaders(token));
   },
 
   async createProject(token, data) {
@@ -56,73 +64,4 @@ export const api = {
     return await axios.delete(`${APISUFFIX}/api/projects/${projectId}`, authHeaders(token));
   },
 
-  // async test() {
-  //   const params = new URLSearchParams();
-  //   params.append('name', 'test');
-  //   return axios.get(`${APISUFFIX}/api/test/`, params, basicHeader)
-  // },
-
-  // async testToken(token) {
-  //   return axios.get(`${APISUFFIX}/api/test-token/`, authHeaders(token))
-  // }
 }
-
-
-
-// ==========================
-// reference 
-// ==========================
-
-// export const api = {
-//   async logIn(username, password) {
-//     const params = new URLSearchParams();
-//     params.append('username', username);
-//     params.append('password', password);
-
-//     return axios.post(`${APISUFFIX}/api/login/access-token`, params);
-//   },
-
-//   async getMe(token) {
-//     return axios.get(`${APISUFFIX}/api/users/me`, authHeaders(token));
-//   },
-
-//   async updateMe(token, data) {
-//     return axios.put(`${APISUFFIX}/api/users/me`, data, authHeaders(token));
-//   },
-
-//   async getUsers(token, params) {
-//     let config = authHeaders(token);
-//     if (params !== undefined) {
-//       config['params'] = params;
-//     }
-//     return axios.get(`${APISUFFIX}/api/users/`, config);
-//   },
-//   async getUser(token, id) {
-//     return axios.get(`${APISUFFIX}/api/users/${id}`, authHeaders(token));
-//   },
-//   async updateUser(token, userId, data) {
-//     return axios.put(`${APISUFFIX}/api/users/${userId}`, data, authHeaders(token));
-//   },
-
-//   async createUser(token, data) {
-//     return axios.post(`${APISUFFIX}/api/users/`, data, authHeaders(token));
-//   },
-
-//   async createUserOpen(data) {
-//     return axios.post(`${APISUFFIX}/api/users/open`, data);
-//   },
-
-//   async uploadFile(token, file, patientID) {
-//     let config = authHeaders(token);
-//     config.headers['Content-Type'] = 'multipart/form-data';
-//     config["params"] = {};
-//     config.params["patient_id"] = patientID;
-//     return axios.post(`${APISUFFIX}/api/analysis/recordings/upload`,
-//       file,
-//       config);
-//   },
-
-//   async startAnalysis(token, recordingID) {
-//     return axios.post(`${APISUFFIX}/api/analysis/recordings/${recordingID}/analyze`, null, authHeaders(token));
-//   },
-// }

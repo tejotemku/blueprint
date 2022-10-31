@@ -5,7 +5,7 @@ import store from './store';
 
 // Vue router
 import VueRouter from 'vue-router';
-import router from "./router";
+import router from "@/router";
 
 // Vue font awesome
 import { library } from '@fortawesome/fontawesome-svg-core';

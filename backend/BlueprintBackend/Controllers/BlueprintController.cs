@@ -79,7 +79,7 @@ public class BlueprintController : ControllerBase
     }
 
     [HttpPut("projects/{projectId}/file"), Authorize]
-    public async Task<ActionResult> UpdateProjectFile(int projectId, string projectFile)
+    public async Task<ActionResult> UpdateProjectFile(int projectId, UpdateProjetFileDto dto)
     {
         try
         {
@@ -89,7 +89,7 @@ public class BlueprintController : ControllerBase
                out string tokenEmail);
             if (tokenUsername != _database.GetProjectOwner(projectId))
                 throw new Exception("User credentials do not match creator");
-            _database.UpdateProjectFile(projectId, projectFile);
+            _database.UpdateProjectFile(projectId, dto.file);
             return Ok();
         }
         catch (Exception ex)
@@ -117,29 +117,5 @@ public class BlueprintController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
-
-
-
-/*      
-    [HttpGet("test")]
-    public string GetTest()
-    {
-        return "Ok :)";
-    }
-
-
-    [HttpGet("test-token")]
-    public Dictionary<string, string> GetTokenTest()
-    {
-        Dictionary<string, string> requestHeaders = new();
-        foreach (var header in Request.Headers)
-        {
-            if(header.Key == "Authorization") 
-                requestHeaders.Add(header.Key, header.Value);
-        }
-        return requestHeaders;
-    }
-*/
 }
 

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import CreateProjectForm from '../../components/general/CreateProjectForm.vue'
-import LoggedInNavbarVue from '../../components/general/LoggedInNavbar.vue'
+import CreateProjectForm from '@/components/general/CreateProjectForm.vue'
+import LoggedInNavbarVue from '@/components/general/LoggedInNavbar.vue'
 
 export default {
   name: 'CreateProject',

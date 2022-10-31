@@ -54,7 +54,7 @@ public class BlueprintUtils
             GetUsernameAndEmailFromClaims(claims, out string username, out string email);
             return _dataBase.CheckClaims(username, email);
         }
-        catch (Exception ex)
+        catch
         {
             throw new Exception("Incorrect credentials");
         };

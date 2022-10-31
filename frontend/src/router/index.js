@@ -1,47 +1,67 @@
 import Router from 'vue-router'
+import store from '@/store'
 // common pages
-import WelcomePageView from '../views/common/WelcomePageView.vue'
-import LoginView from '../views/common/LoginView.vue'
-import RegisterView from '../views/common/RegisterView.vue'
-// loggedIn pages../views/user/HomepageView.vue
-import HomepageView from '../views/user/HomepageView.vue'
-import CreateProject from '../views/user/CreateProject.vue'
-import ProjectEditor from '../views/common/ProjectEditor.vue'
+import WelcomePageView from '@/views/common/WelcomePageView.vue'
+import LoginView from '@/views/common/LoginView.vue'
+import RegisterView from '@/views/common/RegisterView.vue'
+// loggedIn pages@/views/user/HomepageView.vue
+import HomepageView from '@/views/user/HomepageView.vue'
+import CreateProject from '@/views/user/CreateProject.vue'
+import ProjectEditor from '@/views/common/ProjectEditor.vue'
 // error pages
-import PageNotFound from '../views/error/err404page.vue'
+import PageNotFound from '@/views/error/err404page.vue'
 export default new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'WelcomePage',
-      component: WelcomePageView
+      component: WelcomePageView,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next({ name: "Homepage" });
+        else next();
+      }
     },
     {
       path: '/login',
-      name: 'LoginView',
-      component: LoginView
+      name: 'Login',
+      component: LoginView,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next({ name: "Homepage" });
+        else next();
+      }
     },
     {
       path: '/register',
-      name: 'RegisterView',
-      component: RegisterView
+      name: 'Register',
+      component: RegisterView,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next({ name: "Homepage" });
+        else next();
+      }
     },
     {
-      path: '/home',
-      name: 'HomepageView',
-      component: HomepageView
-
+      path: '/user',
+      name: 'Homepage',
+      component: HomepageView,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next();
+        else next({ name: "Login" });
+      }
     },
     {
       path: '/create-project',
-      name: 'CreateProject',
+      name: 'UserCreateProject',
       component: CreateProject
 
     },
     {
       path: '/project/:id',
-      name: 'ProjectEditor',
+      name: 'UserProjectEditor',
       component: ProjectEditor
     },
     {

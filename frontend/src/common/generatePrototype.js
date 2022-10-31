@@ -1,4 +1,4 @@
-import store from '../store'
+import store from '@/store'
 import { generateElementHtml } from './prototypeElementsHandlers.js'
 
 export const generatePrototype = function() {

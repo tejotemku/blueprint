@@ -56,7 +56,7 @@ public class AuthController : ControllerBase
     }
 
 
-    [HttpPost("check-and-refresh-token"), Authorize]
+    [HttpGet("check-and-refresh-token"), Authorize]
     public async Task<ActionResult<string>> CheckAndRefreshToken()
     {
         try
@@ -105,8 +105,7 @@ public class AuthController : ControllerBase
 
         var token = new JwtSecurityToken(
             claims: claims,
-            //change back to hours
-            expires: DateTime.Now.AddHours(12),
+            expires: DateTime.Now.AddHours(24),
             signingCredentials: cred
         );
 

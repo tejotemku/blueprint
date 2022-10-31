@@ -1,10 +1,9 @@
 import { api } from '@/api';
+// import router from '@/router';
 
 const defaultState = {
   username: null,
-  token: null,
-  loggedIn: false,
-  logInError: false
+  token: null
 };
 
 export const actions = {
@@ -13,8 +12,13 @@ export const actions = {
       response => {
         const token = response.data;
         context.commit("setToken", token);
-        context.commit("setUsername", payload.username);
         saveLocalToken(token);
+        context.commit("setUsername", payload.username);
+      }
+    ).catch(
+      err => {
+        context.dispatch("actionLogOut");
+        console.log(err);
       }
     );
   },
@@ -24,40 +28,60 @@ export const actions = {
       response => {
         const token = response.data;
         context.commit("setToken", token);
-        context.commit("setUsername", payload.username);
         saveLocalToken(token);
+        context.commit("setUsername", payload.username);
       }
     );
   },
 
-  // async actionLogIn(context, payload) {
-  //     try {
-  //         const response = await api.logIn(payload.username, payload.password)
-  //         const token = response.data.access_token;
-  //         if (token) 
-  //         {
-  //             saveLocalToken(token);
-  //             context.commit("setToken", token);
-  //             // context.commit("setLoggedIn", true)
-  //             // context.commit("setLogInError", false)
-  //             // await context.dispatch("actionGetMe");
-  //         } 
-  //         // else 
-  //         // {
-  //         //   await context.dispatch("actionLogOut");
-  //         // }
-  //     } catch (err) {
-  //         // context.commit("setLoggedIn", false)
-  //         // context.commit("setLogInError", true)
-  //         // await context.dispatch("actionLogOut");
-  //     }
-  // },
+  async actionCheckAndRefreshToken(context) {
+    await api.checkAndRefreshToken(context.state.token).then(
+      async function(response) {
+        const token = response.data;
+        context.commit("setToken", token);
+        saveLocalToken(token);
+        await context.dispatch("actionGetMe");
+      }
+    ).catch( 
+      err => {
+        context.dispatch("actionLogOut");
+        console.log(err);
+      }
+    )
+  },
+
+  async actionGetMe(context) {
+    await api.getMe(context.state.token).then(
+      response => {
+        const data = response.data;
+        context.commit("setUsername", data.username);
+      }
+    ).catch(
+      err => {
+        console.log(err);
+      }
+    )
+  },
+
+  async actionCheckLoggedIn(context) {
+    if(!context.state.token) {
+      context.commit("setToken", getLocalToken());
+    }
+    if(context.state.token) {
+      await context.dispatch("actionCheckAndRefreshToken");
+    }
+  },
+
+  async actionLogOut(context) {
+    context.commit("setToken", null);
+    removeLocalToken();
+    // router.push('/login')
+  }
 }
 
 export const getters = {
   getToken: (state) => state.token,
   getUsername: (state) => state.username,
-  loginError: (state) => state.logInError,
 }
 
 export const mutations = {
@@ -66,7 +90,7 @@ export const mutations = {
   },
   setUsername(state, payload) {
       state.username = payload;
-  }
+  },
 }
 
 export const userModule = {
@@ -77,8 +101,8 @@ export const userModule = {
 };
 
 
-export const getLocalToken = () => localStorage.getItem('token');
+const getLocalToken = () => localStorage.getItem('token');
 
 const saveLocalToken = (token) => localStorage.setItem('token', token);
 
-// const removeLocalToken = () => localStorage.removeItem('token');
+const removeLocalToken = () => localStorage.removeItem('token');
