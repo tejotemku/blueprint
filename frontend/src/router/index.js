@@ -44,7 +44,7 @@ export default new Router({
       }
     },
     {
-      path: '/user',
+      path: '/home',
       name: 'Homepage',
       component: HomepageView,
       beforeEnter: async (to, from, next) => {

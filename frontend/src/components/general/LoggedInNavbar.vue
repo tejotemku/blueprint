@@ -28,7 +28,7 @@ export default {
       return "Mock Username"
     },
     goToHomepage() {
-      router.push('/user')
+      router.push('/home')
     }
   }
 }

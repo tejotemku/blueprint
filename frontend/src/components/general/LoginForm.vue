@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     acceptLogin() {
-      router.push(`/user`);
+      router.push(`/home`);
     },
     rejectLogin() {
       this.username=null;

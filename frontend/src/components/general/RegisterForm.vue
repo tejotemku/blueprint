@@ -93,7 +93,7 @@ export default {
           'password': this.password
         }
         await this.$store.dispatch('actionRegister', payload);
-        router.push("/user");
+        router.push("/home");
       }
       catch(e) {
         console.log(e);

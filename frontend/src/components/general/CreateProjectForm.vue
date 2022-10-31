@@ -150,7 +150,7 @@ export default {
       });
     },
     returnToHomepage() {
-      router.push('/user')
+      router.push('/home')
     }
   }
 }
