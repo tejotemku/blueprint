@@ -2,7 +2,8 @@
 
 public record CreateProjectDto
 (
-    string projectName, 
-    string projectFile, 
-    string username
+    string name,
+    string owner,
+    string description,
+    string file
 );

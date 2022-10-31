@@ -4,7 +4,7 @@
       <!-- TODO: create preview here -->
     </div>
     <v-card-title style="">
-      {{this.projectData.projectName}}
+      {{this.projectData.name}}
     </v-card-title>
   </v-card>
   
@@ -17,7 +17,7 @@ export default {
   props: ["projectData"],
   methods: {
     goToProject() {
-      router.push(`/project/${this.projectData.projectId}`)
+      router.push(`/project/${this.projectData.id}`)
     }
   }
 }

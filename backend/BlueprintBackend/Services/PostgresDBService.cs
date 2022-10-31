@@ -3,13 +3,13 @@ using BlueprintBackend.Interfaces;
 using BlueprintBackend.Models;
 
 namespace BlueprintBackend.Services;
-public class PostgresDBmanager: IDataBase
+public class PostgresDBService: IDataBase
 {
     private readonly IConfiguration _config;
     private NpgsqlConnection con;
     NpgsqlCommand cmd;
 
-public PostgresDBmanager(IConfiguration config)
+public PostgresDBService(IConfiguration config)
     {
         _config = config;
         var cs = _config.GetValue<string>("DATABASE_URL");
@@ -18,7 +18,7 @@ public PostgresDBmanager(IConfiguration config)
         cmd = new NpgsqlCommand();
         cmd.Connection = con;
         ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS usersData(username VARCHAR(255) PRIMARY KEY, email VARCHAR(255) UNIQUE, passwordHash TEXT, passwordSalt TEXT)");
-        ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, projectName VARCHAR(255), projectFile JSONB, username VARCHAR(255) references usersData(username))");
+        ExecutePostgresNonQueryCommand("CREATE TABLE IF NOT EXISTS projects(id SERIAL PRIMARY KEY, name VARCHAR(255), description TEXT, file JSONB, owner VARCHAR(255) references usersData(username))");
     }
 
     private void ExecutePostgresNonQueryCommand(string command)
@@ -32,20 +32,21 @@ public PostgresDBmanager(IConfiguration config)
         ExecutePostgresNonQueryCommand($"INSERT INTO usersData(username, email, passwordHash, passwordSalt) VALUES('{username}','{email}', '{passwordHash}', '{passwordSalt}')");
     }
 
-    public int CreateProject(string projectName, string projectFile, string username)
+    public int CreateProject(string name, string file, string description, string owner)
     {
-        cmd.CommandText = $"INSERT INTO projects(projectName, projectFile, username) VALUES('{projectName}','{projectFile}', '{username}') RETURNING id";
+        cmd.CommandText = $"INSERT INTO projects(name, file, description, owner) VALUES('{name}','{file}', '{description}', '{owner}') RETURNING id";
         using var rdr = cmd.ExecuteReader();
         rdr.Read();
         return rdr.GetInt32(0);
     }
 
-    public (string, string) GetUserPaswordHashAndSalt(string username) 
+    public void GetUserPaswordHashAndSalt(string username, out string passwordHash, out string passwordSalt) 
     {
         cmd.CommandText = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='{username}'";
         using var rdr = cmd.ExecuteReader();
         rdr.Read();
-        return (rdr.GetString(0), rdr.GetString(1));
+        passwordHash = rdr.GetString(0);
+        passwordSalt = rdr.GetString(1);
     }
 
     public string GetUserEmail(string username)
@@ -59,41 +60,41 @@ public PostgresDBmanager(IConfiguration config)
     public List<ProjectInfoDto> GetUsersProjectsData(string username)
     {
         List<ProjectInfoDto> data = new(); 
-        cmd.CommandText = $"SELECT id, projectName FROM projects WHERE username='{username}'";
+        cmd.CommandText = $"SELECT id, name, description FROM projects WHERE owner='{username}'";
         using var rdr = cmd.ExecuteReader();
 
         while (rdr.Read())
         {
-            data.Add(new ProjectInfoDto(rdr.GetInt32(0), rdr.GetString(1)));
+            data.Add(new ProjectInfoDto(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2)));
         }
         return data;
     }
 
-    public string GetProjectFile(int projectId)
+    public string GetProjectFile(int id)
     {
-        cmd.CommandText = $"SELECT projectFile FROM projects WHERE id='{projectId}'";
+        cmd.CommandText = $"SELECT file FROM projects WHERE id='{id}'";
         using var rdr = cmd.ExecuteReader();
         rdr.Read();
         return (rdr.GetString(0));
     }
 
-    public void UpdateProjectFile(int projectId, string projectFile)
+    public void UpdateProjectFile(int id, string file)
     {
-        ExecutePostgresNonQueryCommand($"UPDATE projects SET projectFile='{projectFile}' WHERE id='{projectId}'");
+        ExecutePostgresNonQueryCommand($"UPDATE projects SET file='{file}' WHERE id='{id}'");
     }
 
-    public string GetProjectOwner(int projectId)
+    public string GetProjectOwner(int id)
     {
-        cmd.CommandText = $"SELECT username FROM projects WHERE id='{projectId}'";
+        cmd.CommandText = $"SELECT owner FROM projects WHERE id='{id}'";
         using var rdr = cmd.ExecuteReader();
         rdr.Read();
         return (rdr.GetString(0));
 
     }
 
-    public void DeleteProject(int projectId)
+    public void DeleteProject(int id)
     {
-        ExecutePostgresNonQueryCommand($"DELETE FROM projects WHERE id='{projectId}'");
+        ExecutePostgresNonQueryCommand($"DELETE FROM projects WHERE id='{id}'");
     }
     public bool CheckClaims(string username, string email)
     {

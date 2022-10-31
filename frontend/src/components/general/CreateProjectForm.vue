@@ -140,10 +140,10 @@ export default {
       }
 
       let payload = {
-        "projectName": this.projectName,
+        "name": this.projectName,
         'description': this.projectDescription || '',
-        "projectFile": JSON.stringify(projectFile),
-        "username": this.username
+        "file": JSON.stringify(projectFile),
+        "owner": this.username
       }
       let projectId = api.createProject(this.token, payload);
       router.push(`/project/${projectId}`);

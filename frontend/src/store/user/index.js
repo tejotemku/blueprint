@@ -9,15 +9,25 @@ const defaultState = {
 
 export const actions = {
   async actionLogin(context, payload) {
-    const response = await api.logIn(payload);
-    const token = response.data;
-    context.commit("setToken", token);
-    context.commit("setUsername", payload.username);
-    saveLocalToken(token);
+    await api.logIn(payload).then(
+      response => {
+        const token = response.data;
+        context.commit("setToken", token);
+        context.commit("setUsername", payload.username);
+        saveLocalToken(token);
+      }
+    );
   },
 
   async actionRegister(context, payload) {
-    await api.register(payload);
+    await api.register(payload).then(
+      response => {
+        const token = response.data;
+        context.commit("setToken", token);
+        context.commit("setUsername", payload.username);
+        saveLocalToken(token);
+      }
+    );
   },
 
   // async actionLogIn(context, payload) {

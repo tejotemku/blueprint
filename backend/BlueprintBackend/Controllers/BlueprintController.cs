@@ -27,9 +27,9 @@ public class BlueprintController : ControllerBase
                Request.Headers.Authorization,
                out string tokenUsername,
                out string tokenEmail);
-            if (tokenUsername != request.username)
+            if (tokenUsername != request.owner)
                 throw new Exception("User credentials do not match creator");
-            int id = _database.CreateProject(request.projectName, request.projectFile, request.username);
+            int id = _database.CreateProject(request.name, request.file, request.description, request.owner);
             return Ok(id);
         }
         catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿namespace BlueprintBackend.Models;
 public record ProjectInfoDto
 (
-    int projectId,
-    string projectName   
+    int id,
+    string name,
+    string description
 );

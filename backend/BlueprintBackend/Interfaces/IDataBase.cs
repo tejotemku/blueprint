@@ -6,21 +6,21 @@ public interface IDataBase
 {
     public void InsertUser(string username, string email, string passwordHash, string passwordSalt);
 
-    public int CreateProject(string projectName, string projectFile, string username);
+    public int CreateProject(string name, string file, string description, string owner);
 
-    public (string, string) GetUserPaswordHashAndSalt(string username);
+    public void GetUserPaswordHashAndSalt(string username, out string passwordHash, out string passwordSalt);
 
     public string GetUserEmail(string username);
 
     public List<ProjectInfoDto> GetUsersProjectsData(string username);
 
-    public string GetProjectFile(int projectID);
+    public string GetProjectFile(int id);
 
-    public void UpdateProjectFile(int projectId, string projectFile);
+    public void UpdateProjectFile(int id, string file);
 
-    public void DeleteProject(int projectId);
+    public string GetProjectOwner(int id);
+
+    public void DeleteProject(int id);
 
     public bool CheckClaims(string username, string email);
-
-    public string GetProjectOwner(int projectId);
 }

@@ -58,7 +58,6 @@
 
 <script>
 import router from '@/router'
-import { api } from '@/api'
 
 export default {
   name: 'RegisterForm',
@@ -88,7 +87,12 @@ export default {
   methods: {
     async checkRegister() {
       try {
-        await api.register(this.username, this.email, this.password);
+        let payload = {
+          'username': this.username,
+          'email': this.email,
+          'password': this.password
+        }
+        await this.$store.dispatch('actionRegister', payload);
         router.push("/home");
       }
       catch(e) {

@@ -16,25 +16,23 @@ namespace BlueprintBackend.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-    private readonly IConfiguration _config;
     private readonly IDataBase _database;
     private readonly BlueprintUtils _utils;
 
-    public AuthController(IDataBase database, IConfiguration config, BlueprintUtils utils)
+    public AuthController(IDataBase database, BlueprintUtils utils)
     {
-        _config = config;
         _database = database;
         _utils = utils;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserRegisterDto>> Register(UserDto request)
+    public async Task<ActionResult<string>> Register(RegisterUserDto request)
     {
-        CreatePasswordHash(request.Password, out string passwordHash, out string passwordSalt);
+        CreatePasswordHash(request.password, out string passwordHash, out string passwordSalt);
         try
         {
-            _database.InsertUser(request.Username, request.Email, passwordHash, passwordSalt);
-            return Ok(new UserRegisterDto(request.Username, request.Email, passwordHash, passwordSalt));
+            _database.InsertUser(request.username, request.email, passwordHash, passwordSalt);
+            return Ok(CreateToken(request.username, request.email));
         }
         catch (Exception ex)
         {
@@ -44,12 +42,12 @@ public class AuthController : ControllerBase
 
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login(UserLoginDto request)
+    public async Task<ActionResult<string>> Login(LoginUser request)
     {
         try
         {
-            CheckAuthentity(request.Username, request.Password);
-            return Ok(CreateToken(request.Username, _database.GetUserEmail(request.Username)));
+            CheckAuthentity(request.username, request.password);
+            return Ok(CreateToken(request.username, _database.GetUserEmail(request.username)));
         }
         catch (Exception ex)
         {
@@ -64,11 +62,27 @@ public class AuthController : ControllerBase
         try
         {
             _utils.AuthenticateToken(
-                Request.Headers.Authorization, 
-                out string username, 
+                Request.Headers.Authorization,
+                out string username,
                 out string email);
-            string refreshedToken = CreateToken(username, email);
-            return Ok(refreshedToken);
+            return Ok(CreateToken(username, email));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("me"), Authorize]
+    public async Task<ActionResult<MeDto>> GetMe()
+    {
+        try
+        {
+            _utils.AuthenticateToken(
+                Request.Headers.Authorization,
+                out string username,
+                out string email);
+            return Ok(new MeDto(username));
         }
         catch (Exception ex)
         {
@@ -102,7 +116,7 @@ public class AuthController : ControllerBase
 
     private bool CheckAuthentity(string username, string password)
     {
-        (string passwordHash, string passwordSalt) = _database.GetUserPaswordHashAndSalt(username);
+        _database.GetUserPaswordHashAndSalt(username, out string passwordHash, out string passwordSalt);
         
         using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(passwordSalt)))
         {

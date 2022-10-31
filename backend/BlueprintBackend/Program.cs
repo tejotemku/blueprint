@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddControllers();
-builder.Services.AddScoped<IDataBase, PostgresDBmanager>();
+builder.Services.AddScoped<IDataBase, PostgresDBService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -71,7 +71,7 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddSingleton(new BlueprintUtils(config, new PostgresDBmanager(config)));
+builder.Services.AddSingleton(new BlueprintUtils(config, new PostgresDBService(config)));
 
 
 var app = builder.Build();
