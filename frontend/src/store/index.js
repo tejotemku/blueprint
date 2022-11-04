@@ -67,6 +67,12 @@ export const mutations = {
     if(id == state.projectData.defaultScreenId) {
       state.projectData.defaultScreenId = Object.keys(state.projectData.screens)[0];
     }
+    for (const screenData of Object.entries(state.projectData.screens)) {
+      for (const element in screenData.elements) {
+        if (element.properties.redirect == id)
+          element.properties.redirect == null;
+      }
+    }
   },
   changeScreenName(state, data) {
     state.projectData.screens[data.id].name = data.name;

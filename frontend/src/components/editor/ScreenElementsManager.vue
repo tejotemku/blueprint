@@ -76,7 +76,6 @@ export default {
       this.$emit('elementEditingTool:show', id, properties, description)
     },
     setElementAsSelected(id) {
-      console.log(this.selectedItem);
       this.$store.dispatch("actionSetSelectedElementId", id);
     }
   },
