@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal 
-      v-if="isModalOn()"
+      v-if="isModalOn"
       @modal:hide="hideModal"
     >
       <ManageScreenTool
@@ -17,6 +17,10 @@
         :elementId="elementId"
         :elementDescription="elementDescription"
       />
+      <GuestCreateProjectForm 
+        v-if="isOn_GuestCreateProject"
+        @createdProject="createdGuestProject"
+      />
     </Modal>
     <LoggedInNavbarVue>
       <v-btn
@@ -27,6 +31,7 @@
       Generate Prototype
       </v-btn>
       <v-btn
+        v-if="!isGuestMode"
         color="success"
         @click="savePrototype"
         class="mx-2"
@@ -52,18 +57,19 @@
 </template>
 
 <script>
-import LoggedInNavbarVue from '@/components/general/LoggedInNavbar.vue'
-import ScreenElementsManager from '@/components/editor/ScreenElementsManager.vue'
-import AssetsManager from '@/components/editor/AssetsManager.vue'
-import PrototypeScreenEditorArea from '@/components/editor/PrototypeScreenEditorArea.vue'
-import ScreenManager from '@/components/editor/ScreenManager.vue'
-import ComponentsLibrary from '@/components/editor/ComponentsLibrary.vue'
-import Modal from '@/components/general/Modal.vue'
-import ManageScreenTool from '@/components/editor/ManageScreenTool.vue'
-import ManageElementsPropertiesTool from '@/components/editor/ManageElementsPropertiesTool.vue'
-import { api } from '@/api'
+import LoggedInNavbarVue from '@/components/general/LoggedInNavbar.vue';
+import ScreenElementsManager from '@/components/editor/ScreenElementsManager.vue';
+import AssetsManager from '@/components/editor/AssetsManager.vue';
+import PrototypeScreenEditorArea from '@/components/editor/PrototypeScreenEditorArea.vue';
+import ScreenManager from '@/components/editor/ScreenManager.vue';
+import ComponentsLibrary from '@/components/editor/ComponentsLibrary.vue';
+import Modal from '@/components/general/Modal.vue';
+import ManageScreenTool from '@/components/editor/ManageScreenTool.vue';
+import ManageElementsPropertiesTool from '@/components/editor/ManageElementsPropertiesTool.vue';
+import GuestCreateProjectForm from '@/components/general/GuestCreateProjectForm.vue';
+import { api } from '@/api';
 import { mapGetters } from "vuex";
-import { generatePrototype } from '@/common/generatePrototype.js'
+import { generatePrototype } from '@/common/generatePrototype.js';
 
 
 
@@ -78,7 +84,8 @@ export default {
     ComponentsLibrary,
     Modal,
     ManageScreenTool,
-    ManageElementsPropertiesTool
+    ManageElementsPropertiesTool,
+    GuestCreateProjectForm
   },
   data() {
     return {
@@ -90,18 +97,38 @@ export default {
       elementProperties: {},
       elementId: '',
       elementDescription: '',
-      projectLoaded: false
+      projectLoaded: false,
+      isGuestMode: false,
+      isOn_GuestCreateProject: false,
     }
   },
   computed: {
     ...mapGetters({
       token: 'getToken',
+      storedProjectData: 'getProjectData'
     }),
+    isModalOn() {
+      return this.isOn_ScreenManagementTool || this.isOn_ManageElementsPropertiesTool || this.isOn_GuestCreateProject;
+    },
   },
   beforeMount() {
+    this.isGuestMode = this.checkGuestMode();
     this.getProjectData();
   },
   methods: {
+    createdGuestProject() {
+      this.isOn_GuestCreateProject = false;
+      this.projectData = this.storedProjectData;
+      this.projectLoaded = true;
+    },
+    setProjectData(data) {
+      this.$store.dispatch("actionSetProjectData", data);
+      this.projectData = data;
+      this.projectLoaded = true;
+    },
+    checkGuestMode() {
+      return this.$route.path == "/guest";
+    },
     savePrototype() {
       try {
         api.updateProjectFile(
@@ -116,22 +143,21 @@ export default {
         console.log(err);
       }
     },
-    isModalOn() {
-      return this.isOn_ScreenManagementTool || this.isOn_ManageElementsPropertiesTool;
-    },
     getProjectData() {
-      try {
-        api.getProjectFile(this.token, this.$route.params.id).then(
-          response => {
-            this.$store.dispatch("actionSetProjectData", response.data);
-            this.projectData = response.data;
-            this.projectLoaded = true;
-          }
-        );
+      if(this.isGuestMode) {
+        let data = localStorage.getItem('projectData');
+        if (data) this.setProjectData(data);
+        else this.isOn_GuestCreateProject = true;
+      } else {
+        try {
+          api.getProjectFile(this.token, this.$route.params.id).then(
+            response => this.setProjectData(response.data)
+          );
 
-      }
-      catch(err) {
-        console.log(err);
+        }
+        catch(err) {
+          console.log(err);
+        }
       }
     },
     generatePrototypeActions() {

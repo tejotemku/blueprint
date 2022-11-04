@@ -8,7 +8,7 @@ export const inputFieldsComponents = function() {
       text: 'text field',
       defaultHeight: 50,
       defaultWidth: 200,
-      description: "Text Field",
+      description: "Text Input Field",
     },
     {
       previewHtml: '<div style="display: flex;" dragable> <input disabled class="mr-1" type="checkbox" checked /> Checkbox </div>',

@@ -24,6 +24,17 @@ export default new Router({
       }
     },
     {
+      path: '/guest',
+      name: 'Guest',
+      component: ProjectEditor,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next({ name: "Homepage" });
+        else next();
+      }
+
+    },
+    {
       path: '/login',
       name: 'Login',
       component: LoginView,
@@ -56,13 +67,22 @@ export default new Router({
     {
       path: '/create-project',
       name: 'UserCreateProject',
-      component: CreateProject
-
+      component: CreateProject,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next();
+        else next({ name: "Login" });
+      }
     },
     {
       path: '/project/:id',
       name: 'UserProjectEditor',
-      component: ProjectEditor
+      component: ProjectEditor,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("actionCheckLoggedIn");
+        if (store.getters["getToken"]) next();
+        else next({ name: "Login" });
+      }
     },
     {
       path: '*',

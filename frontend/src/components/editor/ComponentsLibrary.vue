@@ -134,10 +134,10 @@ export default {
       inputFields: inputFieldsComponents(),
       shapes: shapesComponents(),
       textFields: textFieldsComponents(),
-      showButtons: false,
+      showButtons: true,
       showInputFields: true,
-      showTextFields: false,
-      showShapes: false,
+      showTextFields: true,
+      showShapes: true,
     }
   }
 }

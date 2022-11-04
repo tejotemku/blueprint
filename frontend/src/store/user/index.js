@@ -73,6 +73,7 @@ export const actions = {
 
   async actionLogOut(context) {
     context.commit("setToken", null);
+    context.commit("setUsername", null);
     removeLocalToken();
   }
 }

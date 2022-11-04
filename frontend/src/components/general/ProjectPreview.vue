@@ -1,11 +1,11 @@
 <template>
   <v-card class="project-preview-box" @click="goToProject">
-    <div style="width: 40px; height: 40px; backgroundColor:red">
-      <!-- TODO: create preview here -->
-    </div>
-    <v-card-title style="">
+    <v-card-title class="project-preview-box-title-name">
       {{this.projectData.name}}
     </v-card-title>
+    <v-card-text>
+      {{this.projectData.description}}
+    </v-card-text>
   </v-card>
   
 </template>
@@ -14,7 +14,12 @@
 import router from '@/router'
 export default {
   name: 'ProjectPreview',
-  props: ["projectData"],
+  props: {
+    projectData: {
+      type: Object,
+      default: () => {}
+    } 
+  },
   methods: {
     goToProject() {
       router.push(`/project/${this.projectData.id}`)
@@ -25,13 +30,13 @@ export default {
 
 <style scoped>
 .project-preview-box {
-  padding: 1rem;
   margin: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 150px;
-  width: calc(90vh/6)
+  min-width: 400px;
+  width: calc(70vw/3)
+}
+.project-preview-box-title-name {
+  word-break: normal;
 }
 </style>

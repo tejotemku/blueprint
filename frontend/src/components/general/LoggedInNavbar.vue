@@ -4,6 +4,7 @@
     <div class="spacer" />
      <slot />
     <v-btn
+      v-if="token"
       color="warning"
       @click="logout"
       class="mx-2"
@@ -21,7 +22,8 @@ export default {
   name: "LoggedInNavbar",
   computed: {
     ...mapGetters({
-      username: 'getUsername'
+      username: 'getUsername',
+      token: 'getToken'
     }),
   },
   methods: {
@@ -30,10 +32,10 @@ export default {
       router.push(`/`);
     },
     getUserName() {
-      return this.username
+      return this.username || "Blueprint - Guest Mode"
     },
     goToHomepage() {
-      router.push('/home')
+      router.push({name: this.username? 'Homepage' : 'WelcomePage'})
     }
   }
 }

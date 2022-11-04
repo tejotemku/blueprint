@@ -3,8 +3,9 @@
     ref="form"
     v-model="valid"
     @submit="(e) => {e.preventDefault(); createNewProject();}"
+    class="create-project-box"
   >
-    <h1>Create a new prototype project</h1>
+    <h1>Create a prototype project</h1>
     <v-text-field
       v-model="projectName"
       :rules="projectNameRules"
@@ -46,13 +47,6 @@
     >
     Aplication Window Dimensions
     </v-select>
-    <v-textarea 
-      label="Project description"
-      class="mb-2"
-      v-model="projectDescription"
-      outlined
-      dense
-    />
     <v-btn
       :disabled="!valid"
       color="success"
@@ -64,7 +58,7 @@
     <v-btn
       color="error"
       class="mr-4"
-      @click="returnToHomepage"
+      @click="cancelGuestMode"
     >
       Cancel
     </v-btn>
@@ -73,16 +67,13 @@
 
 <script>
 import router from '@/router'
-import { api } from "@/api"
-import { mapGetters } from "vuex";
 
 export default {
-  name: 'CreateProjectForm',
+  name: 'GuestCreateProjectForm',
   data() {
     return {
       customDimensions: false,
       projectName: null,
-      projectDescription: null,
       projectWidth: null,
       projectHeight: null,
       customWidth: '1920',
@@ -106,14 +97,11 @@ export default {
       chosenStandardDimensions: '1920x1080(16:9)',
     }
   },
-  computed: {
-    ...mapGetters({
-      token: 'getToken',
-      username: 'getUsername'
-    }),
-  },
   methods: {
-    async createNewProject() {
+    cancelGuestMode() {
+      router.push({ name: "WelcomePage" });
+    },
+    createNewProject() {
       let projectFile = {
         'title': this.projectName,
         'screens': {
@@ -135,28 +123,19 @@ export default {
         projectFile.width = this.chosenStandardDimensions.slice(0, dividerIndex);
         projectFile.height = this.chosenStandardDimensions.slice(dividerIndex + 1, aspectRatioStartIndex);
       }
-
-      let payload = {
-        "name": this.projectName,
-        'description': this.projectDescription || '',
-        "file": JSON.stringify(projectFile),
-        "owner": this.username
-      }
-      await api.createProject(this.token, payload).then(response => {
-        router.push(`/project/${response.data}`);
-      });
+      this.$store.dispatch('actionSetProjectData', projectFile);
+      this.$emit('createdProject');
     },
-    returnToHomepage() {
-      router.push('/home')
-    }
   }
 }
 </script>
 
 <style scoped>
 .create-project-box {
-  padding-block: 2vw;
-  padding-inline: 2.5vw;
-  font-size: 2vw;
+  background-color: rgb(254, 254, 254);
+  padding-inline: 30px;
+  padding-block: 15px;
+  border-radius: 10px;
+  z-index: 4000;
 }
 </style>
