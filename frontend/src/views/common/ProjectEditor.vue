@@ -10,6 +10,11 @@
         :editingMode="screnManagerToolEditingMode"
         :screenInfo="screenToEditData"
       />
+      <NewAssetTool
+        v-if="isOn_NewAssetTool"
+        @closeTool="hideModal" 
+      />
+
       <ManageElementsPropertiesTool
         v-if="isOn_ManageElementsPropertiesTool"
         @closeTool="hideModal" 
@@ -43,7 +48,9 @@
         <ScreenElementsManager 
           @elementEditingTool:show="showManageElementsPropertiesTool"
         />
-        <AssetsManager />
+        <AssetsManager
+          @newAssetTool:show="showNewAssetTool"
+        />
         <ScreenManager 
           @newScreenCreation:show="showNewScreenCreator" 
           @screenEditingTool:show="showScreenEditingTool"
@@ -66,7 +73,9 @@ import ComponentsLibrary from '@/components/editor/ComponentsLibrary.vue';
 import Modal from '@/components/general/Modal.vue';
 import ManageScreenTool from '@/components/editor/ManageScreenTool.vue';
 import ManageElementsPropertiesTool from '@/components/editor/ManageElementsPropertiesTool.vue';
+import NewAssetTool from '@/components/editor/NewAssetTool.vue';
 import GuestCreateProjectForm from '@/components/general/GuestCreateProjectForm.vue';
+
 import { api } from '@/api';
 import { mapGetters } from "vuex";
 import { generatePrototype } from '@/common/generatePrototype.js';
@@ -85,7 +94,8 @@ export default {
     Modal,
     ManageScreenTool,
     ManageElementsPropertiesTool,
-    GuestCreateProjectForm
+    GuestCreateProjectForm,
+    NewAssetTool
   },
   data() {
     return {
@@ -100,6 +110,7 @@ export default {
       projectLoaded: false,
       isGuestMode: false,
       isOn_GuestCreateProject: false,
+      isOn_NewAssetTool: false
     }
   },
   computed: {
@@ -108,7 +119,10 @@ export default {
       storedProjectData: 'getProjectData'
     }),
     isModalOn() {
-      return this.isOn_ScreenManagementTool || this.isOn_ManageElementsPropertiesTool || this.isOn_GuestCreateProject;
+      return this.isOn_ScreenManagementTool 
+      || this.isOn_ManageElementsPropertiesTool 
+      || this.isOn_GuestCreateProject
+      || this.isOn_NewAssetTool;
     },
   },
   beforeMount() {
@@ -166,6 +180,8 @@ export default {
     hideModal() {
       this.isOn_ScreenManagementTool = false;
       this.isOn_ManageElementsPropertiesTool = false;
+      this.isOn_GuestCreateProject = false;
+      this.isOn_NewAssetTool = false;
     },
     showNewScreenCreator() {
       this.screnManagerToolEditingMode = false;
@@ -185,6 +201,9 @@ export default {
       this.elementProperties = properties;
       this.elementDescription = description;
       this.isOn_ManageElementsPropertiesTool = true;
+    },
+    showNewAssetTool() {
+      this.isOn_NewAssetTool = true;
     }
   }
 }

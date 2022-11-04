@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     goToProject() {
-      router.push(`/project/${this.projectData.id}`)
+      router.push({ name: 'UserProjectEditor', params: {id: this.projectData.id }});
     }
   }
 }

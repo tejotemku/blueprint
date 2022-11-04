@@ -1,6 +1,11 @@
 <template>
   <div class="assets-box-container">
-    <v-subheader> ASSETS </v-subheader>
+    <v-subheader> 
+      ASSETS 
+      <v-btn icon color="#00f" @click="openNewAssetTool">
+        <font-awesome-icon icon="plus-square" style="fontSize: 1rem"/>
+      </v-btn>
+    </v-subheader>
     <div class="assets-box">
       <DragAndDropElement 
         v-for="asset in projectAssets" 
@@ -42,6 +47,11 @@ export default {
       projectAssets: 'getProjectAssets'
     }),
   },
+  methods: {
+    openNewAssetTool() {
+      this.$emit('newAssetTool:show');
+    }
+  }
 }
 </script>
 

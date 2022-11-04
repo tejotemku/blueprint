@@ -58,13 +58,13 @@ export default {
   },
   methods: {
     goToLoginPage() {
-      router.push('/login');
+      router.push({ name: 'Login'});
     },
     goToRegisterPage() {
-      router.push('/register');
+      router.push({ name: 'Register'});
     },
     goToGuestPage() {
-      router.push('/guest');
+      router.push({ name: 'Guest'});
     },
   }
 }

@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     goToCorrectPage() {
-      router.push("/");
+      router.push({ name: 'WelcomePage'});
     }
   }
 }

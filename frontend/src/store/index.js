@@ -24,6 +24,9 @@ const state = {
 }
 
 export const mutations = {
+  addAsset(state, url) {
+    state.projectData.assets.push(url);
+  },
   setProjectData(state, data) {
     state.projectData = data;
   },
@@ -87,6 +90,9 @@ export const mutations = {
 }
 
 export const actions = {
+  actionAddAsset(state, data) {
+    state.commit("addAsset", data);
+  },
   actionSetProjectData(state, data) {
     state.commit("setProjectData", data);
   },

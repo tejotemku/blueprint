@@ -97,7 +97,7 @@ export default {
       );
     },
     createNewProject() {
-      router.push(`/create-project`);
+      router.push({ name: 'UserCreateProject'});
     },
   },
   beforeMount() {

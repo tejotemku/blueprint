@@ -93,14 +93,14 @@ export default {
           'password': this.password
         }
         await this.$store.dispatch('actionRegister', payload);
-        router.push("/home");
+        router.push({ name: 'Homepage'});
       }
       catch(e) {
         console.log(e);
       }
     },
     goToFrontpage () {
-      router.push("/");
+      router.push({ name: 'WelcomePage'});
     }
   }
 }

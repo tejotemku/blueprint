@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+.VsCodeCounter/
 
 # local env files
 .env.local

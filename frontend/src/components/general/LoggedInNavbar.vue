@@ -29,13 +29,13 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("actionLogOut");
-      router.push(`/`);
+      router.push({ name: 'WelcomePage' });
     },
     getUserName() {
       return this.username || "Blueprint - Guest Mode"
     },
     goToHomepage() {
-      router.push({name: this.username? 'Homepage' : 'WelcomePage'})
+      router.push({ name: this.username? 'Homepage' : 'WelcomePage' });
     }
   }
 }

@@ -143,11 +143,11 @@ export default {
         "owner": this.username
       }
       await api.createProject(this.token, payload).then(response => {
-        router.push(`/project/${response.data}`);
+        router.push({ name: 'UserProjectEditor', params: {id: response.data }});
       });
     },
     returnToHomepage() {
-      router.push('/home')
+      router.push({ name: 'Homepage'});
     }
   }
 }

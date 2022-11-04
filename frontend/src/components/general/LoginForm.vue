@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     acceptLogin() {
-      router.push(`/home`);
+      router.push({ name: 'Homepage' });
     },
     rejectLogin() {
       this.username=null;
@@ -74,7 +74,7 @@ export default {
       // alert("Username or password incorrect.");
     },
     goToFrontpage() {
-      router.push("/");
+      router.push({ name: 'WelcomePage' });
     },
     async checkLogin() {
       try {
