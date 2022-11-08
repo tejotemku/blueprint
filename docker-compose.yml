@@ -1,0 +1,38 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    container_name: "postgres-blueprint"
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data:cached
+
+  frontend:
+    build: ./frontend
+    image: frontend-blueprint
+    links:
+      - backend
+    ports:
+      - "8080:8080"
+    container_name: "frontend-blueprint"
+    restart: unless-stopped
+
+  backend:
+    build: ./backend/BlueprintBackend
+    image: backend-blueprint
+    environment:
+      ASPNETCORE_URLS: http://*:5000
+    links:
+      - postgres
+    ports:
+      - "5000:5000"
+    container_name: "backend-blueprint"
+    restart: unless-stopped
+
+volumes:
+  db-data:

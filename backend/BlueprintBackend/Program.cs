@@ -77,7 +77,6 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
