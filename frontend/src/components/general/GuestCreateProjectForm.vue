@@ -66,7 +66,8 @@
 </template>
 
 <script>
-import router from '@/router'
+import router from '@/router';
+import { windowDimensions, defaultWindowDimensions } from '@/common/prototypeDimensions.js';
 
 export default {
   name: 'GuestCreateProjectForm',
@@ -90,11 +91,8 @@ export default {
         v => !!v || 'Project name is required',
       ],
       valid: false,
-      dimensions: [
-        '1920x1080(16:9)',
-        '800x600(4x3)',
-      ],
-      chosenStandardDimensions: '1920x1080(16:9)',
+      dimensions: windowDimensions,
+      chosenStandardDimensions: defaultWindowDimensions,
     }
   },
   methods: {

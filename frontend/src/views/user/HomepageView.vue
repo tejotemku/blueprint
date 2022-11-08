@@ -10,7 +10,7 @@
         </v-btn>
     </LoggedInNavbar>
     <div class="homepage-content" >
-      <div class="my-2 ml-15 homepage-tools-row row-space-between">
+      <div class="my-2 mx-auto homepage-tools-row row-space-between">
         <v-text-field  
           v-if="projectsFetched && !noProjects"
           v-model="projectSearchBarValue"
@@ -40,7 +40,6 @@
             noFilteredProjects ? 
             'No projects under that name' : 
             'You have no projects. To create a project use the "New Project" project.'}}
-          
       </h1>
       </v-skeleton-loader>
     </div>
