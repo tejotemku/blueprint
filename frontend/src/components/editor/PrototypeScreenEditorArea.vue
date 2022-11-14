@@ -17,6 +17,7 @@
       v-html="el.html"
       :elementId="el.id"
       :class="isSelectedItem(el.id)"
+      ref="dragableElement"
     />
   </div>
 </template>
@@ -29,6 +30,16 @@ export default {
   name: "PrototypeScreenEditorArea",
   components: {
     DragableElement
+  },
+  props: {
+    maxWidthPercentage: {
+      type: Number,
+      default: 0.65
+    },
+    maxHeightPercentage: {
+      type: Number,
+      default: 0.65
+    },
   },
   computed: {
     ...mapGetters({
@@ -53,6 +64,12 @@ export default {
       return processedElements;
     },
   },
+  watch: {
+    maxHeightPercentage() {
+      console.log("epep");
+      this.updateProjectEditorAreaSize();
+    }
+  },
   methods: {
     updateProjectScale(scale) {
       this.$store.dispatch("actionSetScreenScale", scale);
@@ -62,8 +79,8 @@ export default {
       const prototypeWidth = this.projectWidth;
       let prototypeRatio = prototypeWidth / prototypeHeight;
 
-      const maxAreaHeight = window.innerHeight * 0.65;
-      const maxAreaWidth = window.innerWidth * 0.65;
+      const maxAreaHeight = window.innerHeight * this.maxHeightPercentage;
+      const maxAreaWidth = window.innerWidth * this.maxHeightPercentage;
       let areaRatio = maxAreaWidth / maxAreaHeight;
 
       const area = this.$refs['prototype-screen-editor-area'];
@@ -87,6 +104,7 @@ export default {
       area.style.width = newAreaWidth + 'px';
       area.style.height = newAreaHeight  + 'px';
       this.updateProjectScale(newAreaHeight / prototypeHeight);
+      this.$refs.dragableElement?.every(e => e.maintainBoundries());
     },
     droppedItem(e) {
       const sourceItem = this.$store.getters.getDraggedItem;

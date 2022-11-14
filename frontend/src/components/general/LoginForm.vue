@@ -36,6 +36,21 @@
     >
       Return to Main Page
     </v-btn>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{snackbarMessage}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="closeSnackbar"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-form>
 </template>
 
@@ -56,6 +71,9 @@ export default {
         v => !!v || 'Password is required',
       ],
       valid: false,
+      snackbar: false,
+      snackbarMessage: '',
+      snackbarHideTimer: null
     }
   },
   computed: {
@@ -68,10 +86,7 @@ export default {
       router.push({ name: 'Homepage' });
     },
     rejectLogin() {
-      this.username=null;
       this.password=null;
-      //TODO: change to snackbar
-      // alert("Username or password incorrect.");
     },
     goToFrontpage() {
       router.push({ name: 'WelcomePage' });
@@ -86,9 +101,29 @@ export default {
         this.acceptLogin();
       }
       catch(e) {
-        console.log(e);
-        this.rejectLogin();
+        console.log(e.response.status)
+        switch(e.response.status) {
+          case 401:
+            this.openSnackbar("Login failed, check username and password");
+            this.rejectLogin();
+            break;
+          case 500:
+            this.openSnackbar("Internal Server Error");
+            break;
+          default:
+            this.rejectLogin();
+            break;
+        }
       }
+    },
+    openSnackbar(snackbarMessage) {
+      this.snackbarMessage = snackbarMessage;
+      this.snackbarHideTimer = setTimeout(() => this.closeSnackbar(), 5000);
+      this.snackbar = true;
+    },
+    closeSnackbar() {
+      this.snackbar = false;
+      this.snackbarHideTimer = false;
     }
   }
 }

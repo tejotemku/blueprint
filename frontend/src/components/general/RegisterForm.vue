@@ -53,6 +53,21 @@
     >
       Return to Main Page
     </v-btn>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{snackbarMessage}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="closeSnackbar"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-form>
 </template>
 
@@ -82,6 +97,9 @@ export default {
         v => !!v && this.password == this.passwordConfirm || 'Passwords must match'
       ],
       valid: false,
+      snackbar: false,
+      snackbarMessage: '',
+      snackbarHideTimer: null
     }
   },
   methods: {
@@ -96,11 +114,29 @@ export default {
         router.push({ name: 'Homepage'});
       }
       catch(e) {
-        console.log(e);
+        switch(e.response.status) {
+          case 409:
+            this.openSnackbar("Register failed, user by this username or password exists");
+            break;
+          case 500:
+            this.openSnackbar("Internal Server Error");
+            break;
+          default:
+          console.log(e);
+        }
       }
     },
     goToFrontpage () {
       router.push({ name: 'WelcomePage'});
+    },
+    openSnackbar(snackbarMessage) {
+      this.snackbarMessage = snackbarMessage;
+      this.snackbarHideTimer = setTimeout(() => this.closeSnackbar(), 5000);
+      this.snackbar = true;
+    },
+    closeSnackbar() {
+      this.snackbar = false;
+      this.snackbarHideTimer = false;
     }
   }
 }

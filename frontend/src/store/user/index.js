@@ -17,7 +17,7 @@ export const actions = {
     ).catch(
       err => {
         context.dispatch("actionLogOut");
-        console.log(err);
+        throw err;
       }
     );
   },
@@ -44,16 +44,16 @@ export const actions = {
     ).catch( 
       err => {
         context.dispatch("actionLogOut");
-        console.log(err);
+        throw err;
       }
     )
   },
 
   async actionGetMe(context) {
     await api.getMe(context.state.token).then(
-      response => {
+      async function(response) {
         const data = response.data;
-        context.commit("setUsername", data.username);
+        await context.commit("setUsername", data.username);
       }
     ).catch(
       err => {

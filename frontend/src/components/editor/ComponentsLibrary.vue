@@ -32,7 +32,7 @@
       <div> Input Fields </div> 
       <font-awesome-icon :icon="showInputFields? 'angle-double-up' : 'angle-double-down'" style="fontSize: 1rem;"/> 
     </v-subheader>
-    <div class="library-box-segment" v-if="showInputFields">
+    <div class="library-box-segment--nowrap" v-if="showInputFields">
       <DragAndDropElement 
         v-for="inputField, index in inputFields"
         :key="index"
@@ -61,7 +61,7 @@
       <div> Text Fields </div> 
       <font-awesome-icon :icon="showTextFields? 'angle-double-up' : 'angle-double-down'" style="fontSize: 1rem;"/> 
     </v-subheader>
-    <div class="library-box-segment" v-if="showTextFields">
+    <div class="library-box-segment--nowrap" v-if="showTextFields">
       <DragAndDropElement 
         v-for="textField, index in textFields"
         :key="index"
@@ -165,5 +165,10 @@ export default {
   width: 96%;
   margin-left: 2%;
   border-bottom: 1px solid #dee2e6;
+}
+
+.library-box-segment--nowrap {
+  display: flex;
+  flex-direction: column;
 }
 </style>

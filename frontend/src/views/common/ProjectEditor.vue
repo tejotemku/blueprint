@@ -29,37 +29,66 @@
     </Modal>
     <LoggedInNavbarVue>
       <v-btn
+        color="info"
+        @click="fullWindowSwitch"
+        class="mx-2"
+      >
+        Full Window Mode
+      </v-btn>
+      <v-btn
         color="secondary"
         @click="generatePrototypeActions"
         class="mx-2"
       >
-      Generate Prototype
+        Generate Prototype
       </v-btn>
       <v-btn
-        v-if="!isGuestMode"
         color="success"
-        @click="savePrototype"
+        @click="savePrototype(autosave=false)"
         class="mx-2"
       >
-      Save Prototype
+        Save Prototype
       </v-btn>
     </LoggedInNavbarVue>
     <div v-if="projectLoaded" class="project-view">
-        <ScreenElementsManager 
+        <ScreenElementsManager
+          v-if="!fullWindowMode" 
           @elementEditingTool:show="showManageElementsPropertiesTool"
         />
         <AssetsManager
+          v-if="!fullWindowMode"
           @newAssetTool:show="showNewAssetTool"
         />
         <ScreenManager 
+          v-if="!fullWindowMode"
           @newScreenCreation:show="showNewScreenCreator" 
           @screenEditingTool:show="showScreenEditingTool"
         />
-        <ComponentsLibrary />
-      <PrototypeScreenEditorArea style="bottom: 10vh !important" />
+        <ComponentsLibrary 
+          v-if="!fullWindowMode"
+        />
+      <PrototypeScreenEditorArea
+        :style="prototypeEditorPadding" 
+        :maxWidthPercentage="prototypeEditorMaxWidthPercentage"
+        :maxHeightPercentage="prototypeEditorMaxHeightPercentage"
+        />
     </div>
-
-    <!-- Project Editor site - project id {{this.$route.params.id}} -->
+    <v-snackbar
+      v-model="snackbar"
+      style="z-index: 99999;"
+    >
+      {{snackbarMessage}}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="closeSnackbar"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -110,7 +139,13 @@ export default {
       projectLoaded: false,
       isGuestMode: false,
       isOn_GuestCreateProject: false,
-      isOn_NewAssetTool: false
+      isOn_NewAssetTool: false,
+      prototypeEditorMaxWidthPercentage: 0.65,
+      prototypeEditorMaxHeightPercentage: 0.65,
+      fullWindowMode: false,
+      snackbar: false,
+      snackbarMessage: '',
+      snackbarHideTimer: null
     }
   },
   computed: {
@@ -124,12 +159,20 @@ export default {
       || this.isOn_GuestCreateProject
       || this.isOn_NewAssetTool;
     },
+    prototypeEditorPadding() {
+      return this.fullWindowMode ? '' : 'bottom: 10vh !important';
+    }
   },
   beforeMount() {
     this.isGuestMode = this.checkGuestMode();
     this.getProjectData();
   },
   methods: {
+    fullWindowSwitch() {
+      this.fullWindowMode = !this.fullWindowMode;
+      this.prototypeEditorMaxWidthPercentage = this.fullWindowMode ? 0.9 : 0.65;
+      this.prototypeEditorMaxHeightPercentage  = this.fullWindowMode ? 0.85 : 0.65;
+    },
     createdGuestProject() {
       this.isOn_GuestCreateProject = false;
       this.projectData = this.storedProjectData;
@@ -143,24 +186,29 @@ export default {
     checkGuestMode() {
       return this.$route.path == "/guest";
     },
-    savePrototype() {
-      try {
-        api.updateProjectFile(
+    async savePrototype(autosave=false) {
+      if(this.isGuestMode) {
+        localStorage.setItem('projectData', this.projectData);
+        this.openSnackbar(`${autosave?'Autosave - ':''}Save successful`);
+      } else {
+        await api.updateProjectFile(
           this.token, 
           this.$route.params.id, 
           {
             "file": JSON.stringify(this.projectData)
           }
-        );
-        console.log("saved");
-      }
-      catch(err) {
-        console.log(err);
+        ).then(
+          () => this.openSnackbar(`${autosave?'Autosave - ':''}Save successful`)
+        ).catch( err => {
+          this.openSnackbar(`${autosave?'Autosave - ':''}Save failed`);
+          console.log(err);
+        });
       }
     },
     getProjectData() {
       if(this.isGuestMode) {
         let data = localStorage.getItem('projectData');
+        console.log(data);
         if (data) this.setProjectData(data);
         else this.isOn_GuestCreateProject = true;
       } else {
@@ -169,7 +217,7 @@ export default {
             response => {
               this.setProjectData(response.data);
               let autosavePeriod = 5*60*1000;
-              setInterval(() => this.savePrototype(), autosavePeriod);
+              setInterval(() => this.savePrototype(true), autosavePeriod);
             }
           );
 
@@ -209,6 +257,15 @@ export default {
     },
     showNewAssetTool() {
       this.isOn_NewAssetTool = true;
+    },
+    openSnackbar(snackbarMessage) {
+      this.snackbarMessage = snackbarMessage;
+      this.snackbarHideTimer = setTimeout(() => this.closeSnackbar(), 5000);
+      this.snackbar = true;
+    },
+    closeSnackbar() {
+      this.snackbar = false;
+      this.snackbarHideTimer = false;
     }
   }
 }

@@ -9,6 +9,9 @@ using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Sockets;
+using Npgsql;
+using System.Net;
 
 namespace BlueprintBackend.Controllers;
 
@@ -36,7 +39,15 @@ public class AuthController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            switch (ex)
+            {
+                case SocketException:
+                    return StatusCode((int)HttpStatusCode.InternalServerError);
+                case NpgsqlException:
+                    return StatusCode((int)HttpStatusCode.Conflict);
+                default:
+                    return BadRequest(ex.Message);
+            }
         }
     }
 
@@ -51,7 +62,15 @@ public class AuthController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            switch (ex)
+            {
+                case SocketException:
+                    return StatusCode((int)HttpStatusCode.InternalServerError);
+                case LoginFailed:
+                    return StatusCode((int)HttpStatusCode.Unauthorized);
+                default:
+                    return BadRequest(ex.Message);
+            }
         }
     }
 
@@ -120,7 +139,7 @@ public class AuthController : ControllerBase
         using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(passwordSalt)))
         {
             var computedPassword = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
-            if (computedPassword != passwordHash) throw new BadRequestException("Wrong username or password");
+            if (computedPassword != passwordHash) throw new LoginFailed("Wrong username or password");
             return true;
         }
 
