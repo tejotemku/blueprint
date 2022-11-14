@@ -42,17 +42,17 @@ export default {
   text-overflow: ellipsis;
 }
 .rectangle-full {
-  background-color: brown;
+  background-color: #000;
 }
 .rectangle-hollow {
-  border: black 1px solid;
+  border: #000 1px solid;
 }
 .rectangle-full-rounded {
-  background-color: rgb(5, 230, 5);
+  background-color: #000;
   border-radius: 10%;
 }
 .rectangle-hollow-rounded {
-  border: red 1px solid;
+  border: #000 1px solid;
   border-radius: 10%;
 }
 .circle {
@@ -64,13 +64,22 @@ export default {
 }
 .circle-full {
   border-radius: 50%;
-  background: rgb(125, 25, 164);
+  background: #000;
 }
 .circle-hollow {
   border-radius: 50%;
-  border: rgb(25, 162, 164) 1px solid;
+  border: #000 1px solid;
 }
 .header-big {
   font-size: larger;
+}
+.header-xx-large {
+  font-size: xx-large;
+}
+.header-small {
+  font-size: small;
+}
+.header-tiny {
+  font-size: xx-small;
 }
 </style>

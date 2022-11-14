@@ -26,8 +26,9 @@ export const generatePrototype = function() {
         height: ${projectData.height}px;
         width: ${projectData.width}px;
         background-color: #fff;
-
+        margin: 0 auto;
         overflow: hidden;
+        position: relative;
       }
 
       .elementWrapper {
@@ -45,19 +46,18 @@ export const generatePrototype = function() {
         text-align: center;
         text-overflow: ellipsis;
       }
-      
       .rectangle-full {
-        background-color: brown;
+        background-color: #000;
       }
       .rectangle-hollow {
-        border: black 1px solid;
+        border: #000 1px solid;
       }
       .rectangle-full-rounded {
-        background-color: rgb(5, 230, 5);
+        background-color: #000;
         border-radius: 10%;
       }
       .rectangle-hollow-rounded {
-        border: red 1px solid;
+        border: #000 1px solid;
         border-radius: 10%;
       }
       .circle {
@@ -69,14 +69,23 @@ export const generatePrototype = function() {
       }
       .circle-full {
         border-radius: 50%;
-        background: rgb(125, 25, 164);
+        background: #000;
       }
       .circle-hollow {
         border-radius: 50%;
-        border: rgb(25, 162, 164) 1px solid;
+        border: #000 1px solid;
       }
       .header-big {
         font-size: larger;
+      }
+      .header-xx-large {
+        font-size: xx-large;
+      }
+      .header-small {
+        font-size: small;
+      }
+      .header-tiny {
+        font-size: xx-small;
       }
     </style>
   </head>
@@ -129,7 +138,7 @@ export const generatePrototype = function() {
         let parsedScreenElement = `
           <div
             ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} 
-            style="position: absolute; top: ${element.top / screenScale}px; left: ${element.left / screenScale}px;z-index: ${99999 - index};"
+            style="position: absolute; top: ${parseInt(element.top / screenScale)}px; left: ${parseInt(element.left / screenScale)}px;z-index: ${99999 - index};"
           >
             ${elementHtml}
           </div>

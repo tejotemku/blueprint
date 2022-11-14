@@ -12,7 +12,7 @@
           <font-awesome-icon color icon="xmark" style="fontSize: 1.5rem"/>
         </v-btn>
       </div>
-      <div class="v-form-wrap">
+      <div class="v-form-wrap mt-1 mb-1">
         <v-text-field
           v-model="description"
           :rules="descriptionRules"
@@ -64,7 +64,40 @@
             dense
             type="text"
           />
+        </template>
+        <template v-if="'textColor' in properties">
+          <div class="property-box">
+            <p class="property-label">Text Color</p>
+            <v-color-picker
+              v-model="properties.textColor"
+              dot-size="14"
+              mode="rgba"
+              swatches-max-height="250"
+            />
+          </div>
         </template> 
+        <template v-if="'borderColor' in properties">
+          <div class="property-box">
+            <p class="property-label">Border Color</p>
+            <v-color-picker
+              v-model="properties.borderColor"
+              dot-size="14"
+              mode="rgba"
+              swatches-max-height="250"
+            />
+          </div>
+        </template> 
+        <template v-if="'backgroundColor' in properties">
+          <div class="property-box">
+            <p class="property-label">Background Color</p>
+            <v-color-picker
+              v-model="properties.backgroundColor"
+              dot-size="14"
+              mode="rgba"
+              swatches-max-height="250"
+            />
+          </div>
+        </template>
 
 
         
@@ -265,6 +298,7 @@ export default {
   max-height: 90vh;
   display: block;
   z-index: 4000;
+  width: fit-content important;
 }
 
 .v-form-wrap {
@@ -293,5 +327,16 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+.property-label {
+  color: #444;
+}
+
+.property-box {
+  padding: 3px;
+  border-radius: 5px;
+  /* border: 1px solid #aaa; */
+  background: rgba(204, 204, 204, 0.2);
 }
 </style>

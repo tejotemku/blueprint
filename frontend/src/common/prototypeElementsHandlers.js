@@ -88,6 +88,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
     
     const style = `
       ${element.properties.backgroundColor? "background-color: " + element.properties.backgroundColor + ";" : ""}
+      ${element.properties.borderColor? "border-color: " + element.properties.borderColor + ";" : ""}
     `;
     generatedHtml  = `
       <div 

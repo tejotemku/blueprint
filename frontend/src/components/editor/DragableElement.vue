@@ -3,8 +3,8 @@
     @mousedown.stop.prevent="startDragging"
     :style="{
         position: 'absolute',
-        top: this.top + 'px',
-        left: this.left + 'px',
+        top: parseInt(this.top) + 'px',
+        left: parseInt(this.left) + 'px',
         zIndex: 9999 - this.zIndex,
         opacity: this.itemOpacity,
         transform: `scale(${this.scale})`

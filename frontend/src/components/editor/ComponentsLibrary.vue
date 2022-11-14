@@ -19,9 +19,6 @@
             width: null,
             height: null,
             redirect: null,
-            backgroundColor: null,
-            borderColor: null,
-            textColor: null,
           }
         }"
         v-html="btn.previewHtml"
@@ -76,8 +73,8 @@
             width: 200,
             height: 150,
             redirect: null,
-            text: 'Text Field Example Text',
-            class: textField.class
+            text: textField.text || 'text field',
+            class: textField.class || ''
           }
         }"
         v-html="textField.previewHtml"
@@ -103,6 +100,8 @@
             width: shape.width,
             height: shape.height,
             redirect: null,
+            borderColor: shape.borderColor || '\#000',
+            ...('backgroundColor' in shape) && {backgroundColor: shape.backgroundColor},
           }
         }"
         v-html="shape.previewHtml"
@@ -135,10 +134,10 @@ export default {
       inputFields: inputFieldsComponents(),
       shapes: shapesComponents(),
       textFields: textFieldsComponents(),
-      showButtons: true,
-      showInputFields: true,
-      showTextFields: true,
-      showShapes: true,
+      showButtons: false,
+      showInputFields: false,
+      showTextFields: false,
+      showShapes: false,
     }
   }
 }
