@@ -8,6 +8,8 @@ Vue.use(Vuex)
 const state = {
   projectData : {
     title: "unknown_project_name",
+    width: 1920,
+    height: 1080,
     screens: {
       '0': {
         name: "",
@@ -18,12 +20,15 @@ const state = {
     currentScreenId: '0',
     defaultScreenId: '0',
   },
+  screenScale: 1,
   selectedElementId: null,
   draggedItem: null,
-  userToken: null,
 }
 
 export const mutations = {
+  setScreenScale(state, scale) {
+    state.screenScale = scale;
+  },
   addAsset(state, url) {
     state.projectData.assets.push(url);
   },
@@ -96,6 +101,9 @@ export const mutations = {
 }
 
 export const actions = {
+  actionSetScreenScale(state, data) {
+    state.commit("setScreenScale", data);
+  },
   actionAddAsset(state, data) {
     state.commit("addAsset", data);
   },
@@ -177,8 +185,17 @@ export const getters =  {
     return state.selectedElementId;
   },
   getCurrentScreenId() {
-    return state.projectData.currentScreenId
-  }
+    return state.projectData.currentScreenId;
+  },
+  getScreenScale() {
+    return state.screenScale;
+  },
+  getProjectWidth() {
+    return state.projectData.width;
+  },
+  getProjectHeight() {
+    return state.projectData.height;
+  },
 }
 
 export default new Vuex.Store({

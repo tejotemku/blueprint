@@ -10,7 +10,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
   const generalStyle = `
     ${element.properties.height? "height: " + element.properties.height + "px;": ""} 
     ${element.properties.width? "width: " + element.properties.width + "px;": ""}
-    word-break: break-all;
+    word-break: normal;
   `;
   try {
      handlers[element.type]();
@@ -108,6 +108,8 @@ export const generateElementHtml = (element, disableComponent=false) => {
     `;
     generatedHtml  = `
       <div 
+        ${element.properties.class? 
+        "class=\"" + element.properties.class + "\"" :""}
         style="${generalStyle + style}" 
       >
       ${element.properties.text}

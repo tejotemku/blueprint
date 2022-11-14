@@ -152,6 +152,7 @@ export default {
             "file": JSON.stringify(this.projectData)
           }
         );
+        console.log("saved");
       }
       catch(err) {
         console.log(err);
@@ -165,7 +166,11 @@ export default {
       } else {
         try {
           api.getProjectFile(this.token, this.$route.params.id).then(
-            response => this.setProjectData(response.data)
+            response => {
+              this.setProjectData(response.data);
+              let autosavePeriod = 5*60*1000;
+              setInterval(() => this.savePrototype(), autosavePeriod);
+            }
           );
 
         }

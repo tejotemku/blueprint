@@ -76,7 +76,8 @@
             width: 200,
             height: 150,
             redirect: null,
-            text: 'Text Field Example Text'
+            text: 'Text Field Example Text',
+            class: textField.class
           }
         }"
         v-html="textField.previewHtml"

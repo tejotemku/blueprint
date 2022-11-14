@@ -28,6 +28,12 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
+
+.row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .rectangle {
   width: 80px;
   height: 50px;
@@ -35,7 +41,6 @@ export default {
   text-align: center;
   text-overflow: ellipsis;
 }
-
 .rectangle-full {
   background-color: brown;
 }
@@ -64,5 +69,8 @@ export default {
 .circle-hollow {
   border-radius: 50%;
   border: rgb(25, 162, 164) 1px solid;
+}
+.header-big {
+  font-size: larger;
 }
 </style>

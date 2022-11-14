@@ -1,7 +1,7 @@
 <template>
   <div class="assets-box-container">
     <v-subheader> 
-      ASSETS 
+      IMAGES
       <v-btn icon color="#00f" @click="openNewAssetTool">
         <font-awesome-icon icon="plus-square" style="fontSize: 1rem"/>
       </v-btn>

@@ -6,7 +6,8 @@
         top: this.top + 'px',
         left: this.left + 'px',
         zIndex: 9999 - this.zIndex,
-        opacity: this.itemOpacity
+        opacity: this.itemOpacity,
+        transform: `scale(${this.scale})`
     }"
     @click.prevent.stop="setAsSelected"
     class="prevent-select"
@@ -17,6 +18,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "DragableElement",
   props: {
@@ -36,6 +39,11 @@ export default {
       type: String,
       default: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      scale: 'getScreenScale'
+    }),
   },
   data() {
     return {
@@ -65,10 +73,17 @@ export default {
       this.pos3 = e.clientX;
       this.pos4 = e.clientY;
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
+      // console.log(prototypeScreenEditorArea);
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
       let top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight);
       let left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth);
+      console.log(
+        'width constraint', widthConstraint,
+        '\nwidthConstraint - element.offsetWidth', widthConstraint - element.offsetWidth,
+        '\nelement offset left', element.offsetLeft,
+        '\nelement offset left - pos', element.offsetLeft - this.pos1,
+      );
       let newElementData = {
         top: top,
         left: left,
@@ -91,26 +106,26 @@ export default {
     setAsSelected() {
       this.$store.dispatch("actionSetSelectedElementId", this.elementId);
     },
-    maintainBoundries(offsetHalfOfTheSize=false) {
+    maintainBoundries() {
       const element = this.$refs.dragableElement;
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
-      let top = this.between(element.offsetTop - (element.offsetHeight/2) * offsetHalfOfTheSize, 0, heightConstraint - element.offsetHeight / (1 + offsetHalfOfTheSize));
-      let left = this.between(element.offsetLeft - (element.offsetWidth/2) * offsetHalfOfTheSize, 0, widthConstraint - element.offsetWidth  / (1 + offsetHalfOfTheSize));
+      let top = this.between(element.offsetTop, 0, heightConstraint - element.offsetHeight);
+      let left = this.between(element.offsetLeft, 0, widthConstraint - element.offsetWidth);
       let newElementData = {
         top: top,
         left: left,
         elementId: this.elementId
       }
       this.$store.dispatch('actionChangeElementPositionOnScreen', newElementData);
-      this.$refs.dragableElement.style.top = top + "px";
-      this.$refs.dragableElement.style.left = left + "px";
+      this.$refs.dragableElement.style.top = this.scale * top + "px";
+      this.$refs.dragableElement.style.left = this.scale * left + "px";
     },
   },
   mounted() {
     this.maintainBoundries();
-    document.addEventListener('resize', () => {
+    window.addEventListener('resize', () => {
       this.maintainBoundries();
     });
   }

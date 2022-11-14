@@ -3,6 +3,7 @@ import { generateElementHtml } from './prototypeElementsHandlers.js'
 
 export const generatePrototype = function() {
   const projectData = store.getters.getProjectData;
+  let screenScale = store.getters.getScreenScale;
   let screens = projectData.screens;
 
   let generatedHtml = `
@@ -25,7 +26,7 @@ export const generatePrototype = function() {
         height: ${projectData.height}px;
         width: ${projectData.width}px;
         background-color: #fff;
-        margin: 0 auto;
+
         overflow: hidden;
       }
 
@@ -73,6 +74,9 @@ export const generatePrototype = function() {
       .circle-hollow {
         border-radius: 50%;
         border: rgb(25, 162, 164) 1px solid;
+      }
+      .header-big {
+        font-size: larger;
       }
     </style>
   </head>
@@ -125,7 +129,7 @@ export const generatePrototype = function() {
         let parsedScreenElement = `
           <div
             ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} 
-            style="position: absolute; top: ${element.top}px; left: ${element.left}px;z-index: ${99999 - index};"
+            style="position: absolute; top: ${element.top / screenScale}px; left: ${element.left / screenScale}px;z-index: ${99999 - index};"
           >
             ${elementHtml}
           </div>

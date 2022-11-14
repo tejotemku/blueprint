@@ -12,12 +12,12 @@
       outlined
       dense
     />
-    <v-switch
-      v-model="customDimensions"
-      :label="customDimensions? 'Custom Dimensions' :  'Standard Dimensions'"
-      class="mt-0"
-    >
-    </v-switch>
+    <div class="row-center">
+      <v-switch
+        v-model="customDimensions"
+      />
+      {{customDimensions? 'Custom Dimensions' :  'Standard Dimensions'}}
+    </div>
     <template v-if="customDimensions">
       <v-text-field
         v-model="customWidth"
