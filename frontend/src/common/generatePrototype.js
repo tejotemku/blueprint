@@ -19,7 +19,7 @@ export const generatePrototype = function() {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
       body {
-        background-color: #fcba03;
+        background-color: #5580EC;
         margin: 0 auto;
       }
       #container {
@@ -28,7 +28,8 @@ export const generatePrototype = function() {
         background-color: #fff;
         margin: 0 auto;
         overflow: hidden;
-        position: relative;
+        position: relative;  
+        outline: solid #c0c5ca 3px;
       }
 
       .elementWrapper {

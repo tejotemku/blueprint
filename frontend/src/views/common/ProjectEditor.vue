@@ -208,7 +208,7 @@ export default {
     getProjectData() {
       if(this.isGuestMode) {
         let data = localStorage.getItem('projectData');
-        console.log(data);
+        // console.log(data);
         if (data) this.setProjectData(data);
         else this.isOn_GuestCreateProject = true;
       } else {

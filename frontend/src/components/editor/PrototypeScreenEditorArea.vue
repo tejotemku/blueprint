@@ -7,7 +7,7 @@
     @dragover.prevent
     @click="resetSelectedItem"
     >
-    <span class="size-label">{{projectHeight}}x{{projectWidth}}</span>
+    <span class="size-label">{{projectHeight}}x{{projectWidth}} - {{parseInt(projectScale*100)}}% scale</span>
     <DragableElement
       v-for="el, index in processedElements" 
       :key="el.id"
@@ -66,7 +66,6 @@ export default {
   },
   watch: {
     maxHeightPercentage() {
-      console.log("epep");
       this.updateProjectEditorAreaSize();
     }
   },
@@ -104,17 +103,16 @@ export default {
       area.style.width = newAreaWidth + 'px';
       area.style.height = newAreaHeight  + 'px';
       this.updateProjectScale(newAreaHeight / prototypeHeight);
-      this.$refs.dragableElement?.every(e => e.maintainBoundries());
     },
     droppedItem(e) {
       const sourceItem = this.$store.getters.getDraggedItem;
       if (sourceItem) {
-        // new object is created to avoid deep copies
         const prototypeScreenEditorArea = this.$refs['prototype-screen-editor-area'];
         const widthConstraint = prototypeScreenEditorArea.offsetWidth;
         const heightConstraint = prototypeScreenEditorArea.offsetHeight;
         const offsetTop = prototypeScreenEditorArea.offsetTop;
         const offsetLeft = prototypeScreenEditorArea.offsetLeft;
+        // new object is created to avoid deep copies
         let item = {
           ...sourceItem,
           id: Date.now() + '',
@@ -151,7 +149,7 @@ export default {
   height: 64vh;
   margin-inline: 0 auto;
   background-color: rgb(255, 255, 255);
-  border: solid #c0c5ca 3px;
+  outline: solid #c0c5ca 3px;
   z-index: 2500;
   overflow: visible;
 }
@@ -161,9 +159,13 @@ export default {
 
 .size-label {
   position: absolute;
-  left: 0;
+  left: -3px;
   top: -20px;
-  line-height: 18px;
-  color: rgb(93, 93, 93)
+  line-height: 14px;
+  font-size: 12px;
+  color: rgb(93, 93, 93);
+  background-color: rgba(48, 137, 201, 0.5);
+  padding: 3px;
+  border-radius: 1px;
 }
 </style>

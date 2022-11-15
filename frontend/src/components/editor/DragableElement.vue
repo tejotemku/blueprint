@@ -54,6 +54,14 @@ export default {
       pos4: 0,
     }
   },
+  watch: {
+    scale(new_val, old_val) {
+      const element = this.$refs.dragableElement;
+      this.$refs.dragableElement.style.top = element.offsetTop * new_val/old_val + "px";
+      this.$refs.dragableElement.style.left = element.offsetLeft * new_val/old_val + "px";
+      this.maintainBoundries();
+    }
+  },
   methods: {
     startDragging(e) {
       this.itemOpacity = 0.65;
@@ -73,17 +81,16 @@ export default {
       this.pos3 = e.clientX;
       this.pos4 = e.clientY;
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
-      // console.log(prototypeScreenEditorArea);
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
       let top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight);
       let left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth);
-      console.log(
-        'width constraint', widthConstraint,
-        '\nwidthConstraint - element.offsetWidth', widthConstraint - element.offsetWidth,
-        '\nelement offset left', element.offsetLeft,
-        '\nelement offset left - pos', element.offsetLeft - this.pos1,
-      );
+      // console.log(
+      //   'width constraint', widthConstraint,
+      //   '\nwidthConstraint - element.offsetWidth', widthConstraint - element.offsetWidth,
+      //   '\nelement offset left', element.offsetLeft,
+      //   '\nelement offset left - pos', element.offsetLeft - this.pos1,
+      // );
       let newElementData = {
         top: top,
         left: left,
@@ -119,15 +126,13 @@ export default {
         elementId: this.elementId
       }
       this.$store.dispatch('actionChangeElementPositionOnScreen', newElementData);
-      this.$refs.dragableElement.style.top = this.scale * top + "px";
-      this.$refs.dragableElement.style.left = this.scale * left + "px";
+      console.log(this.scale);
+      this.$refs.dragableElement.style.top = top * (!shouldRescale || this.scale) + "px";
+      this.$refs.dragableElement.style.left = left * (!shouldRescale || this.scale) + "px";
     },
   },
   mounted() {
     this.maintainBoundries();
-    window.addEventListener('resize', () => {
-      this.maintainBoundries();
-    });
   }
 }
 
