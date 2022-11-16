@@ -30,97 +30,161 @@ public PostgresDBService(IConfiguration config)
 
     public void InsertUser(string username, string email, string passwordHash, string passwordSalt)
     {
-        ExecutePostgresNonQueryCommand($"INSERT INTO usersData(username, email, passwordHash, passwordSalt) VALUES('{username}','{email}', '{passwordHash}', '{passwordSalt}')");
+        string commandText = $"INSERT INTO usersData(username, email, passwordHash, passwordSalt) VALUES(@username, @email, @passwordHash, @passwordSalt)";
+        con.Open();
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+
+            command.Parameters.AddWithValue("username", username);
+            command.Parameters.AddWithValue("email", email);
+            command.Parameters.AddWithValue("passwordHash", passwordHash);
+            command.Parameters.AddWithValue("passwordSalt", passwordSalt);
+            command.ExecuteNonQuery();
+        }
+        con.Close();
     }
 
     public int CreateProject(string name, string file, string description, string owner)
     {
         con.Open();
-        cmd.CommandText = $"INSERT INTO projects(name, file, description, owner) VALUES('{name}','{file}', '{description}', '{owner}') RETURNING id";
-        using var rdr = cmd.ExecuteReader();
-        rdr.Read();
-        int result = rdr.GetInt32(0);
+        string commandText = $"INSERT INTO projects(name, file, description, owner) VALUES(@name, '{file}', @description, @owner) RETURNING id";
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("name", name);
+            command.Parameters.AddWithValue("description", description);
+            command.Parameters.AddWithValue("owner", owner);
+            using var rdr = command.ExecuteReader();
+            rdr.Read();
+            int result = rdr.GetInt32(0);
+            return result;
+        }
         con.Close();
-        return result;
     }
 
     public void GetUserPaswordHashAndSalt(string username, out string passwordHash, out string passwordSalt)
     {
         con.Open();
-        cmd.CommandText = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username='{username}'";
-        using var rdr = cmd.ExecuteReader();
-        rdr.Read();
-        passwordHash = rdr.GetString(0);
-        passwordSalt = rdr.GetString(1);
+        string commandText = $"SELECT passwordHash, passwordSalt FROM usersData WHERE username=@username";
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("username", username);
+            using var rdr = command.ExecuteReader();
+            rdr.Read();
+            passwordHash = rdr.GetString(0);
+            passwordSalt = rdr.GetString(1);
+        }
         con.Close();
     }
 
     public string GetUserEmail(string username)
     {
+        string commandText = $"SELECT email FROM usersData WHERE username=@username";
         con.Open();
-        cmd.CommandText = $"SELECT email FROM usersData WHERE username='{username}'";
-        using var rdr = cmd.ExecuteReader();
-        rdr.Read();
-        string result = rdr.GetString(0);
+        using (var command = new NpgsqlCommand(commandText, con))
+        { 
+            command.Parameters.AddWithValue("username", username);
+            using var rdr = command.ExecuteReader();
+            rdr.Read();
+            string result = rdr.GetString(0);
+            con.Close();
+            return result;
+        }
         con.Close();
-        return result;
     }
 
     public List<ProjectInfoDto> GetUsersProjectsData(string username)
     {
+        List<ProjectInfoDto> data = new();
+        string commandText = $"SELECT id, name, description FROM projects WHERE owner=@username";
         con.Open();
-        List<ProjectInfoDto> data = new(); 
-        cmd.CommandText = $"SELECT id, name, description FROM projects WHERE owner='{username}'";
-        using var rdr = cmd.ExecuteReader();
-        while (rdr.Read())
+        using (var command = new NpgsqlCommand(commandText, con))
         {
-            data.Add(new ProjectInfoDto(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2)));
+            command.Parameters.AddWithValue("username", username);
+            using var rdr = command.ExecuteReader();
+            while (rdr.Read())
+            {
+                data.Add(new ProjectInfoDto(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2)));
+            }
+            con.Close();
+            return data;
         }
         con.Close();
-        return data;
     }
 
     public string GetProjectFile(int id)
     {
+        string commandText = $"SELECT file FROM projects WHERE id=@id";
         con.Open();
-        cmd.CommandText = $"SELECT file FROM projects WHERE id='{id}'";
-        using var rdr = cmd.ExecuteReader();
-        rdr.Read();
-        string result = rdr.GetString(0);
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("id", id);
+            using var rdr = command.ExecuteReader();
+            rdr.Read();
+            string result = rdr.GetString(0);
+            con.Close();
+            return result;
+        }
         con.Close();
-        return result;
+
     }
 
     public void UpdateProjectFile(int id, string file)
     {
-        ExecutePostgresNonQueryCommand($"UPDATE projects SET file='{file}' WHERE id='{id}'");
+        string commandText = $"UPDATE projects SET file='{file}' WHERE id=@id";
+        con.Open();
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("id", id);
+            command.ExecuteNonQuery();
+        }
+        con.Close();
+
     }
 
     public string GetProjectOwner(int id)
     {
+        string commandText = $"SELECT owner FROM projects WHERE id=@id";
         con.Open();
-        cmd.CommandText = $"SELECT owner FROM projects WHERE id='{id}'";
-        using var rdr = cmd.ExecuteReader();
-        rdr.Read();
-        string result = rdr.GetString(0);
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("id", id);
+            using var rdr = command.ExecuteReader();
+            rdr.Read();
+            string result = rdr.GetString(0);
+            con.Close();
+            return result;
+        }
         con.Close();
-        return result;
-
     }
 
     public void DeleteProject(int id)
     {
-        ExecutePostgresNonQueryCommand($"DELETE FROM projects WHERE id='{id}'");
+        string commandText = $"DELETE FROM projects WHERE id=@id";
+        con.Open();
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("id", id);
+            command.ExecuteNonQuery();
+        }
+        con.Close();
     }
+
     public bool CheckClaims(string username, string email)
     {
+        string commandText = $"SELECT username, email FROM usersData WHERE username=@username AND email=@email";
         con.Open();
-        cmd.CommandText = $"SELECT username, email FROM usersData WHERE username='{username}' AND email='{email}'";
-        using var rdr = cmd.ExecuteReader();
-        rdr.Read();
-        var db_username = rdr.GetString(0);
-        var db_email = rdr.GetString(1);
+        using (var command = new NpgsqlCommand(commandText, con))
+        {
+            command.Parameters.AddWithValue("username", username);
+            command.Parameters.AddWithValue("email", email);
+            using var rdr = command.ExecuteReader();
+            rdr.Read();
+            var db_username = rdr.GetString(0);
+            var db_email = rdr.GetString(1);
+            con.Close();
+            return db_username == username && db_email == email;
+        }
         con.Close();
-        return db_username == username && db_email == email;
+
     }
 }
