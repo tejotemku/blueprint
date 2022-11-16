@@ -47,7 +47,7 @@
         @click="savePrototype(autosave=false)"
         class="mx-2"
       >
-        Save Prototype
+        {{ isGuestMode? 'Save locally' : 'Save Prototype' }}
       </v-btn>
     </LoggedInNavbarVue>
     <div v-if="projectLoaded" class="project-view">
@@ -188,7 +188,7 @@ export default {
     },
     async savePrototype(autosave=false) {
       if(this.isGuestMode) {
-        localStorage.setItem('projectData', this.projectData);
+        localStorage.setItem('projectData', JSON.stringify(this.projectData));
         this.openSnackbar(`${autosave?'Autosave - ':''}Save successful`);
       } else {
         await api.updateProjectFile(
@@ -207,16 +207,19 @@ export default {
     },
     getProjectData() {
       if(this.isGuestMode) {
-        let data = localStorage.getItem('projectData');
-        // console.log(data);
-        if (data) this.setProjectData(data);
+        let data = JSON.parse(localStorage.getItem('projectData'));
+        console.log(data);
+        if (data) {
+          this.setProjectData(data);
+          this.projectLoaded = true;
+        }
         else this.isOn_GuestCreateProject = true;
       } else {
         try {
           api.getProjectFile(this.token, this.$route.params.id).then(
             response => {
               this.setProjectData(response.data);
-              let autosavePeriod = 5*60*1000;
+              let autosavePeriod = 300000; // 5 minutes
               setInterval(() => this.savePrototype(true), autosavePeriod);
             }
           );

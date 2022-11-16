@@ -20,7 +20,7 @@ const state = {
     currentScreenId: '0',
     defaultScreenId: '0',
   },
-  screenScale: 1,
+  screenScale: null,
   selectedElementId: null,
   draggedItem: null,
 }

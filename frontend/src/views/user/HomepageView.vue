@@ -37,9 +37,10 @@
           v-else
         >
           {{ 
-            noFilteredProjects ? 
-            'No projects under that name' : 
-            'You have no projects. To create a project use the "New Project" project.'}}
+            noProjects ? 
+            'You have no projects. To create a project use the "New Project" button.' :
+            'No projects under that name' 
+            }}
       </h1>
       </v-skeleton-loader>
     </div>

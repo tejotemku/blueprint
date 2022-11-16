@@ -56,6 +56,7 @@ export default {
   },
   watch: {
     scale(new_val, old_val) {
+      if (!old_val) return;
       const element = this.$refs.dragableElement;
       this.$refs.dragableElement.style.top = element.offsetTop * new_val/old_val + "px";
       this.$refs.dragableElement.style.left = element.offsetLeft * new_val/old_val + "px";
