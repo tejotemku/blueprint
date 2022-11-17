@@ -116,7 +116,7 @@ export default {
       catch(e) {
         switch(e.response.status) {
           case 409:
-            this.openSnackbar("Register failed, user by this username or password exists");
+            this.openSnackbar("Register failed, user by this username or email exists");
             break;
           case 500:
             this.openSnackbar("Internal Server Error");

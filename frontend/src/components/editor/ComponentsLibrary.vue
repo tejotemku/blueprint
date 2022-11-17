@@ -70,8 +70,8 @@
           description: 'Text Field',
           properties: {
             textColor: textField.textColor,
-            width: 200,
-            height: 150,
+            width: null,
+            height: null,
             redirect: null,
             text: textField.text || 'text field',
             class: textField.class || ''

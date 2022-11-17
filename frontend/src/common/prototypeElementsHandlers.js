@@ -95,7 +95,7 @@ export const generateElementHtml = (element, disableComponent=false) => {
         style="${generalStyle + style}" 
         ${element.properties.class? 
         "class=\"" + element.properties.class + "\"" :""} 
-      />`;
+      > </div>`;
   }
 
   function handleTextField() {
