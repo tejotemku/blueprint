@@ -50,8 +50,9 @@
           <v-btn
             class="mr-4"
             v-on="on"
+            :disabled="screenQuantity < 2"
           >
-            Remove
+             {{screenQuantity == 1 ? 'Cannot remove the only screen' : 'Remove'}}
           </v-btn>
         </template>
         <v-card>
@@ -114,7 +115,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      defaultScreenId: 'getDefaultScreenId'
+      defaultScreenId: 'getDefaultScreenId',
+      screenQuantity: 'getScreenQuantity'
     }),
   },
   methods: {

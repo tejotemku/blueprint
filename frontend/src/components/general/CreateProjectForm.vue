@@ -75,7 +75,7 @@
 import router from '@/router';
 import { api } from "@/api";
 import { mapGetters } from "vuex";
-import { windowDimensions, defaultWindowDimensions } from '@/common/prototypeDimensions.js';
+import { windowDimensions, defaultWindowDimensions } from '@/utils/prototypeDimensions.js';
 
 export default {
   name: 'CreateProjectForm',

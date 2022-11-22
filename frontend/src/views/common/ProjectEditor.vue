@@ -107,7 +107,7 @@ import GuestCreateProjectForm from '@/components/general/GuestCreateProjectForm.
 
 import { api } from '@/api';
 import { mapGetters } from "vuex";
-import { generatePrototype } from '@/common/generatePrototype.js';
+import { generatePrototype } from '@/utils/generatePrototype.js';
 
 
 

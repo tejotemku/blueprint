@@ -24,7 +24,7 @@
 <script>
 import DragableElement from "./DragableElement.vue";
 import { mapGetters } from "vuex";
-import { generateElementHtml } from '@/common/prototypeElementsHandlers.js';
+import { generateElementHtml } from '@/utils/prototypeElementsHandlers.js';
 
 export default {
   name: "PrototypeScreenEditorArea",

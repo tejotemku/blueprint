@@ -67,7 +67,7 @@
 
 <script>
 import router from '@/router';
-import { windowDimensions, defaultWindowDimensions } from '@/common/prototypeDimensions.js';
+import { windowDimensions, defaultWindowDimensions } from '@/utils/prototypeDimensions.js';
 
 export default {
   name: 'GuestCreateProjectForm',

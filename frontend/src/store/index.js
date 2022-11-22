@@ -196,6 +196,9 @@ export const getters =  {
   getProjectHeight() {
     return state.projectData.height;
   },
+  getScreenQuantity() {
+    return Object.keys(state.projectData.screens).length;
+  }
 }
 
 export default new Vuex.Store({
