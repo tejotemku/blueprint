@@ -33,7 +33,7 @@
         @click="fullWindowSwitch"
         class="mx-2"
       >
-        Full Window Mode
+        {{fullWindowMode ? 'Close Full Window Mode' : 'Open Full Window Mode'}}
       </v-btn>
       <v-btn
         color="secondary"
@@ -145,7 +145,7 @@ export default {
       fullWindowMode: false,
       snackbar: false,
       snackbarMessage: '',
-      snackbarHideTimer: null
+      snackbarHideTimer: null,
     }
   },
   computed: {

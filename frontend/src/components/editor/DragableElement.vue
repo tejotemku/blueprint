@@ -5,6 +5,8 @@
         position: 'absolute',
         top: parseInt(this.top) + 'px',
         left: parseInt(this.left) + 'px',
+        // top: '0px',
+        // left: '0px',
         zIndex: 9999 - this.zIndex,
         opacity: this.itemOpacity,
         transform: `scale(${this.scale})`
@@ -84,14 +86,18 @@ export default {
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
       const heightConstraint = prototypeScreenEditorArea.offsetHeight;
-      let top = this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight);
-      let left = this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth);
-      // console.log(
-      //   'width constraint', widthConstraint,
-      //   '\nwidthConstraint - element.offsetWidth', widthConstraint - element.offsetWidth,
-      //   '\nelement offset left', element.offsetLeft,
-      //   '\nelement offset left - pos', element.offsetLeft - this.pos1,
-      // );
+      // console.log(element.offsetTop, this.pos2);
+      let top = parseInt(this.between(element.offsetTop - this.pos2, 0, heightConstraint - element.offsetHeight));
+      let left = parseInt(this.between(element.offsetLeft - this.pos1, 0, widthConstraint - element.offsetWidth));
+      console.log(
+        'width constraint', widthConstraint,
+        '\nwidthConstraint - element.offsetWidth', widthConstraint - element.offsetWidth,
+        '\nwidthConstraint - (element.offsetWidth * this.scale)', widthConstraint - (element.offsetWidth * this.scale),
+        '\nelement.offsetWidth', element.offsetWidth,
+        '\nelement offset left', element.offsetLeft,
+        '\nelement offset left - pos', element.offsetLeft - this.pos1,
+        '\nscale', this.scale
+      );
       let newElementData = {
         top: top,
         left: left,
@@ -114,7 +120,7 @@ export default {
     setAsSelected() {
       this.$store.dispatch("actionSetSelectedElementId", this.elementId);
     },
-    maintainBoundries() {
+    maintainBoundries(shouldRescale) {
       const element = this.$refs.dragableElement;
       const prototypeScreenEditorArea = document.getElementById('prototype-screen-editor-area');
       const widthConstraint = prototypeScreenEditorArea.offsetWidth;
@@ -127,7 +133,6 @@ export default {
         elementId: this.elementId
       }
       this.$store.dispatch('actionChangeElementPositionOnScreen', newElementData);
-      console.log(this.scale);
       this.$refs.dragableElement.style.top = top * (!shouldRescale || this.scale) + "px";
       this.$refs.dragableElement.style.left = left * (!shouldRescale || this.scale) + "px";
     },

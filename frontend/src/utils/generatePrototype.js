@@ -136,6 +136,7 @@ export const generatePrototype = function() {
       screenData.elements.forEach(function(element, index) {
         let elementHtml = generateElementHtml(element);
         elementHtml = elementHtml.replace(/[\n\r]/g, ' ');
+        console.log(screenScale);
         let parsedScreenElement = `
           <div
             ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} 
