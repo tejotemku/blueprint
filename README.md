@@ -1,6 +1,6 @@
 # Blueprint
 
-## Web Aplication only mode (no server services)
+## Manual instalation
 
 ### Prerequisites
 - Node.js >= 16.13
@@ -28,9 +28,7 @@ Web aplication will be hosted on port 8080 by default.
 
 ## Docker mode
 ### Prerequisites
-- ASP.NET >= 6.0
 - Node.js >= 16.13
-- docker >= 20.10
 
 ### Instalation
 ```bash
