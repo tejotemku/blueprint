@@ -29,13 +29,6 @@
     </Modal>
     <LoggedInNavbarVue>
       <v-btn
-        color="info"
-        @click="fullWindowSwitch"
-        class="mx-2"
-      >
-        {{fullWindowMode ? 'Close Full Window Mode' : 'Open Full Window Mode'}}
-      </v-btn>
-      <v-btn
         color="secondary"
         @click="generatePrototypeActions"
         class="mx-2"
@@ -51,26 +44,30 @@
       </v-btn>
     </LoggedInNavbarVue>
     <div v-if="projectLoaded" class="project-view">
-        <ScreenElementsManager
-          v-if="!fullWindowMode" 
-          @elementEditingTool:show="showManageElementsPropertiesTool"
-        />
-        <AssetsManager
-          v-if="!fullWindowMode"
-          @newAssetTool:show="showNewAssetTool"
-        />
-        <ScreenManager 
-          v-if="!fullWindowMode"
-          @newScreenCreation:show="showNewScreenCreator" 
-          @screenEditingTool:show="showScreenEditingTool"
-        />
-        <ComponentsLibrary 
-          v-if="!fullWindowMode"
-        />
-      <PrototypeScreenEditorArea
-        :style="prototypeEditorPadding" 
-        :maxWidthPercentage="prototypeEditorMaxWidthPercentage"
-        :maxHeightPercentage="prototypeEditorMaxHeightPercentage"
+      <ScreenElementsManager
+        v-if="!fullWindowMode" 
+        @elementEditingTool:show="showManageElementsPropertiesTool"
+      />
+      <AssetsManager
+        v-if="!fullWindowMode"
+        @newAssetTool:show="showNewAssetTool"
+      />
+      <ScreenManager 
+        v-if="!fullWindowMode"
+        @newScreenCreation:show="showNewScreenCreator" 
+        @screenEditingTool:show="showScreenEditingTool"
+      />
+      <ComponentsLibrary 
+        v-if="!fullWindowMode"
+      />
+      
+      <span class="size-label">
+        {{projectHeight}}x{{projectWidth}} - {{parseInt(projectScale*100)}}% scale
+      </span>
+        <PrototypeScreenEditorArea
+          :style="prototypeEditorPadding" 
+          :maxWidthPercentage="prototypeEditorMaxWidthPercentage"
+          :maxHeightPercentage="prototypeEditorMaxHeightPercentage"
         />
     </div>
     <v-snackbar
@@ -140,8 +137,8 @@ export default {
       isGuestMode: false,
       isOn_GuestCreateProject: false,
       isOn_NewAssetTool: false,
-      prototypeEditorMaxWidthPercentage: 0.65,
-      prototypeEditorMaxHeightPercentage: 0.65,
+      prototypeEditorMaxWidthPercentage: 0.60,
+      prototypeEditorMaxHeightPercentage: 0.60,
       fullWindowMode: false,
       snackbar: false,
       snackbarMessage: '',
@@ -151,7 +148,10 @@ export default {
   computed: {
     ...mapGetters({
       token: 'getToken',
-      storedProjectData: 'getProjectData'
+      storedProjectData: 'getProjectData',
+      projectHeight: 'getProjectHeight',
+      projectWidth: 'getProjectWidth',
+      projectScale: 'getScreenScale'
     }),
     isModalOn() {
       return this.isOn_ScreenManagementTool 
@@ -160,7 +160,8 @@ export default {
       || this.isOn_NewAssetTool;
     },
     prototypeEditorPadding() {
-      return this.fullWindowMode ? '' : 'bottom: 10vh !important';
+      return 'margin-top: 20px';
+      // return this.fullWindowMode ? '' : 'top: 90px !important';
     }
   },
   beforeMount() {
@@ -170,8 +171,8 @@ export default {
   methods: {
     fullWindowSwitch() {
       this.fullWindowMode = !this.fullWindowMode;
-      this.prototypeEditorMaxWidthPercentage = this.fullWindowMode ? 0.9 : 0.65;
-      this.prototypeEditorMaxHeightPercentage  = this.fullWindowMode ? 0.85 : 0.65;
+      this.prototypeEditorMaxWidthPercentage = this.fullWindowMode ? 0.9 : 0.60;
+      this.prototypeEditorMaxHeightPercentage  = this.fullWindowMode ? 0.85 : 0.60;
     },
     createdGuestProject() {
       this.isOn_GuestCreateProject = false;
@@ -208,7 +209,6 @@ export default {
     getProjectData() {
       if(this.isGuestMode) {
         let data = JSON.parse(localStorage.getItem('projectData'));
-        console.log(data);
         if (data) {
           this.setProjectData(data);
           this.projectLoaded = true;
@@ -219,7 +219,7 @@ export default {
           api.getProjectFile(this.token, this.$route.params.id).then(
             response => {
               this.setProjectData(response.data);
-              let autosavePeriod = 300000; // 5 minutes
+              let autosavePeriod = 5000; // 5 seconds
               setInterval(() => this.savePrototype(true), autosavePeriod);
             }
           );
@@ -276,6 +276,18 @@ export default {
 
 <style scoped>
 .project-view {
-  margin-block-start: 75px;
+  margin-block-start: calc(90px + 2vh);
+}
+
+.size-label {
+  position: absolute;
+  left: 15%;
+  top: 75px;
+  line-height: 14px;
+  font-size: 12px;
+  color: rgb(93, 93, 93);
+  background-color: rgba(48, 137, 201, 0.5);
+  padding: 3px;
+  border-radius: 1px;
 }
 </style>

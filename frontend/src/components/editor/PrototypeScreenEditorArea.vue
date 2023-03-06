@@ -6,8 +6,13 @@
     @dragenter.prevent
     @dragover.prevent
     @click="resetSelectedItem"
+    :style="{
+      width: `${this.projectWidth}px`,
+      height: `${this.projectHeight}px`,
+      transform: `scale(${this.projectScale})`,
+      transformOrigin: 'top center',
+  }"
     >
-    <span class="size-label">{{projectHeight}}x{{projectWidth}} - {{parseInt(projectScale*100)}}% scale</span>
     <DragableElement
       v-for="el, index in processedElements" 
       :key="el.id"
@@ -34,11 +39,11 @@ export default {
   props: {
     maxWidthPercentage: {
       type: Number,
-      default: 0.65
+      default: 0.60
     },
     maxHeightPercentage: {
       type: Number,
-      default: 0.65
+      default: 0.60
     },
   },
   computed: {
@@ -82,26 +87,10 @@ export default {
       const maxAreaWidth = window.innerWidth * this.maxHeightPercentage;
       let areaRatio = maxAreaWidth / maxAreaHeight;
 
-      const area = this.$refs['prototype-screen-editor-area'];
       let biggerWidthDiscrapency = prototypeRatio >= areaRatio;
-      let scale = prototypeRatio / areaRatio;
-      let newAreaWidth = maxAreaWidth * (scale * !biggerWidthDiscrapency + 1 * biggerWidthDiscrapency);
-      let newAreaHeight = maxAreaHeight / (scale * biggerWidthDiscrapency + 1 * !biggerWidthDiscrapency);
-      // console.log(
-      //   'areaRatio', areaRatio, 
-      //   '\nprototypeRatio', prototypeRatio, 
-      //   '\nnewAreaWidth', newAreaWidth, 
-      //   '\nnewAreaHeight', newAreaHeight, 
-      //   '\nscale', scale, 
-      //   '\nbigger width', biggerWidthDiscrapency, 
-      //   '\nwidth scaler', (scale * !biggerWidthDiscrapency + 1 * biggerWidthDiscrapency), 
-      //   '\nold width', maxAreaWidth, 
-      //   '\nold height', maxAreaHeight,
-      //   '\nscale', newAreaHeight / prototypeHeight,
-      //   '\nscale', newAreaWidth / prototypeWidth
-      // );
-      area.style.width = newAreaWidth + 'px';
-      area.style.height = newAreaHeight  + 'px';
+      let ratio = prototypeRatio / areaRatio;
+      let newAreaHeight = maxAreaHeight / (ratio * biggerWidthDiscrapency + 1 * !biggerWidthDiscrapency);
+
       this.updateProjectScale(newAreaHeight / prototypeHeight);
     },
     droppedItem(e) {
@@ -145,27 +134,14 @@ export default {
 <style scoped>
 #prototype-screen-editor-area {
   position: relative;
-  width: 64vw;
-  height: 64vh;
-  margin-inline: 0 auto;
+  top: 0px;
+  margin: 0 auto;
   background-color: rgb(255, 255, 255);
   outline: solid #c0c5ca 3px;
   z-index: 2500;
-  overflow: visible;
+  overflow: hidden;
 }
 .selected-item {
   outline:  3px dashed rgb(48, 137, 201);
-}
-
-.size-label {
-  position: absolute;
-  left: -3px;
-  top: -20px;
-  line-height: 14px;
-  font-size: 12px;
-  color: rgb(93, 93, 93);
-  background-color: rgba(48, 137, 201, 0.5);
-  padding: 3px;
-  border-radius: 1px;
 }
 </style>

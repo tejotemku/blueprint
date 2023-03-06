@@ -3,7 +3,6 @@ import { generateElementHtml } from './prototypeElementsHandlers.js'
 
 export const generatePrototype = function() {
   const projectData = store.getters.getProjectData;
-  let screenScale = store.getters.getScreenScale;
   let screens = projectData.screens;
 
   let generatedHtml = `
@@ -27,6 +26,7 @@ export const generatePrototype = function() {
         width: ${projectData.width}px;
         background-color: #fff;
         margin: 0 auto;
+        margin-top: 30px;
         overflow: hidden;
         position: relative;  
         outline: solid #c0c5ca 3px;
@@ -136,11 +136,10 @@ export const generatePrototype = function() {
       screenData.elements.forEach(function(element, index) {
         let elementHtml = generateElementHtml(element);
         elementHtml = elementHtml.replace(/[\n\r]/g, ' ');
-        console.log(screenScale);
         let parsedScreenElement = `
           <div
             ${element.properties.redirect? `onclick="changeDisplayedScreenId('${element.properties.redirect}')"` : ""} 
-            style="position: absolute; top: ${parseInt(element.top / screenScale)}px; left: ${parseInt(element.left / screenScale)}px;z-index: ${99999 - index};"
+            style="position: absolute; top: ${parseInt(element.top)}px; left: ${parseInt(element.left)}px;z-index: ${99999 - index};"
           >
             ${elementHtml}
           </div>
